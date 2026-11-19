@@ -30,6 +30,10 @@ try {
             if ($LASTEXITCODE -ne 0) {
                 exit $LASTEXITCODE
             }
+            & $Python -m ruff format --check src tests
+            if ($LASTEXITCODE -ne 0) {
+                exit $LASTEXITCODE
+            }
             & $Python -m pytest
             if ($LASTEXITCODE -ne 0) {
                 exit $LASTEXITCODE

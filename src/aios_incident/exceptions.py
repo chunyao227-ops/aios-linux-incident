@@ -13,6 +13,18 @@ class InputValidationError(AIOSIncidentError):
     """Raised when an external payload does not satisfy a schema."""
 
 
+class DAGValidationError(InputValidationError):
+    """Raised when task graph structure or dependencies are invalid."""
+
+
+class MessageValidationError(InputValidationError):
+    """Raised when an Agent message violates protocol constraints."""
+
+
+class InvalidStateTransitionError(AIOSIncidentError):
+    """Raised when a task or workflow state transition is forbidden."""
+
+
 class AdapterInvocationError(AIOSIncidentError):
     """Raised when an AIOS or model adapter call fails."""
 

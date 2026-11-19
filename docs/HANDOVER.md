@@ -1,6 +1,6 @@
 # AIOS Linux 服务故障诊断修复与回归验证系统交接文档
 
-当前状态：W00、W01A、W02 已完成，准备进入 W03。区域赛提交截止为 2026-12-27，全国初赛提交截止为 2027-05-01。团队为学生 2 人，配备指导教师。
+当前状态：W00、W01A、W02、W03 已完成，准备进入 W04。区域赛提交截止为 2026-12-27，全国初赛提交截止为 2027-05-01。团队为学生 2 人，配备指导教师。
 
 ---
 
@@ -309,8 +309,8 @@ MODEL_BACKEND=ollama-local
 
 ### 5.2 业务功能尚未实现
 
-W02 已创建正式 Python 包、配置加载、公共模块占位和运行入口。W03 的完整数据
-契约、状态机，以及后续 Agent、调度、诊断、修复、验证和 API 业务功能尚未实现。
+W02 已创建正式 Python 包和配置加载，W03 已实现结构化数据契约、固定 DAG 和
+状态机。后续 AIOS/LLM 适配、调度执行、诊断、修复、验证和 API 业务功能尚未实现。
 
 实际代码根目录已经冻结为 `src/aios_incident/`。逻辑层目录
 `agents/`、`orchestrator/`、`adapters/`、`tools/`、`benchmark/` 和 `ui/`
@@ -327,7 +327,7 @@ Ubuntu 22.04
 按量付费
 ```
 
-W01A 不依赖 CPU ECS，W02 已完成，W03 也可以继续本地开发。
+W01A 不依赖 CPU ECS，W02、W03 已完成，W04 也可以继续本地开发。
 
 ### 5.4 Docker 当前会话权限
 
@@ -371,7 +371,7 @@ AIOS Tool Manager 已初始化，但桌面 MCP、虚拟机控制器和 OSWorld �
 
 ## 6. 下一步任务
 
-新 Codex 会话应先读取本文件、`docs/specifications/development_spec_v1.0.md` 和 `docs/specifications/ai_work_orders_v1.0.md`，检查 Git 与运行环境后从 W03 继续。不得重做 W00/W01A/W02，不得改变冻结流程，不得将本地 Ollama 数据当作远程 vLLM 正式实验结果。
+新 Codex 会话应先读取本文件、`docs/specifications/development_spec_v1.0.md` 和 `docs/specifications/ai_work_orders_v1.0.md`，检查 Git 与运行环境后从 W04 继续。不得重做 W00/W01A/W02/W03，不得改变冻结流程，不得将本地 Ollama 数据当作远程 vLLM 正式实验结果。
 
 ### W02：仓库脚手架与配置
 
@@ -406,9 +406,9 @@ tasks.ps1
 
 ### W03：公共数据契约
 
-状态：下一步。
+状态：已完成。
 
-实现：
+实际产出：
 
 - RunContext；
 - TaskNode、TaskDAG；
@@ -421,7 +421,18 @@ tasks.ps1
 - TraceEvent；
 - 任务与工作流状态机。
 
+验收：
+
+- Pydantic 强类型对象与 JSON Schema 校验已实现；
+- 固定 DAG 可实例化并通过拓扑排序；
+- 自引用、未知依赖和成环 DAG 均被拒绝；
+- 非法消息和非法状态迁移均被拒绝；
+- 70 项测试通过，Ruff 与格式检查通过；
+- 验收证据见 `docs/verification/w03_verification_2026-11-19.md`。
+
 ### W04：AIOS 与 LLM 适配器
+
+状态：下一步。
 
 实现：
 

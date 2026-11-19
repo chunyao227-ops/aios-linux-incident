@@ -64,3 +64,13 @@
 - 人工审查要求：确认本地与远程配置字段、密钥环境变量名称、比赛提交格式。
 - 验证方式：pytest、Ruff、配置检查命令与 Git 提交记录；不得仅凭 AI 输出视为验收完成。
 
+### 2026-11-19 W03
+
+- 工具：Codex Desktop。
+- 用途：按冻结规格实现跨模块数据契约、固定任务 DAG、任务与工作流状态机、JSON Schema 校验及序列化。
+- 生成文件：`src/aios_incident/models.py`、`state.py`、`validation.py`、`tests/unit/test_models.py`、`tests/unit/test_state_machine.py`。
+- 依赖调整：增加 Pydantic 2.x 和 jsonschema，用于强类型契约与 Draft 2020-12 Schema 校验。
+- 边界：未实现 AIOS/LLM 调用、调度执行、黑板、Trace 存储、Agent 业务逻辑或 API。
+- 人工审查重点：字段命名、状态终态、DAG 重试依赖和错误信息。
+- 验证方式：统一静态检查与格式检查、70 项测试、编译检查、依赖检查和凭据扫描。
+

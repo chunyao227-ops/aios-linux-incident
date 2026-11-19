@@ -9,6 +9,8 @@ description = "AIOS-based Linux service incident diagnosis, repair, and verifica
 readme = "README.md"
 requires-python = ">=3.10,<3.11"
 dependencies = [
+  "jsonschema>=4.23,<5",
+  "pydantic>=2.10,<3",
   "PyYAML>=6.0.2,<7",
 ]
 
