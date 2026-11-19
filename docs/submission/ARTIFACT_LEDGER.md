@@ -29,6 +29,7 @@
 | AI 使用记录 | `docs/ai_usage/AI_USAGE.md` | 已保存，持续更新 | AI 工具说明 |
 | W02 源码与测试 | `src/`、`tests/` | 已创建并通过验证 | 代码执行、工程规范 |
 | W02 验收记录 | `docs/verification/w02_verification_2026-11-19.md` | 已保存实际命令和结果 | 文档、执行展示 |
+| W02 Git 记录 | 基线 `fb5a0f0`；实现 `d1d5eee` | 已保存 | 工程规范、代码执行 |
 
 ## 当前缺少
 
