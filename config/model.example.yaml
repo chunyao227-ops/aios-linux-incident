@@ -1,0 +1,13 @@
+# Standalone model endpoint template for adapter development.
+# W02 validates this schema; W04 will consume it through the LLM adapter.
+deployment: remote
+backend: openai-compatible
+name: qwen2.5-7b-awq
+base_url: https://vllm.internal.example.invalid/v1
+served_model_name: qwen2.5-7b-awq
+api_key_env: AIOS_MODEL_API_KEY
+timeout_seconds: 120
+max_retries: 2
+temperature: 0.0
+max_tokens: 1024
+

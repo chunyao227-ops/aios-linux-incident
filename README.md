@@ -1,6 +1,7 @@
 # 基于 AIOS 的 Linux 服务故障诊断、修复与回归验证系统
 
-本仓库用于实现 AIOS 多智能体 Linux 服务故障协同诊断与修复系统。当前阶段执行开发工单 W00 与 W01A。
+本仓库用于实现 AIOS 多智能体 Linux 服务故障协同诊断与修复系统。
+当前阶段：W02 已完成，下一阶段 W03 公共数据契约。
 
 ## 当前基线
 
@@ -21,6 +22,35 @@
 - `docs/environment/local_environment.md`：本机环境检查
 - `docs/ai_usage/AI_USAGE.md`：AI 使用记录
 - `docs/specifications/`：冻结开发规格与开发工单
+- `docs/submission/ARTIFACT_LEDGER.md`：比赛评分与提交材料台账
+- `docs/verification/`：分阶段验收记录
+
+## W02 最小启动
+
+仓库唯一 Python 包根目录为 `src/aios_incident/`。不得在仓库根目录另建平行的
+`agents/`、`orchestrator/`、`adapters/`、`tools/`、`benchmark/` 或 `ui/`。
+
+PowerShell：
+
+```powershell
+.\tasks.ps1 setup
+.\tasks.ps1 verify
+```
+
+配置检查：
+
+```powershell
+.\tasks.ps1 check-config
+```
+
+也可以直接执行：
+
+```powershell
+.\.venv\Scripts\python.exe -m aios_incident --config config/app.example.yaml
+```
+
+`config/app.example.yaml` 的 `model` 段用于切换本地 Ollama 与远程 vLLM。
+远程认证只填写 `api_key_env` 环境变量名，不填写真实密钥。
 
 ## W00/W01A
 

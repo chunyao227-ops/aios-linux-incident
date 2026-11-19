@@ -1,6 +1,6 @@
 # AIOS Linux 服务故障诊断修复与回归验证系统交接文档
 
-当前状态：W00、W01A 已完成，准备进入 W02。区域赛提交截止为 2026-12-27，全国初赛提交截止为 2027-05-01。团队为学生 2 人，配备指导教师。
+当前状态：W00、W01A、W02 已完成，准备进入 W03。区域赛提交截止为 2026-12-27，全国初赛提交截止为 2027-05-01。团队为学生 2 人，配备指导教师。
 
 ---
 
@@ -307,9 +307,10 @@ MODEL_BACKEND=ollama-local
 
 远程 vLLM 的服务地址、模型名称和认证方式尚未提供。当前使用 Ollama 调试替身，正式性能数据不能使用本地 Ollama 结果代替。
 
-### 5.2 应用代码尚未开始
+### 5.2 业务功能尚未实现
 
-当前仓库只有规格、配置、环境脚本和文档，尚未创建 W02 要求的正式 Python 包、公共数据模型和运行入口。
+W02 已创建正式 Python 包、配置加载、公共模块占位和运行入口。W03 的完整数据
+契约、状态机，以及后续 Agent、调度、诊断、修复、验证和 API 业务功能尚未实现。
 
 实际代码根目录已经冻结为 `src/aios_incident/`。逻辑层目录
 `agents/`、`orchestrator/`、`adapters/`、`tools/`、`benchmark/` 和 `ui/`
@@ -326,7 +327,7 @@ Ubuntu 22.04
 按量付费
 ```
 
-W01A 不依赖 CPU ECS，W02 也可以继续本地开发。
+W01A 不依赖 CPU ECS，W02 已完成，W03 也可以继续本地开发。
 
 ### 5.4 Docker 当前会话权限
 
@@ -347,9 +348,10 @@ bash scripts/env/start_aios_wsl.sh
 
 Docker 由 systemd 自动启动。
 
-### 5.6 尚无 Git 提交
+### 5.6 Git 基线状态
 
-仓库已初始化，但当前所有文件均未提交。进入 W02 前应创建初始提交，保存 W00/W01A 基线。
+W00/W01A 与同步文档已形成基线提交 `fb5a0f0`。W02 完成后另建独立提交，
+后续每个工单均保留可追溯提交。
 
 ### 5.7 桌面工具与 Computer-use 尚未验收
 
@@ -369,11 +371,13 @@ AIOS Tool Manager 已初始化，但桌面 MCP、虚拟机控制器和 OSWorld �
 
 ## 6. 下一步任务
 
-新 Codex 会话应先读取本文件、`docs/specifications/development_spec_v1.0.md` 和 `docs/specifications/ai_work_orders_v1.0.md`，检查 Git 与运行环境后从 W02 继续。不得重做 W00/W01A，不得改变冻结流程，不得将本地 Ollama 数据当作远程 vLLM 正式实验结果。
+新 Codex 会话应先读取本文件、`docs/specifications/development_spec_v1.0.md` 和 `docs/specifications/ai_work_orders_v1.0.md`，检查 Git 与运行环境后从 W03 继续。不得重做 W00/W01A/W02，不得改变冻结流程，不得将本地 Ollama 数据当作远程 vLLM 正式实验结果。
 
 ### W02：仓库脚手架与配置
 
-预期产出：
+状态：已完成。
+
+实际产出：
 
 ```text
 src/aios_incident/
@@ -385,18 +389,24 @@ src/aios_incident/
   ui/
 tests/
 config/app.example.yaml
+config/model.example.yaml
 pyproject.toml
-任务入口脚本
+tasks.ps1
 ```
 
 验收：
 
-- Python 包可导入；
-- 配置可切换本地 Ollama 与远程 vLLM；
-- 空测试集可通过；
-- 先提交 W00/W01A 基线。
+- Python 包已安装、可导入；
+- 配置仅修改 YAML 即可切换本地 Ollama 与远程 vLLM；
+- 配置强制使用环境变量引用密钥；
+- pytest 21 项通过；
+- Ruff 静态检查通过；
+- W00/W01A 已先提交基线；
+- 验收证据见 `docs/verification/w02_verification_2026-11-19.md`。
 
 ### W03：公共数据契约
+
+状态：下一步。
 
 实现：
 

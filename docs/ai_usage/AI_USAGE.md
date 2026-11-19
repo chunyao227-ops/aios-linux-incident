@@ -55,3 +55,12 @@
 - 经团队确认，项目替代版本固定为 `aios-agent-sdk 0.0.3`。
 - 所有后续依赖检查以 0.0.3 为预期版本。
 
+### 2026-11-19 W02
+
+- 工具：Codex Desktop。
+- 用途：按更新后的 W02 工单建立唯一 Python 包根目录、六个子包、严格 YAML 配置加载、安全密钥引用、日志/异常/时间戳/ID 工具和测试入口。
+- 生成文件：`pyproject.toml`、`tasks.ps1`、`src/aios_incident/`、`tests/`、`config/app.example.yaml`、`config/model.example.yaml`。
+- 边界：未实现 W03 数据契约、W04 适配器、Agent 业务逻辑或 W14 API。
+- 人工审查要求：确认本地与远程配置字段、密钥环境变量名称、比赛提交格式。
+- 验证方式：pytest、Ruff、配置检查命令与 Git 提交记录；不得仅凭 AI 输出视为验收完成。
+

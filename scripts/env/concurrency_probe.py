@@ -8,10 +8,9 @@ import asyncio
 import json
 import os
 import time
-from pathlib import Path
-
 import urllib.error
 import urllib.request
+from pathlib import Path
 
 
 def normalize_openai_base(base_url: str) -> str:
@@ -21,7 +20,9 @@ def normalize_openai_base(base_url: str) -> str:
     return base + "/v1"
 
 
-def call_model(base_url: str, model: str, api_key: str | None, prompt: str, max_tokens: int, timeout: float):
+def call_model(
+    base_url: str, model: str, api_key: str | None, prompt: str, max_tokens: int, timeout: float
+):
     payload = {
         "model": model,
         "messages": [{"role": "user", "content": prompt}],
@@ -90,7 +91,9 @@ def main() -> int:
     }
 
     try:
-        one = call_model(args.base_url, args.model, args.api_key, prompt, args.max_tokens, args.timeout)
+        one = call_model(
+            args.base_url, args.model, args.api_key, prompt, args.max_tokens, args.timeout
+        )
         record["one_request"] = {"elapsed_sec": one["elapsed_sec"]}
     except Exception as exc:
         record["errors"].append(f"single: {exc}")
@@ -98,7 +101,9 @@ def main() -> int:
     try:
         started = time.perf_counter()
         for _ in range(4):
-            call_model(args.base_url, args.model, args.api_key, prompt, args.max_tokens, args.timeout)
+            call_model(
+                args.base_url, args.model, args.api_key, prompt, args.max_tokens, args.timeout
+            )
         record["serial_4_total_sec"] = time.perf_counter() - started
     except Exception as exc:
         record["errors"].append(f"serial: {exc}")
@@ -126,4 +131,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
