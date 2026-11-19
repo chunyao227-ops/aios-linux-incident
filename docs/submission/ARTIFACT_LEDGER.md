@@ -32,6 +32,7 @@
 | W02 Git 记录 | 基线 `fb5a0f0`；实现 `d1d5eee` | 已保存 | 工程规范、代码执行 |
 | W03 数据契约与状态机 | `models.py`、`state.py`、`validation.py` | 已完成并通过 70 项测试 | 代码执行、工程规范 |
 | W03 验收记录 | `docs/verification/w03_verification_2026-11-19.md` | 已保存命令与验收对照 | 文档、执行展示 |
+| W03 Git 记录 | 实现提交 `301b7ba` | 已保存 | 工程规范、代码执行 |
 
 ## 当前缺少
 
