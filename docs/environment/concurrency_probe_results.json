@@ -1,0 +1,12 @@
+{
+  "model": "qwen2:7b-instruct",
+  "backend": "ollama-local",
+  "base_url": "http://127.0.0.1:11434/v1",
+  "one_request": {
+    "elapsed_sec": 1.6289414280008714
+  },
+  "serial_4_total_sec": 5.30290167199928,
+  "parallel_4_total_sec": 1.7059310859995094,
+  "parallel_speedup": 0.6783023349259377,
+  "errors": []
+}

@@ -1,0 +1,48 @@
+api_keys:
+  openai: ""
+  gemini: ""
+  groq: ""
+  anthropic: ""
+  huggingface:
+    auth_token: ""
+    cache_dir: ""
+
+llms:
+  models:
+    - name: "qwen2:7b-instruct"
+      backend: "ollama"
+      hostname: "http://127.0.0.1:11434"
+  router:
+    strategy: "sequential"
+  log_mode: "console"
+  use_context_manager: false
+
+memory:
+  log_mode: "console"
+  provider: "in-house"
+  auto_extract: false
+  auto_inject: false
+  relevance_threshold: 0.5
+  max_injected_memories: 5
+  max_memory_tokens: 1500
+  write_barrier:
+    enabled: true
+    timeout_ms: 5000
+
+storage:
+  root_dir: "/home/zhang/AIOS/root"
+  use_vector_db: false
+
+tool:
+  mcp_server_script_path: "/home/zhang/AIOS/aios/tool/mcp_server.py"
+
+scheduler:
+  log_mode: "console"
+
+agent_factory:
+  log_mode: "console"
+  max_workers: 64
+
+server:
+  host: "127.0.0.1"
+  port: 8000

@@ -1,0 +1,17 @@
+model:
+  name: Qwen2.5-7B-Instruct-AWQ
+  family: qwen2.5
+  parameters: 7B
+  quantization: awq-4bit
+  backend: vllm-remote
+  base_url: "${MODEL_BASE_URL}"
+  api_key_env: "MODEL_API_KEY"
+  served_model_name: "${MODEL_NAME}"
+  max_model_len: 4096
+  max_new_tokens: 1024
+  temperature: 0.0
+  timeout_sec: 120
+  concurrent_requests: 4
+  share_single_model: true
+  role: final-formal-inference
+

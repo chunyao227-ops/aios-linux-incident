@@ -1,0 +1,19 @@
+model:
+  name: qwen2:7b-instruct
+  family: qwen2
+  parameters: 7B
+  quantization: q4_k_m
+  backend: ollama-openai-compatible
+  base_url: "http://127.0.0.1:11434/v1"
+  api_key_env: ""
+  api_key_required: false
+  served_model_name: "qwen2:7b-instruct"
+  max_model_len: 4096
+  max_new_tokens: 1024
+  temperature: 0.0
+  timeout_sec: 120
+  concurrent_requests: 4
+  share_single_model: true
+  role: local-debug-fallback
+
+

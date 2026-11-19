@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+.python310/
+vendor/
+
+# Models and local caches
+models/
+cache/
+.cache/
+model_cache/
+*.gguf
+*.safetensors
+*.bin
+
+# Runtime data
+logs/
+runs/
+*.log
+*.jsonl
+proc/
+tmp/
+.mem0/
+chroma/
+qdrant/
+
+# Docker and test artifacts
+.docker-data/
+scenario_runtime/
+
+# Credentials and local config
+.env
+.env.local
+*.key
+*.pem
+secrets.yaml
+config/local.secret.yaml
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
