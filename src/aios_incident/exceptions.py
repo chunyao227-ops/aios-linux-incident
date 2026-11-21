@@ -70,6 +70,34 @@ class ToolExecutionError(AIOSIncidentError):
     """Raised when a controlled tool cannot complete safely."""
 
 
+class ToolNotAllowedError(ToolExecutionError):
+    """Raised when a tool is absent from the frozen allowlist."""
+
+
+class ToolPermissionError(ToolExecutionError):
+    """Raised when an Agent is not authorized for the requested tool."""
+
+
+class ToolArgumentError(ToolExecutionError):
+    """Raised when tool arguments violate its fixed schema."""
+
+
+class ToolPathError(ToolExecutionError):
+    """Raised when a path leaves the incident or sandbox boundary."""
+
+
+class ToolTimeoutError(ToolExecutionError):
+    """Raised when a tool exceeds its effective timeout."""
+
+
+class ToolOutputLimitError(ToolExecutionError):
+    """Raised when a tool result exceeds its effective output limit."""
+
+
+class RepairDisabledError(ToolExecutionError):
+    """Raised when a repair write is attempted before a safe implementation exists."""
+
+
 class IncidentNotFoundError(AIOSIncidentError):
     """Raised when an incident ID is not present in the active registry."""
 

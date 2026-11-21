@@ -42,6 +42,10 @@
 | W05 JSONL Trace | `orchestrator/trace.py` | 已完成追加写和重复事件保护 | 执行展示、文档 |
 | W05 验收记录 | `docs/verification/w05_verification_2026-11-21.md` | 已保存 114 项全量测试结果 | 文档、执行展示 |
 | W05 Git 记录 | 实现提交 `52c851d` | 已保存 | 工程规范、代码执行 |
+| W06 工具权限矩阵 | `tools/base.py` | 已完成五类工具权限和限制定义 | 代码执行、文档 |
+| W06 受控工具网关 | `tools/gateway.py` | 已完成四类只读工具、失败关闭和 Trace | 代码执行、安全展示 |
+| W06 隔离测试 | `test_tool_gateway.py`、`test_tool_isolation.py` | 已保存 13 项权限、路径、限制和沙箱测试 | 工程规范、执行展示 |
+| W06 验收记录 | `docs/verification/w06_verification_2026-11-21.md` | 已保存 127 项全量测试结果 | 文档、执行展示 |
 
 ## 当前缺少
 
@@ -52,6 +56,7 @@
 - W03 数据契约和状态机的终端截图及可视化 DAG 图。
 - W04 AIOS 文本调用、JSON 输出和真实冒烟测试的终端截图。
 - W05 API 请求、结构化错误、JSONL Trace 和 OpenAPI 页面截图。
+- W06 工具调用、越权拒绝、路径逃逸拒绝和 Trace 截图。
 - UI 操作截图、真实故障场景日志与演示视频。
 - 比赛平台要求的最终文档模板、视频格式与提交清单。
 

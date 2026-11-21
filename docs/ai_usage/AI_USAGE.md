@@ -94,3 +94,12 @@
 - 人工审查重点：API 字段、错误响应结构、产物完成后不可变、Trace 追加语义。
 - 验证方式：24 项 W05 测试、114 项全量警告即错误测试、真实 AIOS 回归、编译、依赖和凭据检查。
 
+### 2026-11-21 W06
+
+- 工具：Codex Desktop。
+- 用途：实现 Agent 工具权限表、统一 ToolRequest/ToolResult、路径与输出限制、四类只读工具、禁用修复占位和全量调用 Trace。
+- 生成文件：`src/aios_incident/tools/base.py`、`gateway.py`、`tests/unit/test_tool_gateway.py`、`tests/integration/test_tool_isolation.py`。
+- 安全边界：未引入 subprocess、任意 Shell、sudo、删除、格式化或权限提升操作。
+- 人工审查重点：Agent 权限矩阵、Incident 读取范围、sandbox 路径映射、超时与输出限制、Trace 失败记录。
+- 验证方式：13 项 W06 测试、127 项全量警告即错误测试、执行原语扫描、真实 AIOS 回归、编译和依赖检查。
+
