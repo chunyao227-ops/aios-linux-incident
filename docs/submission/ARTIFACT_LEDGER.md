@@ -41,6 +41,7 @@
 | W05 Blackboard | `orchestrator/blackboard.py` | 已完成 Incident 隔离和产物就绪控制 | 代码执行、工程规范 |
 | W05 JSONL Trace | `orchestrator/trace.py` | 已完成追加写和重复事件保护 | 执行展示、文档 |
 | W05 验收记录 | `docs/verification/w05_verification_2026-11-21.md` | 已保存 114 项全量测试结果 | 文档、执行展示 |
+| W05 Git 记录 | 实现提交 `52c851d` | 已保存 | 工程规范、代码执行 |
 
 ## 当前缺少
 
