@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("setup", "test", "lint", "check-config", "verify")]
+    [ValidateSet("setup", "test", "lint", "check-config", "integration", "verify")]
     [string]$Task = "test"
 )
 
@@ -24,6 +24,10 @@ try {
         }
         "check-config" {
             & $Python -m aios_incident --config "config/app.example.yaml"
+        }
+        "integration" {
+            $env:RUN_AIOS_INTEGRATION = "1"
+            & $Python -m pytest tests/integration/test_aios_smoke.py -v
         }
         "verify" {
             & $Python -m ruff check .

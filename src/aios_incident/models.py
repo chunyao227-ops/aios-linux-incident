@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import Annotated, Any
+from typing import Annotated, Any, Literal
 
 from pydantic import (
     AwareDatetime,
@@ -445,6 +445,7 @@ class VerificationResult(StrictModel):
 class TokenUsage(StrictModel):
     prompt: NonNegativeInt = 0
     completion: NonNegativeInt = 0
+    source: Literal["reported", "estimated", "unavailable"] = "unavailable"
 
 
 class TraceEvent(StrictModel):

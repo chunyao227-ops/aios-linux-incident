@@ -74,3 +74,13 @@
 - 人工审查重点：字段命名、状态终态、DAG 重试依赖和错误信息。
 - 验证方式：统一静态检查与格式检查、70 项测试、编译检查、依赖检查和凭据扫描。
 
+### 2026-11-21 W04
+
+- 工具：Codex Desktop。
+- 用途：实现经 AIOS `/query` 的文本和 JSON 模型调用、有限重试、错误归一化、token 使用记录及任务级 Schema 校验。
+- 生成文件：`src/aios_incident/adapters/aios_client.py`、`llm_adapter.py`、`tests/unit/test_llm_adapter.py`、`tests/integration/test_aios_smoke.py`。
+- 接口依据：直接核对锁定 AIOS 源码 `/query` 路由和 Cerebrum `LLMQuery`/`LLMResponse` 结构，不猜测请求字段。
+- 边界：未实现 Agent 调度、Blackboard、Trace 存储、工具网关或故障 API。
+- token 说明：优先采用上报 usage；本地 AIOS 未上报时明确标记为估算，不作为精确 tokenizer 结果。
+- 验证方式：19 项模拟响应单元测试、真实本地 AIOS 文本与 JSON 冒烟、90 项全量测试、Ruff、编译、依赖和凭据检查。
+
