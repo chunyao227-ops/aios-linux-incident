@@ -46,6 +46,7 @@
 | W06 受控工具网关 | `tools/gateway.py` | 已完成四类只读工具、失败关闭和 Trace | 代码执行、安全展示 |
 | W06 隔离测试 | `test_tool_gateway.py`、`test_tool_isolation.py` | 已保存 13 项权限、路径、限制和沙箱测试 | 工程规范、执行展示 |
 | W06 验收记录 | `docs/verification/w06_verification_2026-11-21.md` | 已保存 127 项全量测试结果 | 文档、执行展示 |
+| W06 Git 记录 | 实现提交 `4e026d6` | 已保存 | 工程规范、代码执行 |
 
 ## 当前缺少
 
