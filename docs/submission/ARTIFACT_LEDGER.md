@@ -36,6 +36,7 @@
 | W04 AIOS/LLM 适配器 | `adapters/aios_client.py`、`adapters/llm_adapter.py` | 已完成，真实 AIOS 文本与 JSON 冒烟通过 | 代码执行、工程规范 |
 | W04 验收记录 | `docs/verification/w04_verification_2026-11-21.md` | 已保存 90 项全量测试与真实冒烟结果 | 文档、执行展示 |
 | W04 token 与错误证据 | 单元测试及验收记录 | 已保存“上报/估算”区分和统一错误覆盖 | 代码执行、文档 |
+| W04 Git 记录 | 实现提交 `1393a20` | 已保存 | 工程规范、代码执行 |
 
 ## 当前缺少
 
