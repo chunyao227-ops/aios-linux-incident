@@ -112,3 +112,12 @@
 - 人工审查重点：Agent 职责、修复回滚、验证判定、失败分支和最终报告字段。
 - 验证方式：成功与失败 E2E、真实本地 AIOS 闭环、130 项全量警告即错误测试、编译、依赖和执行原语扫描。
 
+### 2026-11-21 W08
+
+- 工具：Codex Desktop。
+- 用途：实现固定 Agent 能力矩阵、DAG 校验、最低负载匹配、四路线程并发、N5 门控、有限重试和失败终止。
+- 生成文件：`orchestrator/planner.py`、`orchestrator/scheduler.py`、`agents/metrics_agent.py`、`config_agent.py`、`dependency_agent.py`、`tests/integration/test_parallel_dispatch.py`。
+- 并发证据：四路使用同一 dispatch batch ID，线程屏障确保真实重叠。
+- 人工审查重点：READY 扩散、能力匹配、失败收尾、重试计数和严格时间顺序。
+- 验证方式：5 项 W08 并发集成测试、135 项全量警告即错误测试、真实 AIOS 回归、编译、依赖和安全扫描。
+
