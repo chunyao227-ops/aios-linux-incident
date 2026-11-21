@@ -56,6 +56,7 @@
 | W08 Scheduler | `orchestrator/scheduler.py` | 已完成四路并发、门控、重试和失败终止 | 核心执行展示、性能证据 |
 | W08 四路采集 Agent | Metrics、Config、Dependency 和既有 Log Agent | 已通过 ToolGateway 返回结构化证据 | 代码执行、多智能体说明 |
 | W08 验收记录 | `docs/verification/w08_verification_2026-11-21.md` | 已保存 135 项全量测试结果 | 文档、执行展示 |
+| W08 Git 记录 | 实现提交 `ce0666e` | 已保存 | 工程规范、代码执行 |
 
 ## 当前缺少
 
