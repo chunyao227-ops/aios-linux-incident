@@ -80,6 +80,7 @@
 | W13 原始数据 | `docs/experiment_reports/raw/local_ollama_2026-11-22.json` | 72 次流程及模型/工具/token/Trace 已保存 | 性能证据、原始实验 |
 | W13 汇总表 | `docs/experiment_reports/benchmark_results.md` | 平均提速 37.92%，正确性保持 | 文档、演示、性能证据 |
 | W13 验收记录 | `docs/verification/w13_verification_2026-11-22.md` | 已保存 166 项全量测试结果 | 文档、执行展示 |
+| W13 Git 记录 | 实现提交 `835ff97` | 已保存 | 工程规范、代码执行 |
 
 ## 当前缺少
 
