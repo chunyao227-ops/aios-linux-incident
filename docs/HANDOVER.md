@@ -1,6 +1,6 @@
 # AIOS Linux 服务故障诊断修复与回归验证系统交接文档
 
-当前状态：W00、W01A、W02、W03、W04、W05、W06、W07、W08、W09、W10、W11、W12、W13 已完成，准备进入 W14。区域赛提交截止为 2026-12-27，全国初赛提交截止为 2027-05-01。团队为学生 2 人，配备指导教师。
+当前状态：W00、W01A、W02、W03、W04、W05、W06、W07、W08、W09、W10、W11、W12、W13、W14 已完成，准备进入 W15。区域赛提交截止为 2026-12-27，全国初赛提交截止为 2027-05-01。团队为学生 2 人，配备指导教师。
 
 ---
 
@@ -314,7 +314,8 @@ AIOS/LLM 适配，W05 已实现 Incident API、Blackboard 和 Trace，W06 已实
 只读工具和受控网关，W07 已实现单场景最小诊断修复验证闭环，W08 已实现固定 DAG
 调度与四路并行，W09 已实现三对固定双向交互，W10 已实现证据融合、冲突检测与
 证据链，W11 已实现受控修复、回滚和两轮验证反馈，W12 已实现六个 Docker
-故障场景，W13 已完成本地串行/并发基准。正式远程 vLLM 数据仍需 W01B 复测。
+故障场景，W13 已完成本地串行/并发基准，W14 已实现前端、历史持久化和可观测性。
+正式远程 vLLM 数据仍需 W01B 复测。
 
 实际代码根目录已经冻结为 `src/aios_incident/`。逻辑层目录
 `agents/`、`orchestrator/`、`adapters/`、`tools/`、`benchmark/` 和 `ui/`
@@ -331,8 +332,8 @@ Ubuntu 22.04
 按量付费
 ```
 
-W01A 不依赖 CPU ECS，W02—W13 已完成。W14 可继续本地开发，最终性能结论仍需
-远程 vLLM 正式环境。
+W01A 不依赖 CPU ECS，W02—W14 已完成。W15 可在本地继续测试和加固，最终性能
+结论和干净环境复现仍需远程 vLLM 与目标 CPU 环境。
 
 ### 5.4 Docker 当前会话权限
 
@@ -376,7 +377,7 @@ AIOS Tool Manager 已初始化，但桌面 MCP、虚拟机控制器和 OSWorld �
 
 ## 6. 下一步任务
 
-新 Codex 会话应先读取本文件、`docs/specifications/development_spec_v1.0.md` 和 `docs/specifications/ai_work_orders_v1.0.md`，检查 Git 与运行环境后从 W14 继续。不得重做 W00/W01A/W02/W03/W04/W05/W06/W07/W08/W09/W10/W11/W12/W13，不得改变冻结流程，不得将本地 Ollama 数据当作远程 vLLM 正式实验结果。
+新 Codex 会话应先读取本文件、`docs/specifications/development_spec_v1.0.md` 和 `docs/specifications/ai_work_orders_v1.0.md`，检查 Git 与运行环境后从 W15 继续。不得重做 W00/W01A/W02/W03/W04/W05/W06/W07/W08/W09/W10/W11/W12/W13/W14，不得改变冻结流程，不得将本地 Ollama 数据当作远程 vLLM 正式实验结果。
 
 ### W02：仓库脚手架与配置
 
@@ -674,4 +675,32 @@ W07 通过前不得开始前端、视频和性能优化。
 
 ### W14：前端与可观测性
 
+状态：已完成。
+
+实际产出：
+
+- `src/aios_incident/ui/index.html`；
+- `src/aios_incident/ui/styles.css`；
+- `src/aios_incident/ui/app.js`；
+- 扩展的 `src/aios_incident/api.py`；
+- 扩展的 `src/aios_incident/orchestrator/interaction_bus.py`；
+- `tests/e2e/test_dashboard_flow.py`；
+- `docs/submission/evidence/ui/dashboard_2026-11-22.png`。
+
+验收：
+
+- 仪表盘支持任务提交、状态、历史、DAG、Agent 分配、三对交互、修复验证时间线、完整 Trace、基准和取消；
+- 页面只读取真实 API、Trace 和 W13 基准数据，不硬编码演示结果；
+- 运行元数据持久化到 `runs/{incident_id}/{run_id}.meta.json`，API 重启后恢复历史；
+- 一次完整事件回放和取消同步通过 E2E；
+- 默认测试 161 项通过、8 项环境依赖跳过；
+- 真实 AIOS 与六个 Docker 场景全量测试 169 项通过且零警告；
+- Edge Headless 实际渲染截图通过人工布局检查；
+- 验收证据见 `docs/verification/w14_verification_2026-11-22.md`。
+
+### W15：测试、加固与复现
+
 状态：下一步。
+
+进入条件已满足。W15 将对全部代码执行异常路径、超时、取消、恢复、依赖锁定、
+干净环境安装和复现检查，并补齐安装脚本、演示脚本、测试报告与复现文档。

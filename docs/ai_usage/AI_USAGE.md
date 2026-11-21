@@ -167,3 +167,13 @@
 - 数据边界：本地结果仅用于开发验证，正式比赛仍需远程 vLLM 重测。
 - 验证方式：统计单元测试、72 次真实流程、真实 AIOS 调用、W12 容器和 166 项全量测试。
 
+### 2026-11-22 W14
+
+- 工具：Codex Desktop。
+- 用途：实现原生 HTML/CSS/JavaScript 仪表盘、任务提交与取消、DAG/Agent 展示、三对交互计数、修复验证时间线、Trace 回放、历史运行和真实基准面板。
+- 生成文件：`src/aios_incident/ui/index.html`、`styles.css`、`app.js`、扩展的 `src/aios_incident/api.py`、`tests/e2e/test_dashboard_flow.py`。
+- 持久化实现：运行元数据写入 `runs/{incident_id}/{run_id}.meta.json`，API 重启时恢复，JSONL Trace 继续作为事件事实源。
+- 数据真实性：界面只使用 API、Trace 和 W13 原始基准数据，不硬编码演示结果。
+- 人工审查重点：历史恢复、状态与 Trace 一致、三对交互聚合、取消同步、静态资源路径和页面布局。
+- 验证方式：默认 161 项测试、真实 AIOS 与六个 Docker 场景共 169 项全量测试、Edge Headless 实际渲染和截图人工检查。
+
