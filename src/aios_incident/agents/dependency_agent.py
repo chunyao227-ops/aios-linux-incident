@@ -46,7 +46,7 @@ class DependencyAgent:
             summary=f"Inspected process and port dependencies for {context.target.service}",
             source_ref="sandbox:/proc dependency view",
             observed_at=utc_now(),
-            facts=result.data,
+            facts={key: value for key, value in result.data.items() if key != "max_output_bytes"},
             confidence=0.82,
         )
         self.blackboard.put(

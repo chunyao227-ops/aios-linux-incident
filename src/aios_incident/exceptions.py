@@ -150,3 +150,7 @@ class InteractionProtocolError(AIOSIncidentError):
 
 class InteractionResponseTimeoutError(AIOSIncidentError):
     """Raised when a query receives no response before its explicit timeout."""
+
+
+class DiagnosticEvidenceError(AIOSIncidentError):
+    """Raised when evidence is missing, duplicated or invalid for diagnosis."""

@@ -49,7 +49,7 @@ class MetricsAgent:
             summary=f"Collected bounded resource metrics for {context.target.service}",
             source_ref="sandbox:/proc",
             observed_at=utc_now(),
-            facts=result.data,
+            facts={key: value for key, value in result.data.items() if key != "max_output_bytes"},
             confidence=0.8,
         )
         self.blackboard.put(

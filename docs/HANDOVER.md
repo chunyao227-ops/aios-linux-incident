@@ -1,6 +1,6 @@
 # AIOS Linux 服务故障诊断修复与回归验证系统交接文档
 
-当前状态：W00、W01A、W02、W03、W04、W05、W06、W07、W08、W09 已完成，准备进入 W10。区域赛提交截止为 2026-12-27，全国初赛提交截止为 2027-05-01。团队为学生 2 人，配备指导教师。
+当前状态：W00、W01A、W02、W03、W04、W05、W06、W07、W08、W09、W10 已完成，准备进入 W11。区域赛提交截止为 2026-12-27，全国初赛提交截止为 2027-05-01。团队为学生 2 人，配备指导教师。
 
 ---
 
@@ -312,8 +312,8 @@ MODEL_BACKEND=ollama-local
 W02 已创建正式 Python 包和配置加载，W03 已实现数据契约和状态机，W04 已实现
 AIOS/LLM 适配，W05 已实现 Incident API、Blackboard 和 Trace，W06 已实现四类
 只读工具和受控网关，W07 已实现单场景最小诊断修复验证闭环，W08 已实现固定 DAG
-调度与四路并行，W09 已实现三对固定双向交互。证据融合、六场景和正式性能实验
-尚未实现。
+调度与四路并行，W09 已实现三对固定双向交互，W10 已实现证据融合、冲突检测与
+证据链。真实修复闭环、六场景和正式性能实验尚未实现。
 
 实际代码根目录已经冻结为 `src/aios_incident/`。逻辑层目录
 `agents/`、`orchestrator/`、`adapters/`、`tools/`、`benchmark/` 和 `ui/`
@@ -330,7 +330,7 @@ Ubuntu 22.04
 按量付费
 ```
 
-W01A 不依赖 CPU ECS，W02—W09 已完成。W10 可先在本地运行，CPU ECS 对后续
+W01A 不依赖 CPU ECS，W02—W10 已完成。W11 可先在本地运行，CPU ECS 对后续
 六场景和 Docker 联调稳定性仍有帮助。
 
 ### 5.4 Docker 当前会话权限
@@ -375,7 +375,7 @@ AIOS Tool Manager 已初始化，但桌面 MCP、虚拟机控制器和 OSWorld �
 
 ## 6. 下一步任务
 
-新 Codex 会话应先读取本文件、`docs/specifications/development_spec_v1.0.md` 和 `docs/specifications/ai_work_orders_v1.0.md`，检查 Git 与运行环境后从 W10 继续。不得重做 W00/W01A/W02/W03/W04/W05/W06/W07/W08/W09，不得改变冻结流程，不得将本地 Ollama 数据当作远程 vLLM 正式实验结果。
+新 Codex 会话应先读取本文件、`docs/specifications/development_spec_v1.0.md` 和 `docs/specifications/ai_work_orders_v1.0.md`，检查 Git 与运行环境后从 W11 继续。不得重做 W00/W01A/W02/W03/W04/W05/W06/W07/W08/W09/W10，不得改变冻结流程，不得将本地 Ollama 数据当作远程 vLLM 正式实验结果。
 
 ### W02：仓库脚手架与配置
 
@@ -576,5 +576,28 @@ W07 通过前不得开始前端、视频和性能优化。
 - 验收证据见 `docs/verification/w09_verification_2026-11-21.md`。
 
 ### W10：证据融合与诊断
+
+状态：已完成。
+
+实际产出：
+
+- `src/aios_incident/orchestrator/diagnosis.py`；
+- `tests/unit/test_diagnosis_fusion.py`；
+- `tests/integration/test_evidence_chain.py`。
+
+验收：
+
+- 四类 Evidence 全部必需；
+- 空证据、缺失类别、重复 evidence_id 和未知消息引用失败关闭；
+- 相同事实去重；
+- 证据按时间、服务和来源建立链；
+- 冲突事实返回 BLOCKED 和结构化追问；
+- 根因只引用真实存在的 Evidence；
+- 排除假设保留理由；
+- 交互消息与证据链关联；
+- 152 项全量测试通过且无警告；
+- 验收证据见 `docs/verification/w10_verification_2026-11-21.md`。
+
+### W11：修复与验证闭环
 
 状态：下一步。
