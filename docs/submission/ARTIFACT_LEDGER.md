@@ -61,6 +61,7 @@
 | W09 三对双向交互 | `coordinator_agent.py` | Log↔Config、Metrics↔Dependency、Repair↔Verifier 已运行 | 核心合规展示、视频 |
 | W09 交互测试 | `test_interaction_matrix.py` | 已保存 11 消息、3 双向边及异常路径 | 工程规范、执行展示 |
 | W09 验收记录 | `docs/verification/w09_verification_2026-11-21.md` | 已保存 143 项全量测试结果 | 文档、执行展示 |
+| W09 Git 记录 | 实现提交 `0d1363a` | 已保存 | 工程规范、代码执行 |
 
 ## 当前缺少
 
