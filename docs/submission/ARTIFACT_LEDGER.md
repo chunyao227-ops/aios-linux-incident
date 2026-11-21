@@ -70,6 +70,7 @@
 | W11 固定验证工具 | `tools/verify.py` | 已完成固定顺序和 attempt 元数据 | 工程规范、执行展示 |
 | W11 两轮闭环 | `repair_agent.py` | 成功、两轮失败、REVIEW/FEEDBACK/RESULT 已实现 | 核心执行展示、视频 |
 | W11 验收记录 | `docs/verification/w11_verification_2026-11-21.md` | 已保存 157 项全量测试结果 | 文档、执行展示 |
+| W11 Git 记录 | 实现提交 `b05d9f8` | 已保存 | 工程规范、代码执行 |
 
 ## 当前缺少
 
