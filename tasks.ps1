@@ -1,5 +1,14 @@
 param(
-    [ValidateSet("setup", "test", "lint", "check-config", "api", "integration", "verify")]
+    [ValidateSet(
+        "setup",
+        "test",
+        "lint",
+        "check-config",
+        "api",
+        "integration",
+        "scenarios",
+        "verify"
+    )]
     [string]$Task = "test"
 )
 
@@ -31,6 +40,10 @@ try {
         "integration" {
             $env:RUN_AIOS_INTEGRATION = "1"
             & $Python -m pytest tests/integration/test_aios_smoke.py -v
+        }
+        "scenarios" {
+            $env:RUN_DOCKER_SCENARIOS = "1"
+            & $Python -m pytest tests/scenarios/test_all_scenarios.py -v
         }
         "verify" {
             & $Python -m ruff check .

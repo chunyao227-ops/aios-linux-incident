@@ -1,0 +1,16 @@
+id: f6
+name: runtime_state_config_inconsistency
+fault_class: runtime_configuration_inconsistency
+expected_root_causes:
+  - runtime_mode_mismatch
+allowed_repairs:
+  - config_restore
+required_interactions:
+  - LogAgent<->ConfigAgent
+  - MetricsAgent<->DependencyAgent
+  - RepairAgent<->VerifierAgent
+acceptance:
+  health_endpoint: /health
+  smoke_endpoint: /api
+  regression_endpoint: /version
+  pressure_requests: 20

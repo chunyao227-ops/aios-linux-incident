@@ -1,0 +1,16 @@
+id: f3
+name: missing_service_dependency
+fault_class: service_dependency
+expected_root_causes:
+  - database_dependency_not_running
+allowed_repairs:
+  - service_start
+required_interactions:
+  - LogAgent<->ConfigAgent
+  - MetricsAgent<->DependencyAgent
+  - RepairAgent<->VerifierAgent
+acceptance:
+  health_endpoint: /health
+  smoke_endpoint: /api
+  regression_endpoint: /version
+  pressure_requests: 20

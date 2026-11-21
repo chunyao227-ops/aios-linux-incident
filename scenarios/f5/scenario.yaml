@@ -1,0 +1,16 @@
+id: f5
+name: disk_space_exhaustion
+fault_class: disk_space
+expected_root_causes:
+  - disk_usage_above_threshold
+allowed_repairs:
+  - config_restore
+required_interactions:
+  - LogAgent<->ConfigAgent
+  - MetricsAgent<->DependencyAgent
+  - RepairAgent<->VerifierAgent
+acceptance:
+  health_endpoint: /health
+  smoke_endpoint: /api
+  regression_endpoint: /version
+  pressure_requests: 20

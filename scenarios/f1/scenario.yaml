@@ -1,0 +1,16 @@
+id: f1
+name: invalid_network_port_configuration
+fault_class: port_or_network_configuration
+expected_root_causes:
+  - configuration_port_mismatch
+allowed_repairs:
+  - config_restore
+required_interactions:
+  - LogAgent<->ConfigAgent
+  - MetricsAgent<->DependencyAgent
+  - RepairAgent<->VerifierAgent
+acceptance:
+  health_endpoint: /health
+  smoke_endpoint: /api
+  regression_endpoint: /version
+  pressure_requests: 20

@@ -1,0 +1,16 @@
+id: f4
+name: invalid_database_connection_config
+fault_class: database_connection_configuration
+expected_root_causes:
+  - database_port_mismatch
+allowed_repairs:
+  - config_restore
+required_interactions:
+  - LogAgent<->ConfigAgent
+  - MetricsAgent<->DependencyAgent
+  - RepairAgent<->VerifierAgent
+acceptance:
+  health_endpoint: /health
+  smoke_endpoint: /api
+  regression_endpoint: /version
+  pressure_requests: 20
