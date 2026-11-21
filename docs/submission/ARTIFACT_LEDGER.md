@@ -75,6 +75,7 @@
 | W12 场景目录 | `docs/scenarios/scenario_catalog.md` | 故障类型、允许修复和隔离边界已记录 | 文档、合规说明 |
 | W12 Docker 测试 | `test_all_scenarios.py` | 六场景失败/成功/压力/哈希和交互通过 | 工程规范、执行展示 |
 | W12 验收记录 | `docs/verification/w12_verification_2026-11-21.md` | 已保存 163 项全量测试结果 | 文档、执行展示 |
+| W12 Git 记录 | 实现提交 `d856227` | 已保存 | 工程规范、代码执行 |
 
 ## 当前缺少
 
