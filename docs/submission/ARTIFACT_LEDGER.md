@@ -51,6 +51,7 @@
 | W07 最小闭环 | `orchestrator/minimal_flow.py` | 日志、LLM、模拟修复、验证与报告完整贯通 | 核心执行展示 |
 | W07 E2E 与演示 | `test_minimal_flow.py`、`docs/demo/minimal_flow.md` | 成功、失败和真实 AIOS 路径已保存 | 执行展示、文档、视频 |
 | W07 验收记录 | `docs/verification/w07_verification_2026-11-21.md` | 已保存 130 项全量测试结果 | 文档、执行展示 |
+| W07 Git 记录 | 实现提交 `846758e` | 已保存 | 工程规范、代码执行 |
 
 ## 当前缺少
 
