@@ -5,7 +5,13 @@ from .coordinator_agent import CoordinatorAgent, MinimalAnalysisTask
 from .dependency_agent import DependencyAgent
 from .log_agent import LogAgent
 from .metrics_agent import MetricsAgent
-from .repair_agent import RepairAgent, RepairExecutor
+from .repair_agent import (
+    RepairAgent,
+    RepairAttemptRecord,
+    RepairExecutor,
+    RepairLoopResult,
+    RepairVerificationLoop,
+)
 from .verifier_agent import VerificationProbe, VerifierAgent
 
 __all__ = [
@@ -16,7 +22,10 @@ __all__ = [
     "MetricsAgent",
     "MinimalAnalysisTask",
     "RepairAgent",
+    "RepairAttemptRecord",
     "RepairExecutor",
+    "RepairLoopResult",
+    "RepairVerificationLoop",
     "VerificationProbe",
     "VerifierAgent",
 ]

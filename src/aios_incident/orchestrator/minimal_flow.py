@@ -84,6 +84,7 @@ class SimulatedRepairExecutor:
         return RepairResult(
             repair_id=plan.repair_id,
             incident_id=context.incident_id,
+            attempt_no=plan.attempt_no,
             status=RepairStatus.SUCCEEDED if success else RepairStatus.FAILED,
             action_results=action_results,
             rollback_performed=False,

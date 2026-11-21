@@ -377,6 +377,8 @@ class RepairAction(StrictModel):
 class RepairPlan(StrictModel):
     repair_id: NonEmptyStr
     incident_id: NonEmptyStr
+    attempt_no: int = Field(default=1, ge=1, le=2)
+    previous_failure_id: NonEmptyStr | None = None
     root_cause_ids: tuple[NonEmptyStr, ...] = Field(min_length=1)
     actions: tuple[RepairAction, ...] = Field(min_length=1)
     preconditions: tuple[NonEmptyStr, ...] = ()
@@ -390,6 +392,8 @@ class RepairPlan(StrictModel):
     def validate_actions(self) -> RepairPlan:
         _ensure_unique(self.root_cause_ids, "root_cause_ids")
         _ensure_unique([action.action_id for action in self.actions], "action_id")
+        if self.attempt_no > 1 and self.previous_failure_id is None:
+            raise ValueError("later repair attempts must reference previous_failure_id")
         return self
 
 
@@ -405,6 +409,7 @@ class RepairActionResult(StrictModel):
 class RepairResult(StrictModel):
     repair_id: NonEmptyStr
     incident_id: NonEmptyStr
+    attempt_no: int = Field(default=1, ge=1, le=2)
     status: RepairStatus
     action_results: tuple[RepairActionResult, ...] = ()
     rollback_performed: bool = False
@@ -432,6 +437,7 @@ class VerificationResult(StrictModel):
     verification_id: NonEmptyStr
     incident_id: NonEmptyStr
     repair_id: NonEmptyStr
+    attempt_no: int = Field(default=1, ge=1, le=2)
     passed: bool
     checks: tuple[VerificationCheck, ...] = Field(min_length=1)
     failure_reasons: tuple[NonEmptyStr, ...] = ()

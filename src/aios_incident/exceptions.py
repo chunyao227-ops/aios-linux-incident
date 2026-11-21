@@ -98,6 +98,10 @@ class RepairDisabledError(ToolExecutionError):
     """Raised when a repair write is attempted before a safe implementation exists."""
 
 
+class RepairNotAllowedError(ToolExecutionError):
+    """Raised when a repair plan fails authorization or rollback validation."""
+
+
 class IncidentNotFoundError(AIOSIncidentError):
     """Raised when an incident ID is not present in the active registry."""
 

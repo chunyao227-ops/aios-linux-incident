@@ -139,3 +139,12 @@
 - 人工审查重点：融合规则、冲突判定、证据链关联和修复阻断条件。
 - 验证方式：9 项 W10 测试、152 项全量警告即错误测试、W08/W09 链式回归、编译、依赖和安全扫描。
 
+### 2026-11-21 W11
+
+- 工具：Codex Desktop。
+- 用途：实现受控修复工具、固定验证工具、attempt_no、上一轮失败引用、REVIEW/FEEDBACK/RESULT 和最多两轮修复验证闭环。
+- 生成文件：`tools/repair.py`、`tools/verify.py`、扩展的 `repair_agent.py`、`verifier_agent.py`、`tests/integration/test_repair_verification_loop.py`。
+- 安全边界：修复工具只接受固定操作和参数，拒绝 Shell、权限提升、破坏性命令和越权写路径。
+- 人工审查重点：计划授权、回滚、验证独立性、失败反馈、两轮上限和最终状态。
+- 验证方式：5 项 W11 集成测试、157 项全量警告即错误测试、真实 AIOS 回归、编译、依赖和执行 API 扫描。
+

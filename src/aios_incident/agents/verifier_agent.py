@@ -57,6 +57,7 @@ class VerifierAgent:
             verification_id=generate_id("verify"),
             incident_id=context.incident_id,
             repair_id=repair_result.repair_id,
+            attempt_no=repair_result.attempt_no,
             passed=passed,
             checks=checks,
             failure_reasons=failure_reasons,
