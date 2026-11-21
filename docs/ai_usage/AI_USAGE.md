@@ -121,3 +121,12 @@
 - 人工审查重点：READY 扩散、能力匹配、失败收尾、重试计数和严格时间顺序。
 - 验证方式：5 项 W08 并发集成测试、135 项全量警告即错误测试、真实 AIOS 回归、编译、依赖和安全扫描。
 
+### 2026-11-21 W09
+
+- 工具：Codex Desktop。
+- 用途：实现 Agent 消息总线、correlation/reply 协议、三对固定双向交互、消息图和 Blackboard/Trace 记录。
+- 生成文件：`orchestrator/interaction_bus.py`、扩展的 `coordinator_agent.py`、`tests/integration/test_interaction_matrix.py`。
+- 数据来源：交互内容来自 Evidence、RepairResult 和 VerificationResult，不使用预置对话伪造指标。
+- 人工审查重点：固定三对关系、双向边计数、查询响应、超时、离线失败和消息入黑板。
+- 验证方式：8 项 W09 交互测试、143 项全量警告即错误测试、真实 AIOS 回归、编译、依赖和安全扫描。
+

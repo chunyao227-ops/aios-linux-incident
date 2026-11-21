@@ -261,6 +261,7 @@ def test_message_requires_distinct_agents_and_reply_reference() -> None:
         type=MessageType.QUESTION,
         content="请核对 web-app 的实际监听端口。",
         evidence_ids=("evi-N1-001",),
+        correlation_id="corr-001",
         timestamp=T0,
     )
     reply = Message(
@@ -271,6 +272,7 @@ def test_message_requires_distinct_agents_and_reply_reference() -> None:
         to_agent="LogAgent",
         type=MessageType.REPLY,
         content="配置监听 5432 端口。",
+        correlation_id="corr-001",
         reply_to=question.message_id,
         timestamp=T1,
     )
@@ -285,6 +287,7 @@ def test_message_requires_distinct_agents_and_reply_reference() -> None:
             to_agent="LogAgent",
             type=MessageType.QUESTION,
             content="invalid self message",
+            correlation_id="corr-002",
         )
     with pytest.raises(ValidationError, match="must reference reply_to"):
         Message(
@@ -295,6 +298,7 @@ def test_message_requires_distinct_agents_and_reply_reference() -> None:
             to_agent="LogAgent",
             type=MessageType.REPLY,
             content="missing reference",
+            correlation_id="corr-003",
         )
 
 
@@ -337,6 +341,7 @@ def test_all_contracts_serialize_and_deserialize() -> None:
             to_agent="ConfigAgent",
             type=MessageType.QUESTION,
             content="请核对端口。",
+            correlation_id="corr-001",
             timestamp=T0,
         ),
         make_diagnosis(),

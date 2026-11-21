@@ -138,3 +138,15 @@ class TraceStoreError(AIOSIncidentError):
 
     code = "TRACE_STORE_ERROR"
     status_code = 500
+
+
+class InteractionParticipantUnavailableError(AIOSIncidentError):
+    """Raised when one side of an Agent interaction is offline or unknown."""
+
+
+class InteractionProtocolError(AIOSIncidentError):
+    """Raised when messages do not form a valid request-response relationship."""
+
+
+class InteractionResponseTimeoutError(AIOSIncidentError):
+    """Raised when a query receives no response before its explicit timeout."""

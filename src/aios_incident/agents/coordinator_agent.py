@@ -12,12 +12,17 @@ from ..adapters.llm_adapter import ChatMessage, StructuredLLMResponse
 from ..models import (
     Diagnosis,
     Evidence,
+    Message,
+    MessageType,
     NonEmptyStr,
+    RepairResult,
     RiskLevel,
     RootCauseCandidate,
     RunContext,
     StrictModel,
+    VerificationResult,
 )
+from ..orchestrator.interaction_bus import InteractionBus, InteractionGraph
 from ..utils import generate_id, utc_now
 
 OutputModelT = TypeVar("OutputModelT")
@@ -124,3 +129,176 @@ class CoordinatorAgent:
             diagnosis=diagnosis,
             repair_action=output.repair_action,
         )
+
+    def coordinate_required_interactions(
+        self,
+        context: RunContext,
+        bus: InteractionBus,
+        *,
+        log_evidence: Evidence,
+        config_evidence: Evidence,
+        metrics_evidence: Evidence,
+        dependency_evidence: Evidence,
+        repair_result: RepairResult,
+        verification_result: VerificationResult,
+    ) -> InteractionGraph:
+        """Generate the three fixed bidirectional evidence/verification exchanges."""
+
+        log_agent = bus.resolve_agent_id("LogAgent")
+        config_agent = bus.resolve_agent_id("ConfigAgent")
+        metrics_agent = bus.resolve_agent_id("MetricsAgent")
+        dependency_agent = bus.resolve_agent_id("DependencyAgent")
+        repair_agent = bus.resolve_agent_id("RepairAgent")
+        verifier_agent = bus.resolve_agent_id("VerifierAgent")
+
+        log_question = bus.send_question(
+            incident_id=context.incident_id,
+            task_id="N1",
+            from_agent=log_agent,
+            to_agent=config_agent,
+            content=(
+                f"Check configuration for {context.target.service} after log evidence: "
+                f"{log_evidence.summary}; latest={log_evidence.facts.get('last_line', '')}"
+            ),
+            evidence_ids=(log_evidence.evidence_id,),
+        )
+        bus.send_reply(
+            log_question,
+            from_agent=config_agent,
+            content=(
+                f"Configuration reference {config_evidence.source_ref} has sha256 "
+                f"{config_evidence.facts.get('sha256')}"
+            ),
+            evidence_ids=(config_evidence.evidence_id,),
+        )
+        bus.wait_for_response(log_question.correlation_id, timeout_seconds=1)
+
+        config_question = bus.send_question(
+            incident_id=context.incident_id,
+            task_id="N3",
+            from_agent=config_agent,
+            to_agent=log_agent,
+            content=(
+                f"Provide log timeline context for configuration evidence "
+                f"{config_evidence.evidence_id}"
+            ),
+            evidence_ids=(config_evidence.evidence_id,),
+        )
+        bus.send_reply(
+            config_question,
+            from_agent=log_agent,
+            content=(
+                f"Log reference {log_evidence.source_ref}: "
+                f"{log_evidence.facts.get('last_line', log_evidence.summary)}"
+            ),
+            evidence_ids=(log_evidence.evidence_id,),
+        )
+        bus.wait_for_response(config_question.correlation_id, timeout_seconds=1)
+
+        metrics_question = bus.send_question(
+            incident_id=context.incident_id,
+            task_id="N2",
+            from_agent=metrics_agent,
+            to_agent=dependency_agent,
+            content=(
+                f"Check process and port state for {context.target.service} after metrics: "
+                f"{metrics_evidence.summary}"
+            ),
+            evidence_ids=(metrics_evidence.evidence_id,),
+        )
+        dependency_reply = bus.send_reply(
+            metrics_question,
+            from_agent=dependency_agent,
+            content=(
+                f"Observed {len(dependency_evidence.facts.get('processes', []))} matching "
+                f"processes and {len(dependency_evidence.facts.get('ports', []))} ports"
+            ),
+            evidence_ids=(dependency_evidence.evidence_id,),
+        )
+        bus.wait_for_response(metrics_question.correlation_id, timeout_seconds=1)
+
+        dependency_question = bus.send_question(
+            incident_id=context.incident_id,
+            task_id="N4",
+            from_agent=dependency_agent,
+            to_agent=metrics_agent,
+            content=f"Provide metric trend for dependency evidence {dependency_reply.message_id}",
+            evidence_ids=(dependency_evidence.evidence_id,),
+        )
+        bus.send_reply(
+            dependency_question,
+            from_agent=metrics_agent,
+            content=(
+                f"Load average={metrics_evidence.facts.get('load_average')}; "
+                f"memory={metrics_evidence.facts.get('memory_kib')}"
+            ),
+            evidence_ids=(metrics_evidence.evidence_id,),
+        )
+        bus.wait_for_response(dependency_question.correlation_id, timeout_seconds=1)
+
+        handoff = bus.send(
+            Message(
+                message_id=generate_id("msg"),
+                incident_id=context.incident_id,
+                task_id="N6.1",
+                from_agent=repair_agent,
+                to_agent=verifier_agent,
+                type=MessageType.HANDOFF,
+                content=(
+                    f"Repair {repair_result.repair_id} finished with {repair_result.status.value}"
+                ),
+                evidence_ids=(
+                    log_evidence.evidence_id,
+                    config_evidence.evidence_id,
+                    metrics_evidence.evidence_id,
+                    dependency_evidence.evidence_id,
+                ),
+                correlation_id=generate_id("corr"),
+                timestamp=utc_now(),
+            )
+        )
+        if verification_result.passed:
+            bus.send(
+                Message(
+                    message_id=generate_id("msg"),
+                    incident_id=context.incident_id,
+                    task_id="N7.1",
+                    from_agent=verifier_agent,
+                    to_agent=repair_agent,
+                    type=MessageType.VERIFIED,
+                    content=f"Verification passed: {verification_result.verification_id}",
+                    correlation_id=handoff.correlation_id,
+                    reply_to=handoff.message_id,
+                    timestamp=utc_now(),
+                )
+            )
+            bus.send(
+                Message(
+                    message_id=generate_id("msg"),
+                    incident_id=context.incident_id,
+                    task_id="N7.1",
+                    from_agent=verifier_agent,
+                    to_agent=repair_agent,
+                    type=MessageType.RESULT,
+                    content=f"Final verification result: {verification_result.verification_id}",
+                    correlation_id=handoff.correlation_id,
+                    reply_to=handoff.message_id,
+                    timestamp=utc_now(),
+                )
+            )
+        else:
+            bus.send(
+                Message(
+                    message_id=generate_id("msg"),
+                    incident_id=context.incident_id,
+                    task_id="N7.1",
+                    from_agent=verifier_agent,
+                    to_agent=repair_agent,
+                    type=MessageType.FEEDBACK,
+                    content="; ".join(verification_result.failure_reasons),
+                    correlation_id=handoff.correlation_id,
+                    reply_to=handoff.message_id,
+                    timestamp=utc_now(),
+                )
+            )
+        return bus.graph()

@@ -57,6 +57,10 @@
 | W08 四路采集 Agent | Metrics、Config、Dependency 和既有 Log Agent | 已通过 ToolGateway 返回结构化证据 | 代码执行、多智能体说明 |
 | W08 验收记录 | `docs/verification/w08_verification_2026-11-21.md` | 已保存 135 项全量测试结果 | 文档、执行展示 |
 | W08 Git 记录 | 实现提交 `ce0666e` | 已保存 | 工程规范、代码执行 |
+| W09 消息总线 | `orchestrator/interaction_bus.py` | 已完成请求响应、超时、离线失败和消息图 | 代码执行、多智能体说明 |
+| W09 三对双向交互 | `coordinator_agent.py` | Log↔Config、Metrics↔Dependency、Repair↔Verifier 已运行 | 核心合规展示、视频 |
+| W09 交互测试 | `test_interaction_matrix.py` | 已保存 11 消息、3 双向边及异常路径 | 工程规范、执行展示 |
+| W09 验收记录 | `docs/verification/w09_verification_2026-11-21.md` | 已保存 143 项全量测试结果 | 文档、执行展示 |
 
 ## 当前缺少
 
@@ -70,6 +74,7 @@
 - W06 工具调用、越权拒绝、路径逃逸拒绝和 Trace 截图。
 - W07 成功/失败闭环 Trace、最终报告和真实 AIOS 运行截图、录屏。
 - W08 四路派发批次、并发时间线和重试终止截图、录屏。
+- W09 三对消息图、双向边计数、超时和断连 Trace 截图、录屏。
 - UI 操作截图、真实故障场景日志与演示视频。
 - 比赛平台要求的最终文档模板、视频格式与提交清单。
 

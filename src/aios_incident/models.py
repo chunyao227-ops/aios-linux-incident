@@ -59,6 +59,11 @@ class MessageType(str, Enum):
     RESULT = "RESULT"
     QUESTION = "QUESTION"
     REPLY = "REPLY"
+    QUERY = "QUERY"
+    RESPONSE = "RESPONSE"
+    REVIEW = "REVIEW"
+    FAILURE = "FAILURE"
+    VERIFIED = "VERIFIED"
     HANDOFF = "HANDOFF"
     FEEDBACK = "FEEDBACK"
     ABORT = "ABORT"
@@ -305,6 +310,7 @@ class Message(StrictModel):
     type: MessageType
     content: NonEmptyStr
     evidence_ids: tuple[NonEmptyStr, ...] = ()
+    correlation_id: NonEmptyStr
     reply_to: NonEmptyStr | None = None
     timestamp: AwareDatetime = Field(default_factory=utc_now)
 
@@ -312,10 +318,10 @@ class Message(StrictModel):
     def validate_protocol(self) -> Message:
         if self.from_agent == self.to_agent:
             raise ValueError("message sender and recipient must be different Agents")
-        if self.type is MessageType.REPLY and self.reply_to is None:
-            raise ValueError("REPLY message must reference reply_to")
-        if self.type is MessageType.QUESTION and self.reply_to is not None:
-            raise ValueError("QUESTION message cannot reference reply_to")
+        if self.type in {MessageType.REPLY, MessageType.RESPONSE} and self.reply_to is None:
+            raise ValueError(f"{self.type.value} message must reference reply_to")
+        if self.type in {MessageType.QUESTION, MessageType.QUERY} and self.reply_to is not None:
+            raise ValueError(f"{self.type.value} message cannot reference reply_to")
         _ensure_unique(self.evidence_ids, "evidence_ids")
         return self
 
