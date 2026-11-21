@@ -1,7 +1,7 @@
 # 基于 AIOS 的 Linux 服务故障诊断、修复与回归验证系统
 
 本仓库用于实现 AIOS 多智能体 Linux 服务故障协同诊断与修复系统。
-当前阶段：W12 已完成，下一阶段 W13 串行与并发基准。
+当前阶段：W13 已完成，下一阶段 W14 前端与可观测性。
 
 ## 当前基线
 
@@ -68,6 +68,19 @@ OpenAPI 文档：
 
 ```text
 http://127.0.0.1:8080/docs
+```
+
+## W13 本地性能基准
+
+```powershell
+.\tasks.ps1 benchmark
+```
+
+结果写入：
+
+```text
+docs/experiment_reports/benchmark_results.md
+docs/experiment_reports/raw/local_ollama_2026-11-22.json
 ```
 
 ## W00/W01A

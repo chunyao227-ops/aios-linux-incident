@@ -7,6 +7,7 @@ param(
         "api",
         "integration",
         "scenarios",
+        "benchmark",
         "verify"
     )]
     [string]$Task = "test"
@@ -44,6 +45,9 @@ try {
         "scenarios" {
             $env:RUN_DOCKER_SCENARIOS = "1"
             & $Python -m pytest tests/scenarios/test_all_scenarios.py -v
+        }
+        "benchmark" {
+            & $Python scripts/benchmark/run_local_benchmark.py
         }
         "verify" {
             & $Python -m ruff check .
