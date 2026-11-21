@@ -11,6 +11,7 @@ htmlcov/
 venv/
 .python310/
 vendor/
+/work/
 
 # Models and local caches
 models/

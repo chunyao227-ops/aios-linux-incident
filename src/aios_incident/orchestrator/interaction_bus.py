@@ -333,6 +333,14 @@ class InteractionBus:
             "message_type": message.type.value,
             "from_agent": message.from_agent,
             "to_agent": message.to_agent,
+            "from_agent_type": self._participants.get(
+                message.from_agent,
+                _Participant(message.from_agent, message.from_agent, False),
+            ).agent_type,
+            "to_agent_type": self._participants.get(
+                message.to_agent,
+                _Participant(message.to_agent, message.to_agent, False),
+            ).agent_type,
             "correlation_id": message.correlation_id,
         }
         if error is not None:

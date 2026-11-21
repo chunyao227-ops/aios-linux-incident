@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIOS 故障协同诊断控制台</title>
+  <link rel="stylesheet" href="/ui-assets/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">AIOS Incident Console</p>
+      <h1>Linux 服务故障协同诊断</h1>
+    </div>
+    <button id="refresh-all" class="button secondary" type="button">刷新数据</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <section>
+        <div class="section-title">
+          <h2>历史运行</h2>
+          <span id="history-count" class="counter">0</span>
+        </div>
+        <div id="incident-list" class="incident-list" aria-live="polite"></div>
+      </section>
+
+      <section>
+        <h2>提交故障</h2>
+        <form id="incident-form">
+          <label>目标服务
+            <input name="service" value="web-app" required>
+          </label>
+          <label>目标环境
+            <input name="environment" value="docker" required>
+          </label>
+          <label>目标主机
+            <input name="host" value="sandbox-01" required>
+          </label>
+          <label>目标说明
+            <textarea name="objective" rows="3" required>诊断并修复服务不可用问题</textarea>
+          </label>
+          <label>读取日志目录
+            <input name="log_path" value="/var/log/web-app" required>
+          </label>
+          <label>配置目录
+            <input name="config_path" value="/etc/web-app" required>
+          </label>
+          <button class="button primary" type="submit">创建故障任务</button>
+          <p id="form-message" class="form-message" aria-live="polite"></p>
+        </form>
+      </section>
+    </aside>
+
+    <main>
+      <section id="empty-state" class="empty-state">
+        <h2>尚未选择运行</h2>
+        <p>创建任务或从历史记录中选择一次运行。页面只展示 API、Trace、DAG 和真实基准数据。</p>
+      </section>
+
+      <div id="incident-view" hidden>
+        <section class="run-header">
+          <div>
+            <p class="eyebrow">Incident</p>
+            <h2 id="incident-id"></h2>
+            <p id="incident-objective" class="muted"></p>
+          </div>
+          <button id="cancel-incident" class="button danger" type="button">取消任务</button>
+        </section>
+
+        <section class="metric-grid" aria-label="运行摘要">
+          <article class="metric">
+            <span>状态</span>
+            <strong id="run-state"></strong>
+          </article>
+          <article class="metric">
+            <span>当前任务</span>
+            <strong id="current-task-count">0</strong>
+          </article>
+          <article class="metric">
+            <span>已完成任务</span>
+            <strong id="completed-task-count">0</strong>
+          </article>
+          <article class="metric">
+            <span>运行时长</span>
+            <strong id="elapsed-time">0s</strong>
+          </article>
+          <article class="metric">
+            <span>修复轮次</span>
+            <strong id="repair-attempt">0</strong>
+          </article>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <h2>任务 DAG</h2>
+            <span class="muted">节点状态与 Agent 分配</span>
+          </div>
+          <div id="dag-grid" class="dag-grid"></div>
+        </section>
+
+        <section class="two-column">
+          <article class="panel">
+            <div class="section-title">
+              <h2>Agent 双向交互</h2>
+              <span id="bidirectional-count" class="counter">0 对</span>
+            </div>
+            <div id="interaction-list" class="interaction-list"></div>
+          </article>
+
+          <article class="panel">
+            <div class="section-title">
+              <h2>修复与验证</h2>
+              <span class="muted">来自真实 Trace</span>
+            </div>
+            <div id="repair-verification-list" class="timeline compact"></div>
+          </article>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <h2>运行时间线</h2>
+            <span id="event-count" class="counter">0 个事件</span>
+          </div>
+          <div id="event-timeline" class="timeline"></div>
+        </section>
+      </div>
+
+      <section class="panel benchmark-panel">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">W13 Benchmark</p>
+            <h2>串行与并发评测</h2>
+          </div>
+          <span id="benchmark-environment" class="tag">未加载</span>
+        </div>
+        <div id="benchmark-summary" class="metric-grid compact"></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>场景</th>
+                <th>串行中位数</th>
+                <th>并发中位数</th>
+                <th>提速</th>
+                <th>正确性</th>
+              </tr>
+            </thead>
+            <tbody id="benchmark-rows"></tbody>
+          </table>
+        </div>
+        <p id="benchmark-note" class="muted"></p>
+      </section>
+    </main>
+  </div>
+
+  <script src="/ui-assets/app.js" defer></script>
+</body>
+</html>

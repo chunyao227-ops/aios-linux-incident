@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from threading import RLock
@@ -10,9 +11,11 @@ from typing import Any
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
-from pydantic import AwareDatetime, Field
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import AwareDatetime, Field, ValidationError
 
+from .benchmark.metrics import BenchmarkSummary
 from .config import PROJECT_ROOT, AppConfig, load_config
 from .exceptions import (
     AIOSIncidentError,
@@ -35,6 +38,11 @@ from .orchestrator.blackboard import Blackboard
 from .orchestrator.trace import JsonlTraceStore
 from .state import TaskStatus, WorkflowStatus, is_workflow_terminal, transition_workflow
 from .utils import generate_id, utc_now
+
+UI_DIR = Path(__file__).with_name("ui")
+DEFAULT_BENCHMARK_RAW = (
+    PROJECT_ROOT / "docs" / "experiment_reports" / "raw" / "local_ollama_2026-11-22.json"
+)
 
 
 class IncidentCreateRequest(StrictModel):
@@ -78,6 +86,28 @@ class IncidentEventsResponse(StrictModel):
     messages: tuple[Message, ...] = ()
 
 
+class IncidentHistoryItem(StrictModel):
+    incident_id: NonEmptyStr
+    run_id: NonEmptyStr
+    objective: NonEmptyStr
+    service: NonEmptyStr
+    state: WorkflowStatus
+    created_at: AwareDatetime
+    elapsed_seconds: int = Field(ge=0)
+    repair_attempt: int = Field(ge=0, le=2)
+
+
+class IncidentHistoryResponse(StrictModel):
+    incidents: tuple[IncidentHistoryItem, ...]
+
+
+class BenchmarkDashboardResponse(StrictModel):
+    available: bool
+    summary: BenchmarkSummary | None = None
+    raw_path: NonEmptyStr | None = None
+    error: NonEmptyStr | None = None
+
+
 @dataclass(slots=True)
 class IncidentRecord:
     context: RunContext
@@ -96,6 +126,7 @@ class IncidentService:
         self.blackboard = Blackboard()
         self._records: dict[str, IncidentRecord] = {}
         self._lock = RLock()
+        self._load_persisted_records()
 
     def create(self, request: IncidentCreateRequest) -> IncidentCreateResponse:
         with self._lock:
@@ -147,6 +178,7 @@ class IncidentService:
                 )
             )
             self._records[incident_id] = IncidentRecord(context=context, dag=dag, trace=trace)
+            self._persist_record(self._records[incident_id])
             return IncidentCreateResponse(
                 incident_id=incident_id,
                 run_id=run_id,
@@ -229,7 +261,33 @@ class IncidentService:
                 )
             )
             record.context = record.context.model_copy(update={"workflow_status": target})
+            self._persist_record(record)
         return self.get_status(incident_id)
+
+    def history(self) -> IncidentHistoryResponse:
+        with self._lock:
+            records = sorted(
+                self._records.values(),
+                key=lambda record: record.context.created_at,
+                reverse=True,
+            )
+            items = tuple(
+                IncidentHistoryItem(
+                    incident_id=record.context.incident_id,
+                    run_id=record.context.run_id,
+                    objective=record.context.objective,
+                    service=record.context.target.service,
+                    state=record.context.workflow_status,
+                    created_at=record.context.created_at,
+                    elapsed_seconds=max(
+                        0,
+                        int((utc_now() - record.context.created_at).total_seconds()),
+                    ),
+                    repair_attempt=record.repair_attempt,
+                )
+                for record in records
+            )
+        return IncidentHistoryResponse(incidents=items)
 
     def _get_record(self, incident_id: str) -> IncidentRecord:
         with self._lock:
@@ -244,16 +302,61 @@ class IncidentService:
             if incident_id not in self._records:
                 return incident_id
 
+    def _metadata_path(self, record: IncidentRecord) -> Path:
+        return self.trace_root / record.context.incident_id / f"{record.context.run_id}.meta.json"
+
+    def _persist_record(self, record: IncidentRecord) -> None:
+        path = self._metadata_path(record)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        payload = {
+            "context": record.context.model_dump(mode="json"),
+            "dag": record.dag.model_dump(mode="json"),
+            "final_report": record.final_report,
+            "repair_attempt": record.repair_attempt,
+        }
+        temporary = path.with_suffix(path.suffix + ".tmp")
+        temporary.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True),
+            encoding="utf-8",
+        )
+        temporary.replace(path)
+
+    def _load_persisted_records(self) -> None:
+        if not self.trace_root.exists():
+            return
+        for path in self.trace_root.glob("*/*.meta.json"):
+            try:
+                payload = json.loads(path.read_text(encoding="utf-8"))
+                context = RunContext.model_validate(payload["context"])
+                dag = TaskDAG.model_validate(payload["dag"])
+                trace = JsonlTraceStore(
+                    self.trace_root,
+                    context.incident_id,
+                    context.run_id,
+                )
+                record = IncidentRecord(
+                    context=context,
+                    dag=dag,
+                    trace=trace,
+                    final_report=payload.get("final_report"),
+                    repair_attempt=int(payload.get("repair_attempt", 0)),
+                )
+                self._records[context.incident_id] = record
+            except (OSError, KeyError, ValueError, ValidationError, AIOSIncidentError):
+                continue
+
 
 def create_app(
     config: AppConfig | None = None,
     *,
     trace_root: Path | None = None,
+    benchmark_raw_path: Path | None = None,
 ) -> FastAPI:
     """Create an isolated API application for production or tests."""
 
     app_config = config or load_config()
     root = trace_root or (PROJECT_ROOT / app_config.runtime.output_dir)
+    benchmark_path = benchmark_raw_path or DEFAULT_BENCHMARK_RAW
     service = IncidentService(app_config, root)
 
     app = FastAPI(
@@ -262,6 +365,9 @@ def create_app(
     )
     app.state.incident_service = service
     app.state.blackboard = service.blackboard
+    app.state.benchmark_raw_path = benchmark_path
+
+    app.mount("/ui-assets", StaticFiles(directory=UI_DIR), name="ui-assets")
 
     @app.exception_handler(RequestValidationError)
     async def request_validation_handler(
@@ -299,6 +405,34 @@ def create_app(
     )
     def create_incident(request: IncidentCreateRequest) -> IncidentCreateResponse:
         return service.create(request)
+
+    @app.get("/", include_in_schema=False)
+    def dashboard_page() -> FileResponse:
+        return FileResponse(UI_DIR / "index.html")
+
+    @app.get("/api/v1/incidents", response_model=IncidentHistoryResponse)
+    def list_incidents() -> IncidentHistoryResponse:
+        return service.history()
+
+    @app.get(
+        "/api/v1/benchmarks/latest",
+        response_model=BenchmarkDashboardResponse,
+    )
+    def get_latest_benchmark() -> BenchmarkDashboardResponse:
+        try:
+            payload = json.loads(benchmark_path.read_text(encoding="utf-8"))
+            summary = BenchmarkSummary.model_validate(payload["summary"])
+            return BenchmarkDashboardResponse(
+                available=True,
+                summary=summary,
+                raw_path=str(benchmark_path),
+            )
+        except (OSError, KeyError, ValueError, ValidationError) as exc:
+            return BenchmarkDashboardResponse(
+                available=False,
+                raw_path=str(benchmark_path),
+                error=f"benchmark data unavailable: {exc}",
+            )
 
     @app.get(
         "/api/v1/incidents/{incident_id}",
