@@ -9,13 +9,17 @@ description = "AIOS-based Linux service incident diagnosis, repair, and verifica
 readme = "README.md"
 requires-python = ">=3.10,<3.11"
 dependencies = [
+  "anyio>=4.6,<4.11",
+  "fastapi>=0.116,<0.117",
   "jsonschema>=4.23,<5",
   "pydantic>=2.10,<3",
   "PyYAML>=6.0.2,<7",
+  "uvicorn>=0.35,<0.36",
 ]
 
 [project.optional-dependencies]
 dev = [
+  "httpx>=0.28,<0.29",
   "pytest>=8.3,<9",
   "ruff>=0.8,<1",
 ]

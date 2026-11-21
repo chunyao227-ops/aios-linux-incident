@@ -68,3 +68,45 @@ class ModelResponseError(AdapterInvocationError):
 
 class ToolExecutionError(AIOSIncidentError):
     """Raised when a controlled tool cannot complete safely."""
+
+
+class IncidentNotFoundError(AIOSIncidentError):
+    """Raised when an incident ID is not present in the active registry."""
+
+    code = "INCIDENT_NOT_FOUND"
+    status_code = 404
+
+
+class IncidentStateError(AIOSIncidentError):
+    """Raised when an operation is invalid for the incident workflow state."""
+
+    code = "INCIDENT_STATE_CONFLICT"
+    status_code = 409
+
+
+class BlackboardArtifactNotFoundError(AIOSIncidentError):
+    """Raised when an artifact is absent from its incident blackboard."""
+
+    code = "BLACKBOARD_ARTIFACT_NOT_FOUND"
+    status_code = 404
+
+
+class BlackboardArtifactNotReadyError(AIOSIncidentError):
+    """Raised when a downstream reader requests an incomplete artifact."""
+
+    code = "BLACKBOARD_ARTIFACT_NOT_READY"
+    status_code = 409
+
+
+class BlackboardConflictError(AIOSIncidentError):
+    """Raised when an immutable artifact or content reference would be replaced."""
+
+    code = "BLACKBOARD_CONFLICT"
+    status_code = 409
+
+
+class TraceStoreError(AIOSIncidentError):
+    """Raised when a JSONL trace cannot be safely appended or read."""
+
+    code = "TRACE_STORE_ERROR"
+    status_code = 500

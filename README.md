@@ -1,7 +1,7 @@
 # 基于 AIOS 的 Linux 服务故障诊断、修复与回归验证系统
 
 本仓库用于实现 AIOS 多智能体 Linux 服务故障协同诊断与修复系统。
-当前阶段：W04 已完成，下一阶段 W05 故障 API、黑板与 Trace。
+当前阶段：W05 已完成，下一阶段 W06 受控工具网关。
 
 ## 当前基线
 
@@ -51,6 +51,24 @@ PowerShell：
 
 `config/app.example.yaml` 的 `model` 段用于切换本地 Ollama 与远程 vLLM。
 远程认证只填写 `api_key_env` 环境变量名，不填写真实密钥。
+
+## W05 API 启动
+
+```powershell
+.\tasks.ps1 api
+```
+
+API 默认监听：
+
+```text
+http://127.0.0.1:8080
+```
+
+OpenAPI 文档：
+
+```text
+http://127.0.0.1:8080/docs
+```
 
 ## W00/W01A
 

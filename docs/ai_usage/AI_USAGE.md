@@ -84,3 +84,13 @@
 - token 说明：优先采用上报 usage；本地 AIOS 未上报时明确标记为估算，不作为精确 tokenizer 结果。
 - 验证方式：19 项模拟响应单元测试、真实本地 AIOS 文本与 JSON 冒烟、90 项全量测试、Ruff、编译、依赖和凭据检查。
 
+### 2026-11-21 W05
+
+- 工具：Codex Desktop。
+- 用途：实现故障 Incident API、唯一 ID、固定 DAG/状态/结果/事件/取消查询、隔离 Blackboard 和追加式 JSONL Trace。
+- 生成文件：`src/aios_incident/api.py`、`orchestrator/blackboard.py`、`orchestrator/trace.py`、对应单元和 API 集成测试。
+- 依赖处理：固定 FastAPI、Uvicorn、httpx 和 AnyIO 兼容范围，消除测试客户端弃用警告。
+- 边界：未实现 Agent 调度、工具网关、真实修复、独立验证或 UI。
+- 人工审查重点：API 字段、错误响应结构、产物完成后不可变、Trace 追加语义。
+- 验证方式：24 项 W05 测试、114 项全量警告即错误测试、真实 AIOS 回归、编译、依赖和凭据检查。
+

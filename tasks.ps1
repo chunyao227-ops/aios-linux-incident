@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("setup", "test", "lint", "check-config", "integration", "verify")]
+    [ValidateSet("setup", "test", "lint", "check-config", "api", "integration", "verify")]
     [string]$Task = "test"
 )
 
@@ -24,6 +24,9 @@ try {
         }
         "check-config" {
             & $Python -m aios_incident --config "config/app.example.yaml"
+        }
+        "api" {
+            & $Python -m uvicorn aios_incident.api:app --host "127.0.0.1" --port 8080
         }
         "integration" {
             $env:RUN_AIOS_INTEGRATION = "1"

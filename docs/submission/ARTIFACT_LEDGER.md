@@ -37,6 +37,10 @@
 | W04 验收记录 | `docs/verification/w04_verification_2026-11-21.md` | 已保存 90 项全量测试与真实冒烟结果 | 文档、执行展示 |
 | W04 token 与错误证据 | 单元测试及验收记录 | 已保存“上报/估算”区分和统一错误覆盖 | 代码执行、文档 |
 | W04 Git 记录 | 实现提交 `1393a20` | 已保存 | 工程规范、代码执行 |
+| W05 Incident API | `api.py` | 已完成创建、状态、DAG、事件、结果和取消接口 | 代码执行、UI 数据来源 |
+| W05 Blackboard | `orchestrator/blackboard.py` | 已完成 Incident 隔离和产物就绪控制 | 代码执行、工程规范 |
+| W05 JSONL Trace | `orchestrator/trace.py` | 已完成追加写和重复事件保护 | 执行展示、文档 |
+| W05 验收记录 | `docs/verification/w05_verification_2026-11-21.md` | 已保存 114 项全量测试结果 | 文档、执行展示 |
 
 ## 当前缺少
 
@@ -46,6 +50,7 @@
 - W03 以后的 DAG、证据并行、双向交互、修复和验证演示材料。
 - W03 数据契约和状态机的终端截图及可视化 DAG 图。
 - W04 AIOS 文本调用、JSON 输出和真实冒烟测试的终端截图。
+- W05 API 请求、结构化错误、JSONL Trace 和 OpenAPI 页面截图。
 - UI 操作截图、真实故障场景日志与演示视频。
 - 比赛平台要求的最终文档模板、视频格式与提交清单。
 
