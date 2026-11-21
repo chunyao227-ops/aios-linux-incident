@@ -47,6 +47,10 @@
 | W06 隔离测试 | `test_tool_gateway.py`、`test_tool_isolation.py` | 已保存 13 项权限、路径、限制和沙箱测试 | 工程规范、执行展示 |
 | W06 验收记录 | `docs/verification/w06_verification_2026-11-21.md` | 已保存 127 项全量测试结果 | 文档、执行展示 |
 | W06 Git 记录 | 实现提交 `4e026d6` | 已保存 | 工程规范、代码执行 |
+| W07 最小 Agent | `agents/` | Coordinator、Log、Repair、Verifier 已实现 | 代码执行、多智能体说明 |
+| W07 最小闭环 | `orchestrator/minimal_flow.py` | 日志、LLM、模拟修复、验证与报告完整贯通 | 核心执行展示 |
+| W07 E2E 与演示 | `test_minimal_flow.py`、`docs/demo/minimal_flow.md` | 成功、失败和真实 AIOS 路径已保存 | 执行展示、文档、视频 |
+| W07 验收记录 | `docs/verification/w07_verification_2026-11-21.md` | 已保存 130 项全量测试结果 | 文档、执行展示 |
 
 ## 当前缺少
 
@@ -58,6 +62,7 @@
 - W04 AIOS 文本调用、JSON 输出和真实冒烟测试的终端截图。
 - W05 API 请求、结构化错误、JSONL Trace 和 OpenAPI 页面截图。
 - W06 工具调用、越权拒绝、路径逃逸拒绝和 Trace 截图。
+- W07 成功/失败闭环 Trace、最终报告和真实 AIOS 运行截图、录屏。
 - UI 操作截图、真实故障场景日志与演示视频。
 - 比赛平台要求的最终文档模板、视频格式与提交清单。
 

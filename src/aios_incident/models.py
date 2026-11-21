@@ -442,6 +442,22 @@ class VerificationResult(StrictModel):
         return self
 
 
+class FinalReport(StrictModel):
+    report_id: NonEmptyStr
+    incident_id: NonEmptyStr
+    run_id: NonEmptyStr
+    final_status: WorkflowStatus
+    root_causes: tuple[RootCauseCandidate, ...] = ()
+    evidence: tuple[Evidence, ...] = ()
+    repair_actions: tuple[RepairActionResult, ...] = ()
+    rollback_record: tuple[NonEmptyStr, ...] = ()
+    verification: VerificationResult
+    timing: dict[str, NonNegativeInt] = Field(default_factory=dict)
+    agent_interactions: tuple[NonEmptyStr, ...] = ()
+    trace_ref: NonEmptyStr
+    created_at: AwareDatetime = Field(default_factory=utc_now)
+
+
 class TokenUsage(StrictModel):
     prompt: NonNegativeInt = 0
     completion: NonNegativeInt = 0

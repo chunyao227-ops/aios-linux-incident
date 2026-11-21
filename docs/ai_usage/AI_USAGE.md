@@ -103,3 +103,12 @@
 - 人工审查重点：Agent 权限矩阵、Incident 读取范围、sandbox 路径映射、超时与输出限制、Trace 失败记录。
 - 验证方式：13 项 W06 测试、127 项全量警告即错误测试、执行原语扫描、真实 AIOS 回归、编译和依赖检查。
 
+### 2026-11-21 W07
+
+- 工具：Codex Desktop。
+- 用途：实现 Coordinator、Log、Repair、Verifier 四个最小 Agent 以及日志证据、模型诊断、模拟修复、结构化验证和最终报告闭环。
+- 生成文件：`agents/coordinator_agent.py`、`log_agent.py`、`repair_agent.py`、`verifier_agent.py`、`orchestrator/minimal_flow.py`、`tests/e2e/test_minimal_flow.py`、`docs/demo/minimal_flow.md`。
+- 安全边界：模拟修复只修改内存状态，不执行真实宿主写入或 Shell。
+- 人工审查重点：Agent 职责、修复回滚、验证判定、失败分支和最终报告字段。
+- 验证方式：成功与失败 E2E、真实本地 AIOS 闭环、130 项全量警告即错误测试、编译、依赖和执行原语扫描。
+
