@@ -1,0 +1,12 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident
+configfile: pyproject.toml
+plugins: anyio-4.10.0
+collecting ... collected 1 item
+
+tests/integration/test_aios_smoke.py::test_real_aios_health_text_and_json_smoke PASSED [100%]
+
+- generated xml file: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\docs\submission\evidence\terminal\W04_junit.xml -
+============================= 1 passed in 27.56s ==============================

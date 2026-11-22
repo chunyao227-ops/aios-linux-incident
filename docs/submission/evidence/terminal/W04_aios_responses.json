@@ -1,0 +1,52 @@
+{
+  "environment": {
+    "aios_base_url": "http://127.0.0.1:8000",
+    "model": "qwen2:7b-instruct",
+    "backend": "openai-compatible"
+  },
+  "health": {
+    "status": "ok",
+    "message": "All core components are active."
+  },
+  "text": {
+    "response_class": "llm",
+    "response_message": "W04_AIOS_OK",
+    "json_output": null,
+    "tool_calls": [],
+    "finished": true,
+    "error": null,
+    "status_code": 200,
+    "token_usage": {
+      "prompt": 10,
+      "completion": 3,
+      "source": "estimated"
+    },
+    "duration_ms": 10499,
+    "attempts": 1
+  },
+  "json": {
+    "data": {
+      "ok": true,
+      "marker": "W04_JSON_OK"
+    },
+    "response": {
+      "response_class": "llm",
+      "response_message": "{\"ok\": true, \"marker\": \"W04_JSON_OK\"}",
+      "json_output": {
+        "ok": true,
+        "marker": "W04_JSON_OK"
+      },
+      "tool_calls": [],
+      "finished": true,
+      "error": null,
+      "status_code": 200,
+      "token_usage": {
+        "prompt": 16,
+        "completion": 9,
+        "source": "estimated"
+      },
+      "duration_ms": 3475,
+      "attempts": 1
+    }
+  }
+}

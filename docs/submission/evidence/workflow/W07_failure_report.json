@@ -1,0 +1,116 @@
+{
+  "report_id": "report-20261122T084538936677Z-533dee8f0dfd",
+  "incident_id": "inc-w07-evidence-failure",
+  "run_id": "run-w07-evidence-failure",
+  "final_status": "UNRESOLVED",
+  "root_causes": [
+    {
+      "root_cause_id": "rc-20261122T084538932094Z-c210a49ac77c",
+      "description": "Application is in maintenance or unhealthy state",
+      "supporting_evidence": [
+        "evi-20261122T084536114358Z-551d85040a4c"
+      ],
+      "contradicting_evidence": [],
+      "confidence": 0.9,
+      "repair_risk": "medium",
+      "required_scope": [
+        "web-app"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "evi-20261122T084536114358Z-551d85040a4c",
+      "incident_id": "inc-w07-evidence-failure",
+      "task_id": "N1",
+      "producer_agent": "LogAgent",
+      "kind": "log",
+      "summary": "Observed 3 bounded log lines for web-app",
+      "source_ref": "/var/log/web-app/error.log",
+      "observed_at": "2026-11-22T08:45:36.114358Z",
+      "facts": {
+        "line_count": 3,
+        "last_line": "web-app: health check returned 503",
+        "truncated": false
+      },
+      "confidence": 0.85
+    }
+  ],
+  "repair_actions": [
+    {
+      "action_id": "action-20261122T084538933630Z-c104008ac024",
+      "success": false,
+      "return_code": 1,
+      "output_summary": "simulated repair did not restore web-app",
+      "duration_ms": 0,
+      "rolled_back": false
+    }
+  ],
+  "rollback_record": [
+    "restore the pre-repair simulated service state"
+  ],
+  "verification": {
+    "verification_id": "verify-20261122T084538935160Z-97eae4716aa8",
+    "incident_id": "inc-w07-evidence-failure",
+    "repair_id": "repair-20261122T084538933630Z-91c95c3d241f",
+    "attempt_no": 1,
+    "passed": false,
+    "checks": [
+      {
+        "name": "process_and_port_check",
+        "passed": false,
+        "details": {
+          "reason": "service remains unhealthy",
+          "service": "web-app"
+        }
+      },
+      {
+        "name": "health_endpoint",
+        "passed": false,
+        "details": {
+          "reason": "service remains unhealthy",
+          "status": 503
+        }
+      },
+      {
+        "name": "smoke_test",
+        "passed": false,
+        "details": {
+          "reason": "service remains unhealthy"
+        }
+      },
+      {
+        "name": "regression_test",
+        "passed": false,
+        "details": {
+          "reason": "service remains unhealthy"
+        }
+      }
+    ],
+    "failure_reasons": [
+      "process_and_port_check: service remains unhealthy",
+      "health_endpoint: service remains unhealthy",
+      "smoke_test: service remains unhealthy",
+      "regression_test: service remains unhealthy"
+    ],
+    "started_at": "2026-11-22T08:45:38.935160Z",
+    "ended_at": "2026-11-22T08:45:38.935160Z"
+  },
+  "timing": {
+    "plan_ms": 0,
+    "log_collection_ms": 9,
+    "diagnosis_ms": 2818,
+    "repair_plan_ms": 0,
+    "repair_execution_ms": 0,
+    "verification_ms": 0,
+    "total_ms": 2836
+  },
+  "agent_interactions": [
+    "CoordinatorAgent -> LogAgent: analysis task",
+    "CoordinatorAgent -> RepairAgent: diagnosis",
+    "RepairAgent -> VerifierAgent: repair result",
+    "VerifierAgent -> CoordinatorAgent: verification result"
+  ],
+  "trace_ref": "docs/submission/evidence/workflow/W07_failure_trace.jsonl",
+  "created_at": "2026-11-22T08:45:38.936677Z"
+}

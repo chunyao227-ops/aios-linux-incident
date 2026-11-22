@@ -1,0 +1,238 @@
+[
+  {
+    "trace_id": "trace-20261122T084612024790Z-470c71da658e",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N1",
+    "agent_id": "scheduler",
+    "event_type": "TASK_READY",
+    "status": "READY",
+    "timestamp": "2026-11-22T08:46:12.024792Z",
+    "duration_ms": null,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {}
+  },
+  {
+    "trace_id": "trace-20261122T084612026806Z-e02453fc10eb",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N2",
+    "agent_id": "scheduler",
+    "event_type": "TASK_READY",
+    "status": "READY",
+    "timestamp": "2026-11-22T08:46:12.026806Z",
+    "duration_ms": null,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {}
+  },
+  {
+    "trace_id": "trace-20261122T084612026806Z-68de7641afd8",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N3",
+    "agent_id": "scheduler",
+    "event_type": "TASK_READY",
+    "status": "READY",
+    "timestamp": "2026-11-22T08:46:12.026807Z",
+    "duration_ms": null,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {}
+  },
+  {
+    "trace_id": "trace-20261122T084612028545Z-b1a41c3fedcc",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N4",
+    "agent_id": "scheduler",
+    "event_type": "TASK_READY",
+    "status": "READY",
+    "timestamp": "2026-11-22T08:46:12.028545Z",
+    "duration_ms": null,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {}
+  },
+  {
+    "trace_id": "trace-20261122T084612030555Z-c7a88fc73e82",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N1",
+    "agent_id": "log-agent-01",
+    "event_type": "TASK_STARTED",
+    "status": "RUNNING",
+    "timestamp": "2026-11-22T08:46:12.030556Z",
+    "duration_ms": null,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {
+      "dispatch_batch_id": "dispatch-20261122T084612028545Z-f93946b06616"
+    }
+  },
+  {
+    "trace_id": "trace-20261122T084612030555Z-4ba3914b5958",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N2",
+    "agent_id": "metrics-agent-01",
+    "event_type": "TASK_STARTED",
+    "status": "RUNNING",
+    "timestamp": "2026-11-22T08:46:12.030557Z",
+    "duration_ms": null,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {
+      "dispatch_batch_id": "dispatch-20261122T084612028545Z-f93946b06616"
+    }
+  },
+  {
+    "trace_id": "trace-20261122T084612030555Z-e68abb287a67",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N3",
+    "agent_id": "config-agent-01",
+    "event_type": "TASK_STARTED",
+    "status": "RUNNING",
+    "timestamp": "2026-11-22T08:46:12.030559Z",
+    "duration_ms": null,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {
+      "dispatch_batch_id": "dispatch-20261122T084612028545Z-f93946b06616"
+    }
+  },
+  {
+    "trace_id": "trace-20261122T084612030555Z-2875cf921b1a",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N4",
+    "agent_id": "dependency-agent-01",
+    "event_type": "TASK_STARTED",
+    "status": "RUNNING",
+    "timestamp": "2026-11-22T08:46:12.030561Z",
+    "duration_ms": null,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {
+      "dispatch_batch_id": "dispatch-20261122T084612028545Z-f93946b06616"
+    }
+  },
+  {
+    "trace_id": "trace-20261122T084612044864Z-b73bcc4b7a0b",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N4",
+    "agent_id": "dependency-agent-01",
+    "event_type": "TASK_FINISHED",
+    "status": "SUCCEEDED",
+    "timestamp": "2026-11-22T08:46:12.044864Z",
+    "duration_ms": 9,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {}
+  },
+  {
+    "trace_id": "trace-20261122T084612049512Z-d9294c4cb9ae",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N3",
+    "agent_id": "config-agent-01",
+    "event_type": "TASK_FINISHED",
+    "status": "SUCCEEDED",
+    "timestamp": "2026-11-22T08:46:12.049512Z",
+    "duration_ms": 16,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {}
+  },
+  {
+    "trace_id": "trace-20261122T084612049512Z-c07449fb5788",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N1",
+    "agent_id": "log-agent-01",
+    "event_type": "TASK_FINISHED",
+    "status": "SUCCEEDED",
+    "timestamp": "2026-11-22T08:46:12.049514Z",
+    "duration_ms": 21,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {}
+  },
+  {
+    "trace_id": "trace-20261122T084612049512Z-03c55ee29c44",
+    "incident_id": "inc-w08-evidence",
+    "task_id": "N2",
+    "agent_id": "metrics-agent-01",
+    "event_type": "TASK_FINISHED",
+    "status": "SUCCEEDED",
+    "timestamp": "2026-11-22T08:46:12.049515Z",
+    "duration_ms": 22,
+    "token_usage": {
+      "prompt": 0,
+      "completion": 0,
+      "source": "unavailable"
+    },
+    "tool_calls": 0,
+    "retry_count": 0,
+    "parent_task_id": null,
+    "details": {}
+  }
+]

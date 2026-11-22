@@ -1,0 +1,17 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident
+configfile: pyproject.toml
+plugins: anyio-4.10.0
+collecting ... collected 6 items
+
+tests/scenarios/test_all_scenarios.py::test_scenario_failure_success_and_reset_hash[f1] PASSED [ 16%]
+tests/scenarios/test_all_scenarios.py::test_scenario_failure_success_and_reset_hash[f2] PASSED [ 33%]
+tests/scenarios/test_all_scenarios.py::test_scenario_failure_success_and_reset_hash[f3] PASSED [ 50%]
+tests/scenarios/test_all_scenarios.py::test_scenario_failure_success_and_reset_hash[f4] PASSED [ 66%]
+tests/scenarios/test_all_scenarios.py::test_scenario_failure_success_and_reset_hash[f5] PASSED [ 83%]
+tests/scenarios/test_all_scenarios.py::test_scenario_failure_success_and_reset_hash[f6] PASSED [100%]
+
+- generated xml file: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\docs\submission\evidence\scenarios\W12_junit.xml -
+======================== 6 passed in 93.57s (0:01:33) =========================

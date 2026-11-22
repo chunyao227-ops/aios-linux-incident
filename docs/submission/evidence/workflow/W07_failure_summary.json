@@ -1,0 +1,32 @@
+{
+  "case": "failure",
+  "workflow_status": "UNRESOLVED",
+  "final_status": "UNRESOLVED",
+  "root_cause": [
+    {
+      "root_cause_id": "rc-20261122T084538932094Z-c210a49ac77c",
+      "description": "Application is in maintenance or unhealthy state",
+      "supporting_evidence": [
+        "evi-20261122T084536114358Z-551d85040a4c"
+      ],
+      "contradicting_evidence": [],
+      "confidence": 0.9,
+      "repair_risk": "medium",
+      "required_scope": [
+        "web-app"
+      ]
+    }
+  ],
+  "repair_status": "FAILED",
+  "verification_passed": false,
+  "timing": {
+    "plan_ms": 0,
+    "log_collection_ms": 9,
+    "diagnosis_ms": 2818,
+    "repair_plan_ms": 0,
+    "repair_execution_ms": 0,
+    "verification_ms": 0,
+    "total_ms": 2836
+  },
+  "trace_ref": "docs/submission/evidence/workflow/W07_failure_trace.jsonl"
+}

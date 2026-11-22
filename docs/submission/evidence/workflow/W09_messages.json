@@ -1,0 +1,166 @@
+[
+  {
+    "message_id": "msg-20261122T084612080704Z-ea073596c93f",
+    "incident_id": "inc-w09-evidence",
+    "task_id": "N1",
+    "from_agent": "log-agent-01",
+    "to_agent": "config-agent-01",
+    "type": "QUESTION",
+    "content": "Check configuration for web-app after log evidence: database connection refused; latest=database connection refused",
+    "evidence_ids": [
+      "evi-log"
+    ],
+    "correlation_id": "corr-20261122T084612080704Z-4f0a006cab92",
+    "reply_to": null,
+    "timestamp": "2026-11-22T08:46:12.080704Z"
+  },
+  {
+    "message_id": "msg-20261122T084612082714Z-7f60f2cd60f3",
+    "incident_id": "inc-w09-evidence",
+    "task_id": "N1",
+    "from_agent": "config-agent-01",
+    "to_agent": "log-agent-01",
+    "type": "REPLY",
+    "content": "Configuration reference evidence/evi-config has sha256 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "evidence_ids": [
+      "evi-config"
+    ],
+    "correlation_id": "corr-20261122T084612080704Z-4f0a006cab92",
+    "reply_to": "msg-20261122T084612080704Z-ea073596c93f",
+    "timestamp": "2026-11-22T08:46:12.082714Z"
+  },
+  {
+    "message_id": "msg-20261122T084612085506Z-0aa9ab8f2d87",
+    "incident_id": "inc-w09-evidence",
+    "task_id": "N3",
+    "from_agent": "config-agent-01",
+    "to_agent": "log-agent-01",
+    "type": "QUESTION",
+    "content": "Provide log timeline context for configuration evidence evi-config",
+    "evidence_ids": [
+      "evi-config"
+    ],
+    "correlation_id": "corr-20261122T084612085506Z-7cad9aca3814",
+    "reply_to": null,
+    "timestamp": "2026-11-22T08:46:12.085506Z"
+  },
+  {
+    "message_id": "msg-20261122T084612086943Z-e6694296f8ee",
+    "incident_id": "inc-w09-evidence",
+    "task_id": "N3",
+    "from_agent": "log-agent-01",
+    "to_agent": "config-agent-01",
+    "type": "REPLY",
+    "content": "Log reference evidence/evi-log: database connection refused",
+    "evidence_ids": [
+      "evi-log"
+    ],
+    "correlation_id": "corr-20261122T084612085506Z-7cad9aca3814",
+    "reply_to": "msg-20261122T084612085506Z-0aa9ab8f2d87",
+    "timestamp": "2026-11-22T08:46:12.086943Z"
+  },
+  {
+    "message_id": "msg-20261122T084612089568Z-747267ec0a81",
+    "incident_id": "inc-w09-evidence",
+    "task_id": "N2",
+    "from_agent": "metrics-agent-01",
+    "to_agent": "dependency-agent-01",
+    "type": "QUESTION",
+    "content": "Check process and port state for web-app after metrics: resource pressure checked",
+    "evidence_ids": [
+      "evi-metrics"
+    ],
+    "correlation_id": "corr-20261122T084612089568Z-ada82802b6ff",
+    "reply_to": null,
+    "timestamp": "2026-11-22T08:46:12.089568Z"
+  },
+  {
+    "message_id": "msg-20261122T084612091189Z-a46e1fc2d8d5",
+    "incident_id": "inc-w09-evidence",
+    "task_id": "N2",
+    "from_agent": "dependency-agent-01",
+    "to_agent": "metrics-agent-01",
+    "type": "REPLY",
+    "content": "Observed 0 matching processes and 0 ports",
+    "evidence_ids": [
+      "evi-dependency"
+    ],
+    "correlation_id": "corr-20261122T084612089568Z-ada82802b6ff",
+    "reply_to": "msg-20261122T084612089568Z-747267ec0a81",
+    "timestamp": "2026-11-22T08:46:12.091189Z"
+  },
+  {
+    "message_id": "msg-20261122T084612093323Z-7aad3dab8705",
+    "incident_id": "inc-w09-evidence",
+    "task_id": "N4",
+    "from_agent": "dependency-agent-01",
+    "to_agent": "metrics-agent-01",
+    "type": "QUESTION",
+    "content": "Provide metric trend for dependency evidence msg-20261122T084612091189Z-a46e1fc2d8d5",
+    "evidence_ids": [
+      "evi-dependency"
+    ],
+    "correlation_id": "corr-20261122T084612093323Z-28ff9b7c972a",
+    "reply_to": null,
+    "timestamp": "2026-11-22T08:46:12.093323Z"
+  },
+  {
+    "message_id": "msg-20261122T084612093641Z-594c0408de1f",
+    "incident_id": "inc-w09-evidence",
+    "task_id": "N4",
+    "from_agent": "metrics-agent-01",
+    "to_agent": "dependency-agent-01",
+    "type": "REPLY",
+    "content": "Load average={'one_minute': 1.2}; memory={'MemAvailable': 102400}",
+    "evidence_ids": [
+      "evi-metrics"
+    ],
+    "correlation_id": "corr-20261122T084612093323Z-28ff9b7c972a",
+    "reply_to": "msg-20261122T084612093323Z-7aad3dab8705",
+    "timestamp": "2026-11-22T08:46:12.093641Z"
+  },
+  {
+    "message_id": "msg-20261122T084612096544Z-96fe1f0d9072",
+    "incident_id": "inc-w09-evidence",
+    "task_id": "N6.1",
+    "from_agent": "repair-agent-01",
+    "to_agent": "verifier-agent-01",
+    "type": "HANDOFF",
+    "content": "Repair repair-evidence finished with SUCCEEDED",
+    "evidence_ids": [
+      "evi-log",
+      "evi-config",
+      "evi-metrics",
+      "evi-dependency"
+    ],
+    "correlation_id": "corr-20261122T084612096544Z-9a420fab1176",
+    "reply_to": null,
+    "timestamp": "2026-11-22T08:46:12.096544Z"
+  },
+  {
+    "message_id": "msg-20261122T084612097511Z-83cd324ea468",
+    "incident_id": "inc-w09-evidence",
+    "task_id": "N7.1",
+    "from_agent": "verifier-agent-01",
+    "to_agent": "repair-agent-01",
+    "type": "VERIFIED",
+    "content": "Verification passed: verify-evidence",
+    "evidence_ids": [],
+    "correlation_id": "corr-20261122T084612096544Z-9a420fab1176",
+    "reply_to": "msg-20261122T084612096544Z-96fe1f0d9072",
+    "timestamp": "2026-11-22T08:46:12.097511Z"
+  },
+  {
+    "message_id": "msg-20261122T084612099412Z-6e4ec7e2e042",
+    "incident_id": "inc-w09-evidence",
+    "task_id": "N7.1",
+    "from_agent": "verifier-agent-01",
+    "to_agent": "repair-agent-01",
+    "type": "RESULT",
+    "content": "Final verification result: verify-evidence",
+    "evidence_ids": [],
+    "correlation_id": "corr-20261122T084612096544Z-9a420fab1176",
+    "reply_to": "msg-20261122T084612096544Z-96fe1f0d9072",
+    "timestamp": "2026-11-22T08:46:12.099412Z"
+  }
+]

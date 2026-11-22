@@ -1,0 +1,111 @@
+{
+  "report_id": "report-20261122T084536041566Z-0bf3d5e25511",
+  "incident_id": "inc-w07-evidence-success",
+  "run_id": "run-w07-evidence-success",
+  "final_status": "SUCCESS",
+  "root_causes": [
+    {
+      "root_cause_id": "rc-20261122T084536033825Z-c6e50855302d",
+      "description": "web-app service is experiencing a degraded health state, likely due to a service unavailability or overload.",
+      "supporting_evidence": [
+        "evi-20261122T084523143337Z-e5692010da98"
+      ],
+      "contradicting_evidence": [],
+      "confidence": 0.9,
+      "repair_risk": "medium",
+      "required_scope": [
+        "web-app"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "evi-20261122T084523143337Z-e5692010da98",
+      "incident_id": "inc-w07-evidence-success",
+      "task_id": "N1",
+      "producer_agent": "LogAgent",
+      "kind": "log",
+      "summary": "Observed 3 bounded log lines for web-app",
+      "source_ref": "/var/log/web-app/error.log",
+      "observed_at": "2026-11-22T08:45:23.143337Z",
+      "facts": {
+        "line_count": 3,
+        "last_line": "web-app: health check returned 503",
+        "truncated": false
+      },
+      "confidence": 0.85
+    }
+  ],
+  "repair_actions": [
+    {
+      "action_id": "action-20261122T084536036237Z-f9f863a9108d",
+      "success": true,
+      "return_code": 0,
+      "output_summary": "simulated repair restored web-app",
+      "duration_ms": 0,
+      "rolled_back": false
+    }
+  ],
+  "rollback_record": [
+    "restore the pre-repair simulated service state"
+  ],
+  "verification": {
+    "verification_id": "verify-20261122T084536039593Z-c08941c0d09b",
+    "incident_id": "inc-w07-evidence-success",
+    "repair_id": "repair-20261122T084536036237Z-28488c8b1dc5",
+    "attempt_no": 1,
+    "passed": true,
+    "checks": [
+      {
+        "name": "process_and_port_check",
+        "passed": true,
+        "details": {
+          "reason": "service recovered",
+          "service": "web-app"
+        }
+      },
+      {
+        "name": "health_endpoint",
+        "passed": true,
+        "details": {
+          "reason": "service recovered",
+          "status": 200
+        }
+      },
+      {
+        "name": "smoke_test",
+        "passed": true,
+        "details": {
+          "reason": "service recovered"
+        }
+      },
+      {
+        "name": "regression_test",
+        "passed": true,
+        "details": {
+          "reason": "service recovered"
+        }
+      }
+    ],
+    "failure_reasons": [],
+    "started_at": "2026-11-22T08:45:36.039593Z",
+    "ended_at": "2026-11-22T08:45:36.039593Z"
+  },
+  "timing": {
+    "plan_ms": 0,
+    "log_collection_ms": 7,
+    "diagnosis_ms": 12889,
+    "repair_plan_ms": 0,
+    "repair_execution_ms": 0,
+    "verification_ms": 0,
+    "total_ms": 12907
+  },
+  "agent_interactions": [
+    "CoordinatorAgent -> LogAgent: analysis task",
+    "CoordinatorAgent -> RepairAgent: diagnosis",
+    "RepairAgent -> VerifierAgent: repair result",
+    "VerifierAgent -> CoordinatorAgent: verification result"
+  ],
+  "trace_ref": "docs/submission/evidence/workflow/W07_success_trace.jsonl",
+  "created_at": "2026-11-22T08:45:36.041566Z"
+}

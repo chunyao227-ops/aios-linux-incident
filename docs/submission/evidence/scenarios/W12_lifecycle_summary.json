@@ -1,0 +1,578 @@
+[
+  {
+    "scenario_id": "f1",
+    "status": "PASS",
+    "checks": {
+      "baseline_healthy": true,
+      "fault_rejected": true,
+      "repaired_healthy": true,
+      "pressure_passed": true,
+      "hash_match": true
+    },
+    "initial_hash": "b3893977624be5cb075714cf7749d7a0d723025cf1861903e8cb6c033c4fecb4",
+    "reset_hash": "b3893977624be5cb075714cf7749d7a0d723025cf1861903e8cb6c033c4fecb4",
+    "hash_match": true,
+    "steps": [
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 859,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "start",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 3138,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1321,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "inject",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1038,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 1,
+        "expected_return_code": 1,
+        "passed": true,
+        "duration_ms": 1234,
+        "stdout_sha256": "658ca05aceabd10ae54da22af7097e007e15b204038748caee326e0762ccc46c"
+      },
+      {
+        "action": "repair",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1018,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1265,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "pressure",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1457,
+        "stdout_sha256": "32f290c5f64836ee2cc1c6cec8e638083e1bd8356c5a37e2352e5800c952d825"
+      },
+      {
+        "action": "reset",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 2990,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1021,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "scenario_id": "f2",
+    "status": "PASS",
+    "checks": {
+      "baseline_healthy": true,
+      "fault_rejected": true,
+      "repaired_healthy": true,
+      "pressure_passed": true,
+      "hash_match": true
+    },
+    "initial_hash": "55d0f060c8dc789500e2892667d1e67125b3db984e4fb639d8450c41f65eae17",
+    "reset_hash": "55d0f060c8dc789500e2892667d1e67125b3db984e4fb639d8450c41f65eae17",
+    "hash_match": true,
+    "steps": [
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 511,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "start",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 2792,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1599,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "inject",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1482,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 1,
+        "expected_return_code": 1,
+        "passed": true,
+        "duration_ms": 929,
+        "stdout_sha256": "658ca05aceabd10ae54da22af7097e007e15b204038748caee326e0762ccc46c"
+      },
+      {
+        "action": "repair",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 967,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1494,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "pressure",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1143,
+        "stdout_sha256": "32f290c5f64836ee2cc1c6cec8e638083e1bd8356c5a37e2352e5800c952d825"
+      },
+      {
+        "action": "reset",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 4067,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 899,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "scenario_id": "f3",
+    "status": "PASS",
+    "checks": {
+      "baseline_healthy": true,
+      "fault_rejected": true,
+      "repaired_healthy": true,
+      "pressure_passed": true,
+      "hash_match": true
+    },
+    "initial_hash": "396ac2d9ef8c99d06b7ae7edfc18a9631b1bacb043ca464e7d697a4e30373a60",
+    "reset_hash": "396ac2d9ef8c99d06b7ae7edfc18a9631b1bacb043ca464e7d697a4e30373a60",
+    "hash_match": true,
+    "steps": [
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 726,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "start",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 3235,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1449,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "inject",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1170,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 1,
+        "expected_return_code": 1,
+        "passed": true,
+        "duration_ms": 1171,
+        "stdout_sha256": "658ca05aceabd10ae54da22af7097e007e15b204038748caee326e0762ccc46c"
+      },
+      {
+        "action": "repair",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1087,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1040,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "pressure",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1195,
+        "stdout_sha256": "32f290c5f64836ee2cc1c6cec8e638083e1bd8356c5a37e2352e5800c952d825"
+      },
+      {
+        "action": "reset",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 3512,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 697,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "scenario_id": "f4",
+    "status": "PASS",
+    "checks": {
+      "baseline_healthy": true,
+      "fault_rejected": true,
+      "repaired_healthy": true,
+      "pressure_passed": true,
+      "hash_match": true
+    },
+    "initial_hash": "22201be1007ca318a845cef584646c9a3b38dc6be4c347e785750a451c1b6f8f",
+    "reset_hash": "22201be1007ca318a845cef584646c9a3b38dc6be4c347e785750a451c1b6f8f",
+    "hash_match": true,
+    "steps": [
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1021,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "start",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 2645,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1261,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "inject",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 975,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 1,
+        "expected_return_code": 1,
+        "passed": true,
+        "duration_ms": 1206,
+        "stdout_sha256": "658ca05aceabd10ae54da22af7097e007e15b204038748caee326e0762ccc46c"
+      },
+      {
+        "action": "repair",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1098,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1571,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "pressure",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 981,
+        "stdout_sha256": "32f290c5f64836ee2cc1c6cec8e638083e1bd8356c5a37e2352e5800c952d825"
+      },
+      {
+        "action": "reset",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 3143,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 744,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "scenario_id": "f5",
+    "status": "PASS",
+    "checks": {
+      "baseline_healthy": true,
+      "fault_rejected": true,
+      "repaired_healthy": true,
+      "pressure_passed": true,
+      "hash_match": true
+    },
+    "initial_hash": "577d35360d8d1f900f9dc2af438cf7cf3822f74a119afaef8c6251f329af3f7c",
+    "reset_hash": "577d35360d8d1f900f9dc2af438cf7cf3822f74a119afaef8c6251f329af3f7c",
+    "hash_match": true,
+    "steps": [
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 900,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "start",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 3444,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1543,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "inject",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1430,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 1,
+        "expected_return_code": 1,
+        "passed": true,
+        "duration_ms": 1431,
+        "stdout_sha256": "658ca05aceabd10ae54da22af7097e007e15b204038748caee326e0762ccc46c"
+      },
+      {
+        "action": "repair",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1408,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1495,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "pressure",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1260,
+        "stdout_sha256": "32f290c5f64836ee2cc1c6cec8e638083e1bd8356c5a37e2352e5800c952d825"
+      },
+      {
+        "action": "reset",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 2811,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1016,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "scenario_id": "f6",
+    "status": "PASS",
+    "checks": {
+      "baseline_healthy": true,
+      "fault_rejected": true,
+      "repaired_healthy": true,
+      "pressure_passed": true,
+      "hash_match": true
+    },
+    "initial_hash": "102f462d8b4a3e3c23ab581bd6b4ab7cebc2d0c5048fdf2506b33bbe2137ed56",
+    "reset_hash": "102f462d8b4a3e3c23ab581bd6b4ab7cebc2d0c5048fdf2506b33bbe2137ed56",
+    "hash_match": true,
+    "steps": [
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 904,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "start",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 3663,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 927,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "inject",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1015,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 1,
+        "expected_return_code": 1,
+        "passed": true,
+        "duration_ms": 1256,
+        "stdout_sha256": "658ca05aceabd10ae54da22af7097e007e15b204038748caee326e0762ccc46c"
+      },
+      {
+        "action": "repair",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1267,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "verify",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1542,
+        "stdout_sha256": "6ee2a4e0a9a2d082600bb8a3311efbf773ec72af7cd6fef9e6def6acfb73cdbc"
+      },
+      {
+        "action": "pressure",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 1261,
+        "stdout_sha256": "32f290c5f64836ee2cc1c6cec8e638083e1bd8356c5a37e2352e5800c952d825"
+      },
+      {
+        "action": "reset",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 3270,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "action": "destroy",
+        "return_code": 0,
+        "expected_return_code": 0,
+        "passed": true,
+        "duration_ms": 864,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  }
+]

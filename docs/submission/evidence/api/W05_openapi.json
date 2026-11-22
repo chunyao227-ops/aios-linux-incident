@@ -1,0 +1,1275 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AIOS Linux Incident API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/incidents": {
+      "get": {
+        "summary": "List Incidents",
+        "operationId": "list_incidents_api_v1_incidents_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentHistoryResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Incident",
+        "operationId": "create_incident_api_v1_incidents_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IncidentCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentCreateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/benchmarks/latest": {
+      "get": {
+        "summary": "Get Latest Benchmark",
+        "operationId": "get_latest_benchmark_api_v1_benchmarks_latest_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BenchmarkDashboardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/incidents/{incident_id}": {
+      "get": {
+        "summary": "Get Incident",
+        "operationId": "get_incident_api_v1_incidents__incident_id__get",
+        "parameters": [
+          {
+            "name": "incident_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Incident Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentStatusResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/incidents/{incident_id}/dag": {
+      "get": {
+        "summary": "Get Incident Dag",
+        "operationId": "get_incident_dag_api_v1_incidents__incident_id__dag_get",
+        "parameters": [
+          {
+            "name": "incident_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Incident Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskDAG"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/incidents/{incident_id}/events": {
+      "get": {
+        "summary": "Get Incident Events",
+        "operationId": "get_incident_events_api_v1_incidents__incident_id__events_get",
+        "parameters": [
+          {
+            "name": "incident_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Incident Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentEventsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/incidents/{incident_id}/result": {
+      "get": {
+        "summary": "Get Incident Result",
+        "operationId": "get_incident_result_api_v1_incidents__incident_id__result_get",
+        "parameters": [
+          {
+            "name": "incident_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Incident Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentResultResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/incidents/{incident_id}/cancel": {
+      "post": {
+        "summary": "Cancel Incident",
+        "operationId": "cancel_incident_api_v1_incidents__incident_id__cancel_post",
+        "parameters": [
+          {
+            "name": "incident_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Incident Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentStatusResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AllowedScope": {
+        "properties": {
+          "read_paths": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Read Paths",
+            "default": []
+          },
+          "write_paths": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Write Paths",
+            "default": []
+          },
+          "allowed_services": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Allowed Services",
+            "default": []
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "AllowedScope"
+      },
+      "BenchmarkDashboardResponse": {
+        "properties": {
+          "available": {
+            "type": "boolean",
+            "title": "Available"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BenchmarkSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "raw_path": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Path"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "available"
+        ],
+        "title": "BenchmarkDashboardResponse"
+      },
+      "BenchmarkSummary": {
+        "properties": {
+          "environment": {
+            "type": "string",
+            "title": "Environment"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "backend": {
+            "type": "string",
+            "title": "Backend"
+          },
+          "samples_per_mode": {
+            "type": "integer",
+            "title": "Samples Per Mode"
+          },
+          "comparisons": {
+            "items": {
+              "$ref": "#/components/schemas/ScenarioComparison"
+            },
+            "type": "array",
+            "title": "Comparisons"
+          },
+          "average_speedup": {
+            "type": "number",
+            "title": "Average Speedup"
+          },
+          "minimum_speedup": {
+            "type": "number",
+            "title": "Minimum Speedup"
+          },
+          "correctness_preserved": {
+            "type": "boolean",
+            "title": "Correctness Preserved"
+          },
+          "unauthorized_operations": {
+            "type": "integer",
+            "title": "Unauthorized Operations"
+          },
+          "invalid_sample_count": {
+            "type": "integer",
+            "title": "Invalid Sample Count"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "environment",
+          "model",
+          "backend",
+          "samples_per_mode",
+          "comparisons",
+          "average_speedup",
+          "minimum_speedup",
+          "correctness_preserved",
+          "unauthorized_operations",
+          "invalid_sample_count"
+        ],
+        "title": "BenchmarkSummary"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "IncidentCreateRequest": {
+        "properties": {
+          "objective": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Objective"
+          },
+          "target": {
+            "$ref": "#/components/schemas/IncidentTarget"
+          },
+          "allowed_scope": {
+            "$ref": "#/components/schemas/AllowedScope"
+          },
+          "time_budget_seconds": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Time Budget Seconds"
+          },
+          "max_repair_attempts": {
+            "type": "integer",
+            "maximum": 2.0,
+            "minimum": 1.0,
+            "title": "Max Repair Attempts",
+            "default": 2
+          },
+          "success_criteria": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Success Criteria"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "objective",
+          "target",
+          "allowed_scope",
+          "time_budget_seconds",
+          "success_criteria"
+        ],
+        "title": "IncidentCreateRequest"
+      },
+      "IncidentCreateResponse": {
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Incident Id"
+          },
+          "run_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Run Id"
+          },
+          "state": {
+            "$ref": "#/components/schemas/WorkflowStatus"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "incident_id",
+          "run_id",
+          "state",
+          "created_at"
+        ],
+        "title": "IncidentCreateResponse"
+      },
+      "IncidentEventsResponse": {
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Incident Id"
+          },
+          "run_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Run Id"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/TraceEvent"
+            },
+            "type": "array",
+            "title": "Events"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "type": "array",
+            "title": "Messages",
+            "default": []
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "incident_id",
+          "run_id",
+          "events"
+        ],
+        "title": "IncidentEventsResponse"
+      },
+      "IncidentHistoryItem": {
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Incident Id"
+          },
+          "run_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Run Id"
+          },
+          "objective": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Objective"
+          },
+          "service": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Service"
+          },
+          "state": {
+            "$ref": "#/components/schemas/WorkflowStatus"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "elapsed_seconds": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Elapsed Seconds"
+          },
+          "repair_attempt": {
+            "type": "integer",
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "title": "Repair Attempt"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "incident_id",
+          "run_id",
+          "objective",
+          "service",
+          "state",
+          "created_at",
+          "elapsed_seconds",
+          "repair_attempt"
+        ],
+        "title": "IncidentHistoryItem"
+      },
+      "IncidentHistoryResponse": {
+        "properties": {
+          "incidents": {
+            "items": {
+              "$ref": "#/components/schemas/IncidentHistoryItem"
+            },
+            "type": "array",
+            "title": "Incidents"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "incidents"
+        ],
+        "title": "IncidentHistoryResponse"
+      },
+      "IncidentResultResponse": {
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Incident Id"
+          },
+          "run_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Run Id"
+          },
+          "state": {
+            "$ref": "#/components/schemas/WorkflowStatus"
+          },
+          "final_report": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Report"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "incident_id",
+          "run_id",
+          "state"
+        ],
+        "title": "IncidentResultResponse"
+      },
+      "IncidentStatusResponse": {
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Incident Id"
+          },
+          "run_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Run Id"
+          },
+          "state": {
+            "$ref": "#/components/schemas/WorkflowStatus"
+          },
+          "current_tasks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Current Tasks",
+            "default": []
+          },
+          "completed_tasks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Completed Tasks",
+            "default": []
+          },
+          "repair_attempt": {
+            "type": "integer",
+            "maximum": 2.0,
+            "minimum": 0.0,
+            "title": "Repair Attempt"
+          },
+          "elapsed_seconds": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Elapsed Seconds"
+          },
+          "final_report": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Report"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "incident_id",
+          "run_id",
+          "state",
+          "repair_attempt",
+          "elapsed_seconds"
+        ],
+        "title": "IncidentStatusResponse"
+      },
+      "IncidentTarget": {
+        "properties": {
+          "host": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Host"
+          },
+          "service": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Service"
+          },
+          "environment": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Environment"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "host",
+          "service",
+          "environment"
+        ],
+        "title": "IncidentTarget"
+      },
+      "Message": {
+        "properties": {
+          "message_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Message Id"
+          },
+          "incident_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Incident Id"
+          },
+          "task_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Task Id"
+          },
+          "from_agent": {
+            "type": "string",
+            "minLength": 1,
+            "title": "From Agent"
+          },
+          "to_agent": {
+            "type": "string",
+            "minLength": 1,
+            "title": "To Agent"
+          },
+          "type": {
+            "$ref": "#/components/schemas/MessageType"
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Content"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Evidence Ids",
+            "default": []
+          },
+          "correlation_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Correlation Id"
+          },
+          "reply_to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reply To"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "message_id",
+          "incident_id",
+          "task_id",
+          "from_agent",
+          "to_agent",
+          "type",
+          "content",
+          "correlation_id"
+        ],
+        "title": "Message"
+      },
+      "MessageType": {
+        "type": "string",
+        "enum": [
+          "ASSIGN",
+          "RESULT",
+          "QUESTION",
+          "REPLY",
+          "QUERY",
+          "RESPONSE",
+          "REVIEW",
+          "FAILURE",
+          "VERIFIED",
+          "HANDOFF",
+          "FEEDBACK",
+          "ABORT"
+        ],
+        "title": "MessageType"
+      },
+      "ScenarioComparison": {
+        "properties": {
+          "scenario_id": {
+            "type": "string",
+            "title": "Scenario Id"
+          },
+          "serial": {
+            "$ref": "#/components/schemas/ScenarioModeSummary"
+          },
+          "parallel": {
+            "$ref": "#/components/schemas/ScenarioModeSummary"
+          },
+          "median_speedup": {
+            "type": "number",
+            "title": "Median Speedup"
+          },
+          "correctness_preserved": {
+            "type": "boolean",
+            "title": "Correctness Preserved"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "scenario_id",
+          "serial",
+          "parallel",
+          "median_speedup",
+          "correctness_preserved"
+        ],
+        "title": "ScenarioComparison"
+      },
+      "ScenarioModeSummary": {
+        "properties": {
+          "scenario_id": {
+            "type": "string",
+            "title": "Scenario Id"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "serial",
+              "parallel"
+            ],
+            "title": "Mode"
+          },
+          "sample_count": {
+            "type": "integer",
+            "title": "Sample Count"
+          },
+          "invalid_sample_count": {
+            "type": "integer",
+            "title": "Invalid Sample Count"
+          },
+          "mean_seconds": {
+            "type": "number",
+            "title": "Mean Seconds"
+          },
+          "median_seconds": {
+            "type": "number",
+            "title": "Median Seconds"
+          },
+          "p95_seconds": {
+            "type": "number",
+            "title": "P95 Seconds"
+          },
+          "correctness_rate": {
+            "type": "number",
+            "title": "Correctness Rate"
+          },
+          "mean_model_seconds": {
+            "type": "number",
+            "title": "Mean Model Seconds"
+          },
+          "mean_tool_seconds": {
+            "type": "number",
+            "title": "Mean Tool Seconds"
+          },
+          "total_tokens": {
+            "type": "integer",
+            "title": "Total Tokens"
+          },
+          "total_tool_calls": {
+            "type": "integer",
+            "title": "Total Tool Calls"
+          },
+          "total_retries": {
+            "type": "integer",
+            "title": "Total Retries"
+          },
+          "unauthorized_operations": {
+            "type": "integer",
+            "title": "Unauthorized Operations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "scenario_id",
+          "mode",
+          "sample_count",
+          "invalid_sample_count",
+          "mean_seconds",
+          "median_seconds",
+          "p95_seconds",
+          "correctness_rate",
+          "mean_model_seconds",
+          "mean_tool_seconds",
+          "total_tokens",
+          "total_tool_calls",
+          "total_retries",
+          "unauthorized_operations"
+        ],
+        "title": "ScenarioModeSummary"
+      },
+      "TaskConstraints": {
+        "properties": {
+          "max_tokens": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Max Tokens",
+            "default": 2048
+          },
+          "max_tool_calls": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Max Tool Calls",
+            "default": 12
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "TaskConstraints"
+      },
+      "TaskDAG": {
+        "properties": {
+          "incident_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Incident Id"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/TaskNode"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Nodes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "incident_id",
+          "nodes"
+        ],
+        "title": "TaskDAG"
+      },
+      "TaskNode": {
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Task Id"
+          },
+          "task_type": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Task Type"
+          },
+          "agent_type": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Agent Type"
+          },
+          "required_capabilities": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Required Capabilities"
+          },
+          "depends_on": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Depends On",
+            "default": []
+          },
+          "attempt": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Attempt",
+            "default": 1
+          },
+          "deadline": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deadline"
+          },
+          "constraints": {
+            "$ref": "#/components/schemas/TaskConstraints"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TaskStatus",
+            "default": "CREATED"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "task_id",
+          "task_type",
+          "agent_type",
+          "required_capabilities"
+        ],
+        "title": "TaskNode"
+      },
+      "TaskStatus": {
+        "type": "string",
+        "enum": [
+          "CREATED",
+          "BLOCKED",
+          "READY",
+          "ASSIGNED",
+          "RUNNING",
+          "VERIFYING",
+          "SUCCEEDED",
+          "FAILED_RETRYABLE",
+          "FAILED_FINAL",
+          "CANCELLED"
+        ],
+        "title": "TaskStatus",
+        "description": "Lifecycle states for a task DAG node."
+      },
+      "TokenUsage": {
+        "properties": {
+          "prompt": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Prompt",
+            "default": 0
+          },
+          "completion": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Completion",
+            "default": 0
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "reported",
+              "estimated",
+              "unavailable"
+            ],
+            "title": "Source",
+            "default": "unavailable"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "TokenUsage"
+      },
+      "TraceEvent": {
+        "properties": {
+          "trace_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Trace Id"
+          },
+          "incident_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Incident Id"
+          },
+          "task_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Task Id"
+          },
+          "agent_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Agent Id"
+          },
+          "event_type": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Event Type"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Ms"
+          },
+          "token_usage": {
+            "$ref": "#/components/schemas/TokenUsage"
+          },
+          "tool_calls": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Tool Calls",
+            "default": 0
+          },
+          "retry_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Retry Count",
+            "default": 0
+          },
+          "parent_task_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Task Id"
+          },
+          "details": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Details"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "trace_id",
+          "incident_id",
+          "task_id",
+          "agent_id",
+          "event_type"
+        ],
+        "title": "TraceEvent"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WorkflowStatus": {
+        "type": "string",
+        "enum": [
+          "CREATED",
+          "RUNNING",
+          "SUCCESS",
+          "UNRESOLVED",
+          "BLOCKED",
+          "ABORTED",
+          "CANCELLED"
+        ],
+        "title": "WorkflowStatus",
+        "description": "Incident-level terminal and execution states."
+      }
+    }
+  }
+}

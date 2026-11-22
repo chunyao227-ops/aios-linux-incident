@@ -1,0 +1,9 @@
+{
+  "gate_task_id": "N5",
+  "gate_ready": true,
+  "ready_tasks": [
+    "N5"
+  ],
+  "failed_tasks": [],
+  "retry_counts": {}
+}

@@ -1,0 +1,24 @@
+graph TD
+  N0["N0 validate_and_plan<br/>CoordinatorAgent"]
+  N1["N1 log_analysis<br/>LogAgent"]
+  N2["N2 metrics_analysis<br/>MetricsAgent"]
+  N3["N3 config_analysis<br/>ConfigAgent"]
+  N4["N4 dependency_analysis<br/>DependencyAgent"]
+  N5["N5 diagnose<br/>CoordinatorAgent"]
+  N6_1["N6.1 repair<br/>RepairAgent"]
+  N7_1["N7.1 verification<br/>VerifierAgent"]
+  N6_2["N6.2 repair<br/>RepairAgent"]
+  N7_2["N7.2 verification<br/>VerifierAgent"]
+  N0 --> N1
+  N0 --> N2
+  N0 --> N3
+  N0 --> N4
+  N1 --> N5
+  N2 --> N5
+  N3 --> N5
+  N4 --> N5
+  N5 --> N6_1
+  N6_1 --> N7_1
+  N5 --> N6_2
+  N7_1 --> N6_2
+  N6_2 --> N7_2

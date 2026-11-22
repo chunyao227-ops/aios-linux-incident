@@ -1,0 +1,51 @@
+{
+  "incident_id": "inc-w09-evidence",
+  "nodes": [
+    "ConfigAgent",
+    "CoordinatorAgent",
+    "DependencyAgent",
+    "LogAgent",
+    "MetricsAgent",
+    "RepairAgent",
+    "VerifierAgent"
+  ],
+  "edges": [
+    {
+      "from_agent": "ConfigAgent",
+      "to_agent": "LogAgent",
+      "message_count": 2
+    },
+    {
+      "from_agent": "DependencyAgent",
+      "to_agent": "MetricsAgent",
+      "message_count": 2
+    },
+    {
+      "from_agent": "LogAgent",
+      "to_agent": "ConfigAgent",
+      "message_count": 2
+    },
+    {
+      "from_agent": "MetricsAgent",
+      "to_agent": "DependencyAgent",
+      "message_count": 2
+    },
+    {
+      "from_agent": "RepairAgent",
+      "to_agent": "VerifierAgent",
+      "message_count": 1
+    },
+    {
+      "from_agent": "VerifierAgent",
+      "to_agent": "RepairAgent",
+      "message_count": 2
+    }
+  ],
+  "bidirectional_pairs": [
+    "ConfigAgent<->LogAgent",
+    "DependencyAgent<->MetricsAgent",
+    "RepairAgent<->VerifierAgent"
+  ],
+  "bidirectional_edge_count": 3,
+  "message_count": 11
+}

@@ -87,27 +87,33 @@
 | W14 页面截图 | `docs/submission/evidence/ui/dashboard_2026-11-22.png` | Edge Headless 实际渲染并人工检查 | 文档、演示、执行展示 |
 | W14 验收记录 | `docs/verification/w14_verification_2026-11-22.md` | 已保存 169 项全量测试结果和截图 | 文档、执行展示 |
 | W14 Git 记录 | 实现提交 `8846da4` | 已保存 | 工程规范、代码执行 |
+| 本地环境证据 | `docs/submission/evidence/environment/` | 已保存 AIOS、Ollama、Docker、API 和配置哈希 | 文档、复现、执行展示 |
+| W02 终端证据 | `docs/submission/evidence/terminal/W02_verify.*` | 已保存统一回归截图与文本 | 工程规范、执行展示 |
+| W03 契约与 DAG 证据 | `docs/submission/evidence/terminal/W03_*`、`workflow/W03_*` | 已保存 49 项测试和实际 DAG 图 | 文档、工程规范 |
+| W04 AIOS 响应证据 | `docs/submission/evidence/terminal/W04_*` | 已保存真实文本、JSON、token 和耗时 | 代码执行、文档 |
+| W05 API 证据 | `docs/submission/evidence/api/W05_*` | 已保存 14 项请求、404、OpenAPI、Trace 和元数据 | 代码执行、文档 |
+| W06 安全测试证据 | `docs/submission/evidence/security/W06_*` | 已保存 13 项权限、路径和失败关闭结果 | 工程规范、安全展示 |
+| W07 闭环证据 | `docs/submission/evidence/workflow/W07_*` | 已保存真实 AIOS 成功/失败 Trace 和最终报告 | 核心执行展示、文档 |
+| W08 并行证据 | `docs/submission/evidence/workflow/W08_*` | 已保存批次、并发时间线、Trace 和门控 | 性能、执行展示 |
+| W09 交互证据 | `docs/submission/evidence/workflow/W09_*` | 已保存 11 条消息、三对双向边和图 | 核心合规展示 |
+| W10 诊断证据 | `docs/submission/evidence/workflow/W10_*` | 已保存四类证据链、融合结果和 Trace | 核心执行展示、文档 |
+| W11 修复证据 | `docs/submission/evidence/workflow/W11_*` | 已保存两轮失败、回滚和危险计划拒绝结果 | 安全展示、工程规范 |
+| W12 场景证据 | `docs/submission/evidence/scenarios/W12_*` | 已保存六场景逐步生命周期、哈希和销毁结果 | 执行展示、文档 |
+| W13 图表证据 | `docs/submission/evidence/benchmark/W13_*` | 已保存原始统计 CSV、耗时图和提速图 | 文档、性能、视频 |
+| W14 历史与取消证据 | `docs/submission/evidence/ui/dashboard_history_*`、`dashboard_cancelled_*` | 已保存历史列表、取消状态和 Trace 时间线 | 执行展示、视频 |
+| W14 材料索引 | `docs/submission/evidence/EVIDENCE_MANIFEST.md` | 已保存路径、复现命令和数据边界 | 文档、工程规范 |
 
 ## 当前缺少
 
-- W02 终端测试与静态检查的截图。
 - 远程 vLLM 地址、模型名称、认证变量和正式环境核验结果。
 - CPU ECS 开通与部署记录。
-- W03 以后的 DAG、证据并行、双向交互、修复和验证演示材料。
-- W03 数据契约和状态机的终端截图及可视化 DAG 图。
-- W04 AIOS 文本调用、JSON 输出和真实冒烟测试的终端截图。
-- W05 API 请求、结构化错误、JSONL Trace 和 OpenAPI 页面截图。
-- W06 工具调用、越权拒绝、路径逃逸拒绝和 Trace 截图。
-- W07 成功/失败闭环 Trace、最终报告和真实 AIOS 运行截图、录屏。
-- W08 四路派发批次、并发时间线和重试终止截图、录屏。
-- W09 三对消息图、双向边计数、超时和断连 Trace 截图、录屏。
-- W10 四类证据链、冲突追问和根因引用截图、录屏。
-- W11 两轮修复时间线、回滚和危险计划拒绝截图、录屏。
-- W12 六场景注入、失败、修复、重置哈希和容器销毁截图、录屏。
-- W13 串行/并发图表、正式远程 vLLM 数据、性能录屏。
-- 更多历史运行、失败重试和取消任务的界面截图、录屏。
+- W07—W12 连续操作录屏。
+- 成功、失败重试和无修复结果在仪表盘中的完整历史截图。
+- 仪表盘取消操作和刷新恢复的连续录屏。
+- W13 正式远程 vLLM 数据及正式性能录屏。
 - 从故障注入到诊断、修复、验证、历史回放的完整演示视频。
 - 比赛平台要求的最终文档模板、视频格式与提交清单。
+- W03—W11 如平台明确要求“终端窗口截图”，可从现有原始文本、JUnit 和图形材料补充截屏。
 
 ## 持续记录规则
 

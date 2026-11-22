@@ -1,0 +1,24 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident
+configfile: pyproject.toml
+plugins: anyio-4.10.0
+collecting ... collected 13 items
+
+tests/unit/test_tool_gateway.py::test_log_tool_returns_structured_result_and_traces_start_finish PASSED [  7%]
+tests/unit/test_tool_gateway.py::test_unauthorized_agent_is_rejected_and_traced PASSED [ 15%]
+tests/unit/test_tool_gateway.py::test_unknown_argument_is_rejected PASSED [ 23%]
+tests/unit/test_tool_gateway.py::test_path_escape_or_out_of_scope_is_rejected[/var/log/../../etc/passwd] PASSED [ 30%]
+tests/unit/test_tool_gateway.py::test_path_escape_or_out_of_scope_is_rejected[/etc/passwd] PASSED [ 38%]
+tests/unit/test_tool_gateway.py::test_path_escape_or_out_of_scope_is_rejected[relative/path.log] PASSED [ 46%]
+tests/unit/test_tool_gateway.py::test_repair_tool_fails_closed_even_for_authorized_agent PASSED [ 53%]
+tests/unit/test_tool_gateway.py::test_output_limit_is_enforced PASSED    [ 61%]
+tests/unit/test_tool_gateway.py::test_timeout_is_enforced PASSED         [ 69%]
+tests/unit/test_tool_gateway.py::test_effective_limits_are_capped_by_policy PASSED [ 76%]
+tests/integration/test_tool_isolation.py::test_four_read_only_tools_return_structured_data PASSED [ 84%]
+tests/integration/test_tool_isolation.py::test_path_escape_is_rejected_before_filesystem_access PASSED [ 92%]
+tests/integration/test_tool_isolation.py::test_repair_placeholder_cannot_write PASSED [100%]
+
+- generated xml file: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\docs\submission\evidence\security\W06_junit.xml -
+============================= 13 passed in 0.84s ==============================

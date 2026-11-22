@@ -1,0 +1,60 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident
+configfile: pyproject.toml
+plugins: anyio-4.10.0
+collecting ... collected 49 items
+
+tests/unit/test_models.py::test_run_context_uses_structured_nested_objects PASSED [  2%]
+tests/unit/test_models.py::test_scope_rejects_relative_paths PASSED      [  4%]
+tests/unit/test_models.py::test_fixed_dag_contains_parallel_collection_and_two_repair_rounds PASSED [  6%]
+tests/unit/test_models.py::test_dag_rejects_self_reference PASSED        [  8%]
+tests/unit/test_models.py::test_dag_rejects_missing_dependency PASSED    [ 10%]
+tests/unit/test_models.py::test_dag_rejects_cycles PASSED                [ 12%]
+tests/unit/test_models.py::test_agent_card_enforces_capacity_and_unique_capabilities PASSED [ 14%]
+tests/unit/test_models.py::test_evidence_is_immutable PASSED             [ 16%]
+tests/unit/test_models.py::test_message_requires_distinct_agents_and_reply_reference PASSED [ 18%]
+tests/unit/test_models.py::test_repair_and_verification_time_order_is_enforced PASSED [ 20%]
+tests/unit/test_models.py::test_all_contracts_serialize_and_deserialize PASSED [ 22%]
+tests/unit/test_models.py::test_json_schema_rejects_unknown_fields_and_invalid_json PASSED [ 24%]
+tests/unit/test_models.py::test_all_contracts_produce_valid_json_schema[RunContext] PASSED [ 26%]
+tests/unit/test_models.py::test_all_contracts_produce_valid_json_schema[TaskNode] PASSED [ 28%]
+tests/unit/test_models.py::test_all_contracts_produce_valid_json_schema[TaskDAG] PASSED [ 30%]
+tests/unit/test_models.py::test_all_contracts_produce_valid_json_schema[AgentCard] PASSED [ 32%]
+tests/unit/test_models.py::test_all_contracts_produce_valid_json_schema[Evidence] PASSED [ 34%]
+tests/unit/test_models.py::test_all_contracts_produce_valid_json_schema[Message] PASSED [ 36%]
+tests/unit/test_models.py::test_all_contracts_produce_valid_json_schema[Diagnosis] PASSED [ 38%]
+tests/unit/test_models.py::test_all_contracts_produce_valid_json_schema[RepairPlan] PASSED [ 40%]
+tests/unit/test_models.py::test_all_contracts_produce_valid_json_schema[RepairResult] PASSED [ 42%]
+tests/unit/test_models.py::test_all_contracts_produce_valid_json_schema[VerificationResult] PASSED [ 44%]
+tests/unit/test_models.py::test_all_contracts_produce_valid_json_schema[TraceEvent] PASSED [ 46%]
+tests/unit/test_models.py::test_naive_datetime_is_rejected PASSED        [ 48%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[CREATED-READY-kwargs0] PASSED [ 51%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[CREATED-BLOCKED-kwargs1] PASSED [ 53%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[BLOCKED-READY-kwargs2] PASSED [ 55%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[READY-ASSIGNED-kwargs3] PASSED [ 57%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[ASSIGNED-RUNNING-kwargs4] PASSED [ 59%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[RUNNING-VERIFYING-kwargs5] PASSED [ 61%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[RUNNING-FAILED_RETRYABLE-kwargs6] PASSED [ 63%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[RUNNING-CANCELLED-kwargs7] PASSED [ 65%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[VERIFYING-SUCCEEDED-kwargs8] PASSED [ 67%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[VERIFYING-FAILED_RETRYABLE-kwargs9] PASSED [ 69%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[VERIFYING-FAILED_FINAL-kwargs10] PASSED [ 71%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[FAILED_RETRYABLE-READY-kwargs11] PASSED [ 73%]
+tests/unit/test_state_machine.py::test_legal_task_transitions[FAILED_RETRYABLE-FAILED_FINAL-kwargs12] PASSED [ 75%]
+tests/unit/test_state_machine.py::test_running_cannot_skip_verification PASSED [ 77%]
+tests/unit/test_state_machine.py::test_dependency_guards_are_required PASSED [ 79%]
+tests/unit/test_state_machine.py::test_retry_guard_is_required PASSED    [ 81%]
+tests/unit/test_state_machine.py::test_legal_workflow_transitions[CREATED-RUNNING] PASSED [ 83%]
+tests/unit/test_state_machine.py::test_legal_workflow_transitions[CREATED-CANCELLED] PASSED [ 85%]
+tests/unit/test_state_machine.py::test_legal_workflow_transitions[RUNNING-SUCCESS] PASSED [ 87%]
+tests/unit/test_state_machine.py::test_legal_workflow_transitions[RUNNING-UNRESOLVED] PASSED [ 89%]
+tests/unit/test_state_machine.py::test_legal_workflow_transitions[RUNNING-BLOCKED] PASSED [ 91%]
+tests/unit/test_state_machine.py::test_legal_workflow_transitions[RUNNING-ABORTED] PASSED [ 93%]
+tests/unit/test_state_machine.py::test_legal_workflow_transitions[RUNNING-CANCELLED] PASSED [ 95%]
+tests/unit/test_state_machine.py::test_workflow_cannot_restart_after_terminal_state PASSED [ 97%]
+tests/unit/test_state_machine.py::test_terminal_state_helpers PASSED     [100%]
+
+- generated xml file: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\docs\submission\evidence\terminal\W03_junit.xml -
+============================= 49 passed in 1.85s ==============================

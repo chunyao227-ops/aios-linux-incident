@@ -696,6 +696,7 @@ W07 通过前不得开始前端、视频和性能优化。
 - 默认测试 161 项通过、8 项环境依赖跳过；
 - 真实 AIOS 与六个 Docker 场景全量测试 169 项通过且零警告；
 - Edge Headless 实际渲染截图通过人工布局检查；
+- 已建立 `docs/submission/evidence/EVIDENCE_MANIFEST.md`，并实际生成 W02—W14 的本地测试、Trace、图表和页面证据；
 - 验收证据见 `docs/verification/w14_verification_2026-11-22.md`。
 
 ### W15：测试、加固与复现

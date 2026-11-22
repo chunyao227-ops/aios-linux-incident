@@ -177,3 +177,14 @@
 - 人工审查重点：历史恢复、状态与 Trace 一致、三对交互聚合、取消同步、静态资源路径和页面布局。
 - 验证方式：默认 161 项测试、真实 AIOS 与六个 Docker 场景共 169 项全量测试、Edge Headless 实际渲染和截图人工检查。
 
+### 2026-11-22 本地提交材料生成
+
+- 工具：Codex Desktop。
+- 用途：重新执行 W03—W12 专项测试，采集真实 AIOS 响应、W07 成功/失败 Trace、W08 并发时间线、W09 消息图、W10 证据链、W12 六场景生命周期和 W13 图表。
+- 生成脚本：`scripts/evidence/capture_*`、`scripts/evidence/render_evidence.py`。
+- 生成材料：`docs/submission/evidence/` 下的 JUnit、原始 JSON/JSONL、SVG、PNG 和材料索引。
+- 数据来源：实际 pytest、AIOS、Ollama、Docker、FastAPI 和 W13 原始基准 JSON。
+- 安全处理：六场景生命周期不保存标准答案，环境快照不保存账号、密钥或私钥。
+- 人工审查重点：测试结果、Trace 与状态一致、长路径裁切、图表可读性和数据来源标注。
+- 验证方式：各专项测试重新运行通过，所有 PNG 使用 Edge Headless 实际渲染并人工目检。
+

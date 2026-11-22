@@ -1,0 +1,19 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident
+configfile: pyproject.toml
+plugins: anyio-4.10.0
+collecting ... collected 8 items
+
+tests/integration/test_interaction_matrix.py::test_fixed_three_pairs_have_bidirectional_messages PASSED [ 12%]
+tests/integration/test_interaction_matrix.py::test_failed_verification_returns_feedback_to_repair PASSED [ 25%]
+tests/integration/test_interaction_matrix.py::test_query_response_types_and_wait PASSED [ 37%]
+tests/integration/test_interaction_matrix.py::test_query_timeout_is_explicit_and_traced PASSED [ 50%]
+tests/integration/test_interaction_matrix.py::test_disconnected_agent_send_failure_is_traced PASSED [ 62%]
+tests/integration/test_interaction_matrix.py::test_extended_message_types_are_supported[REVIEW] PASSED [ 75%]
+tests/integration/test_interaction_matrix.py::test_extended_message_types_are_supported[FAILURE] PASSED [ 87%]
+tests/integration/test_interaction_matrix.py::test_extended_message_types_are_supported[VERIFIED] PASSED [100%]
+
+- generated xml file: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\docs\submission\evidence\workflow\W09_junit.xml -
+============================== 8 passed in 0.95s ==============================

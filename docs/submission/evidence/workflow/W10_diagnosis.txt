@@ -1,0 +1,20 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident
+configfile: pyproject.toml
+plugins: anyio-4.10.0
+collecting ... collected 9 items
+
+tests/unit/test_diagnosis_fusion.py::test_four_evidence_classes_fuse_into_supported_root_cause PASSED [ 11%]
+tests/unit/test_diagnosis_fusion.py::test_identical_facts_are_deduplicated_across_sources PASSED [ 22%]
+tests/unit/test_diagnosis_fusion.py::test_conflicting_fact_blocks_repair_and_requests_follow_up PASSED [ 33%]
+tests/unit/test_diagnosis_fusion.py::test_missing_or_duplicate_evidence_fails_closed[items0-at least four] PASSED [ 44%]
+tests/unit/test_diagnosis_fusion.py::test_missing_or_duplicate_evidence_fails_closed[items1-missing evidence kinds] PASSED [ 55%]
+tests/unit/test_diagnosis_fusion.py::test_missing_or_duplicate_evidence_fails_closed[items2-evidence IDs must be unique] PASSED [ 66%]
+tests/unit/test_diagnosis_fusion.py::test_message_with_unknown_evidence_reference_fails_closed PASSED [ 77%]
+tests/unit/test_diagnosis_fusion.py::test_candidate_evidence_references_are_always_valid PASSED [ 88%]
+tests/integration/test_evidence_chain.py::test_collected_four_evidence_and_three_pair_messages_form_chain PASSED [100%]
+
+- generated xml file: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\docs\submission\evidence\workflow\W10_junit.xml -
+============================== 9 passed in 0.88s ==============================

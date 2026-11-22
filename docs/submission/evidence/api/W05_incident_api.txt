@@ -1,0 +1,35 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident
+configfile: pyproject.toml
+plugins: anyio-4.10.0
+collecting ... collected 24 items
+
+tests/integration/test_incident_api.py::test_create_query_dag_events_and_result PASSED [  4%]
+tests/integration/test_incident_api.py::test_incident_ids_and_run_ids_are_unique PASSED [  8%]
+tests/integration/test_incident_api.py::test_cancel_transitions_state_and_appends_trace PASSED [ 12%]
+tests/integration/test_incident_api.py::test_invalid_incident_request_returns_structured_error[invalid_payload0] PASSED [ 16%]
+tests/integration/test_incident_api.py::test_invalid_incident_request_returns_structured_error[invalid_payload1] PASSED [ 20%]
+tests/integration/test_incident_api.py::test_invalid_incident_request_returns_structured_error[invalid_payload2] PASSED [ 25%]
+tests/integration/test_incident_api.py::test_unknown_incident_returns_structured_404 PASSED [ 29%]
+tests/unit/test_trace.py::test_trace_is_appended_and_read_back PASSED    [ 33%]
+tests/unit/test_trace.py::test_duplicate_trace_id_is_rejected_without_overwriting PASSED [ 37%]
+tests/unit/test_trace.py::test_existing_trace_ids_are_loaded_for_restart_safety PASSED [ 41%]
+tests/unit/test_trace.py::test_trace_rejects_wrong_incident PASSED       [ 45%]
+tests/unit/test_trace.py::test_trace_rejects_unsafe_path_components[../incident-run-001] PASSED [ 50%]
+tests/unit/test_trace.py::test_trace_rejects_unsafe_path_components[inc-001-../run] PASSED [ 54%]
+tests/unit/test_trace.py::test_trace_rejects_unsafe_path_components[-run-001] PASSED [ 58%]
+tests/unit/test_trace.py::test_trace_rejects_unsafe_path_components[inc 001-run-001] PASSED [ 62%]
+tests/unit/test_trace.py::test_missing_trace_file_reads_as_empty PASSED  [ 66%]
+tests/unit/test_trace.py::test_malformed_existing_trace_is_rejected PASSED [ 70%]
+tests/unit/test_blackboard.py::test_ready_artifact_can_be_read_and_resolved PASSED [ 75%]
+tests/unit/test_blackboard.py::test_pending_artifact_is_hidden_from_downstream_readers PASSED [ 79%]
+tests/unit/test_blackboard.py::test_pending_artifact_can_be_completed_once_then_is_immutable PASSED [ 83%]
+tests/unit/test_blackboard.py::test_incident_boundaries_are_isolated PASSED [ 87%]
+tests/unit/test_blackboard.py::test_duplicate_content_reference_is_rejected_within_incident PASSED [ 91%]
+tests/unit/test_blackboard.py::test_same_content_reference_is_allowed_in_different_incidents PASSED [ 95%]
+tests/unit/test_blackboard.py::test_list_ready_is_filtered_by_kind PASSED [100%]
+
+- generated xml file: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\docs\submission\evidence\api\W05_junit.xml -
+============================= 24 passed in 1.60s ==============================

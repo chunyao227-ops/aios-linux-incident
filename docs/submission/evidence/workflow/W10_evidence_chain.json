@@ -1,0 +1,290 @@
+{
+  "status": "READY",
+  "service": "web-app",
+  "evidence_chain": [
+    {
+      "evidence_id": "evi-20261122T084612133744Z-254a9a60fcc2",
+      "kind": "log",
+      "producer_agent": "LogAgent",
+      "service": "web-app",
+      "source_ref": "/var/log/web-app/error.log",
+      "observed_at": "2026-11-22T08:46:12.133744Z",
+      "linked_message_ids": [
+        "msg-20261122T084612148793Z-e521359c47e6",
+        "msg-20261122T084612148793Z-8044215a34f2",
+        "msg-20261122T084612148793Z-6c72900dacff"
+      ]
+    },
+    {
+      "evidence_id": "evi-20261122T084612133744Z-2daffc60b010",
+      "kind": "metrics",
+      "producer_agent": "MetricsAgent",
+      "service": "web-app",
+      "source_ref": "sandbox:/proc",
+      "observed_at": "2026-11-22T08:46:12.133744Z",
+      "linked_message_ids": [
+        "msg-20261122T084612148793Z-a04b84bf68c1",
+        "msg-20261122T084612148793Z-418ea72e1ecd",
+        "msg-20261122T084612148793Z-6c72900dacff"
+      ]
+    },
+    {
+      "evidence_id": "evi-20261122T084612133744Z-a13fb4fa70d4",
+      "kind": "config",
+      "producer_agent": "ConfigAgent",
+      "service": "web-app",
+      "source_ref": "/etc/web-app/config.yaml",
+      "observed_at": "2026-11-22T08:46:12.133744Z",
+      "linked_message_ids": [
+        "msg-20261122T084612148793Z-4bc34dc88808",
+        "msg-20261122T084612148793Z-03174cbd8598",
+        "msg-20261122T084612148793Z-6c72900dacff"
+      ]
+    },
+    {
+      "evidence_id": "evi-20261122T084612148793Z-897b565f573f",
+      "kind": "dependency",
+      "producer_agent": "DependencyAgent",
+      "service": "web-app",
+      "source_ref": "sandbox:/proc dependency view",
+      "observed_at": "2026-11-22T08:46:12.148793Z",
+      "linked_message_ids": [
+        "msg-20261122T084612148793Z-b6f771529060",
+        "msg-20261122T084612148793Z-4a162836d042",
+        "msg-20261122T084612148793Z-6c72900dacff"
+      ]
+    }
+  ],
+  "merged_facts": [
+    {
+      "fact_key": "available",
+      "value": true,
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-2daffc60b010",
+        "evi-20261122T084612148793Z-897b565f573f"
+      ],
+      "source_kinds": [
+        "dependency",
+        "metrics"
+      ]
+    },
+    {
+      "fact_key": "content",
+      "value": "service: web-app\r\nport: 8080\r\n",
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-a13fb4fa70d4"
+      ],
+      "source_kinds": [
+        "config"
+      ]
+    },
+    {
+      "fact_key": "cpu_entries",
+      "value": 1,
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-2daffc60b010"
+      ],
+      "source_kinds": [
+        "metrics"
+      ]
+    },
+    {
+      "fact_key": "last_line",
+      "value": "web-app: health check returned 503",
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-254a9a60fcc2"
+      ],
+      "source_kinds": [
+        "log"
+      ]
+    },
+    {
+      "fact_key": "line_count",
+      "value": 3,
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-254a9a60fcc2"
+      ],
+      "source_kinds": [
+        "log"
+      ]
+    },
+    {
+      "fact_key": "load_average",
+      "value": {
+        "one_minute": 0.1,
+        "five_minutes": 0.2,
+        "fifteen_minutes": 0.3
+      },
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-2daffc60b010"
+      ],
+      "source_kinds": [
+        "metrics"
+      ]
+    },
+    {
+      "fact_key": "memory_kib",
+      "value": {
+        "MemTotal": 16384,
+        "MemFree": 8192
+      },
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-2daffc60b010"
+      ],
+      "source_kinds": [
+        "metrics"
+      ]
+    },
+    {
+      "fact_key": "network_interfaces",
+      "value": [
+        {
+          "name": "eth0",
+          "rx_bytes": 100,
+          "rx_packets": 2,
+          "tx_bytes": 200,
+          "tx_packets": 3
+        }
+      ],
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-2daffc60b010"
+      ],
+      "source_kinds": [
+        "metrics"
+      ]
+    },
+    {
+      "fact_key": "ports",
+      "value": [],
+      "evidence_ids": [
+        "evi-20261122T084612148793Z-897b565f573f"
+      ],
+      "source_kinds": [
+        "dependency"
+      ]
+    },
+    {
+      "fact_key": "processes",
+      "value": [],
+      "evidence_ids": [
+        "evi-20261122T084612148793Z-897b565f573f"
+      ],
+      "source_kinds": [
+        "dependency"
+      ]
+    },
+    {
+      "fact_key": "service",
+      "value": "web-app",
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-2daffc60b010",
+        "evi-20261122T084612148793Z-897b565f573f"
+      ],
+      "source_kinds": [
+        "dependency",
+        "metrics"
+      ]
+    },
+    {
+      "fact_key": "sha256",
+      "value": "d15e184c7a10f90691402fdf03f9113c96cc2a04147ebfd3aa7172a292cc9e7d",
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-a13fb4fa70d4"
+      ],
+      "source_kinds": [
+        "config"
+      ]
+    },
+    {
+      "fact_key": "size_bytes",
+      "value": 30,
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-a13fb4fa70d4"
+      ],
+      "source_kinds": [
+        "config"
+      ]
+    },
+    {
+      "fact_key": "source",
+      "value": "sandbox-proc",
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-2daffc60b010",
+        "evi-20261122T084612148793Z-897b565f573f"
+      ],
+      "source_kinds": [
+        "dependency",
+        "metrics"
+      ]
+    },
+    {
+      "fact_key": "truncated",
+      "value": false,
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-254a9a60fcc2",
+        "evi-20261122T084612133744Z-a13fb4fa70d4"
+      ],
+      "source_kinds": [
+        "config",
+        "log"
+      ]
+    },
+    {
+      "fact_key": "window_seconds",
+      "value": 60,
+      "evidence_ids": [
+        "evi-20261122T084612133744Z-2daffc60b010"
+      ],
+      "source_kinds": [
+        "metrics"
+      ]
+    }
+  ],
+  "conflicts": [],
+  "follow_up_requests": [],
+  "diagnosis": {
+    "diagnosis_id": "diag-20261122T084612164133Z-d30bb6a6c2a8",
+    "incident_id": "inc-w10-evidence",
+    "root_causes": [
+      {
+        "root_cause_id": "rc-20261122T084612164133Z-bcc93de089d1",
+        "description": "required service dependency or listener is unavailable",
+        "supporting_evidence": [
+          "evi-20261122T084612133744Z-254a9a60fcc2",
+          "evi-20261122T084612148793Z-897b565f573f"
+        ],
+        "contradicting_evidence": [],
+        "confidence": 0.86,
+        "repair_risk": "medium",
+        "required_scope": [
+          "web-app"
+        ]
+      }
+    ],
+    "selected_root_cause_ids": [
+      "rc-20261122T084612164133Z-bcc93de089d1"
+    ],
+    "excluded_hypotheses": [
+      "resource exhaustion excluded: no critical memory or load signal",
+      "configuration corruption excluded: bounded config evidence was readable"
+    ],
+    "conflicting_evidence": [],
+    "repair_constraints": [
+      "allowed_service:web-app"
+    ],
+    "created_at": "2026-11-22T08:46:12.164133Z"
+  },
+  "interaction_message_ids": [
+    "msg-20261122T084612148793Z-e521359c47e6",
+    "msg-20261122T084612148793Z-4bc34dc88808",
+    "msg-20261122T084612148793Z-03174cbd8598",
+    "msg-20261122T084612148793Z-8044215a34f2",
+    "msg-20261122T084612148793Z-a04b84bf68c1",
+    "msg-20261122T084612148793Z-b6f771529060",
+    "msg-20261122T084612148793Z-4a162836d042",
+    "msg-20261122T084612148793Z-418ea72e1ecd",
+    "msg-20261122T084612148793Z-6c72900dacff",
+    "msg-20261122T084612148793Z-b884e34a4599",
+    "msg-20261122T084612164133Z-bda77209f8ee"
+  ]
+}

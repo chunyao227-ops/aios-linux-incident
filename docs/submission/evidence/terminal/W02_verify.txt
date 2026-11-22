@@ -1,0 +1,38 @@
+All checks passed!
+63 files already formatted
+.....ss.............................ssssss...................................................................... [ 66%]
+.........................................................                                                        [100%]
+161 passed, 8 skipped in 3.26s
+{
+  "version": 1,
+  "app": {
+    "name": "aios-linux-incident",
+    "environment": "development",
+    "log_level": "INFO"
+  },
+  "aios": {
+    "base_url": "http://127.0.0.1:8000",
+    "timeout_seconds": 30.0,
+    "max_retries": 2
+  },
+  "model": {
+    "deployment": "local",
+    "backend": "openai-compatible",
+    "name": "qwen2:7b-instruct",
+    "base_url": "http://127.0.0.1:11434/v1",
+    "served_model_name": "qwen2:7b-instruct",
+    "api_key_env": null,
+    "timeout_seconds": 120.0,
+    "max_retries": 2,
+    "temperature": 0.0,
+    "max_tokens": 1024
+  },
+  "workflow": {
+    "collect_concurrency": 4,
+    "task_timeout_seconds": 180.0,
+    "max_repair_rounds": 2
+  },
+  "runtime": {
+    "output_dir": "runs"
+  }
+}

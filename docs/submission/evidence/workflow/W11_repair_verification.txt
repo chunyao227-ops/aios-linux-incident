@@ -1,0 +1,16 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident
+configfile: pyproject.toml
+plugins: anyio-4.10.0
+collecting ... collected 5 items
+
+tests/integration/test_repair_verification_loop.py::test_successful_first_repair_completes_loop PASSED [ 20%]
+tests/integration/test_repair_verification_loop.py::test_two_verification_failures_end_unresolved PASSED [ 40%]
+tests/integration/test_repair_verification_loop.py::test_failed_repair_action_is_rolled_back PASSED [ 60%]
+tests/integration/test_repair_verification_loop.py::test_repair_tool_rejects_unsafe_plans[action0] PASSED [ 80%]
+tests/integration/test_repair_verification_loop.py::test_repair_tool_rejects_unsafe_plans[action1] PASSED [100%]
+
+- generated xml file: C:\Users\HP\Documents\Codex\2026-11-14\https-github-com-agiresearch-aios-git\aios-linux-incident\docs\submission\evidence\workflow\W11_junit.xml -
+============================== 5 passed in 1.37s ==============================

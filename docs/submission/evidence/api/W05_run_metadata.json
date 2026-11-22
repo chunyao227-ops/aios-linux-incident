@@ -1,0 +1,224 @@
+{
+  "context": {
+    "allowed_scope": {
+      "allowed_services": [
+        "web-app"
+      ],
+      "read_paths": [
+        "/var/log/web-app",
+        "/etc/web-app"
+      ],
+      "write_paths": [
+        "/etc/web-app"
+      ]
+    },
+    "created_at": "2026-11-22T08:47:20.705550Z",
+    "incident_id": "inc-20261122T084720705550Z-0872cd7f2194",
+    "max_repair_attempts": 2,
+    "objective": "诊断并修复 web-app 不可用问题",
+    "run_id": "run-20261122T084720705550Z-70700d117d5d",
+    "success_criteria": [
+      "health_endpoint",
+      "smoke_test",
+      "regression_test"
+    ],
+    "target": {
+      "environment": "docker",
+      "host": "sandbox-01",
+      "service": "web-app"
+    },
+    "time_budget_seconds": 600.0,
+    "workflow_status": "CANCELLED"
+  },
+  "dag": {
+    "incident_id": "inc-20261122T084720705550Z-0872cd7f2194",
+    "nodes": [
+      {
+        "agent_type": "CoordinatorAgent",
+        "attempt": 1,
+        "constraints": {
+          "max_tokens": 2048,
+          "max_tool_calls": 12
+        },
+        "deadline": null,
+        "depends_on": [],
+        "required_capabilities": [
+          "planning",
+          "fusion"
+        ],
+        "status": "CREATED",
+        "task_id": "N0",
+        "task_type": "validate_and_plan"
+      },
+      {
+        "agent_type": "LogAgent",
+        "attempt": 1,
+        "constraints": {
+          "max_tokens": 2048,
+          "max_tool_calls": 12
+        },
+        "deadline": null,
+        "depends_on": [
+          "N0"
+        ],
+        "required_capabilities": [
+          "log_analysis"
+        ],
+        "status": "CREATED",
+        "task_id": "N1",
+        "task_type": "log_analysis"
+      },
+      {
+        "agent_type": "MetricsAgent",
+        "attempt": 1,
+        "constraints": {
+          "max_tokens": 2048,
+          "max_tool_calls": 12
+        },
+        "deadline": null,
+        "depends_on": [
+          "N0"
+        ],
+        "required_capabilities": [
+          "metrics_analysis"
+        ],
+        "status": "CREATED",
+        "task_id": "N2",
+        "task_type": "metrics_analysis"
+      },
+      {
+        "agent_type": "ConfigAgent",
+        "attempt": 1,
+        "constraints": {
+          "max_tokens": 2048,
+          "max_tool_calls": 12
+        },
+        "deadline": null,
+        "depends_on": [
+          "N0"
+        ],
+        "required_capabilities": [
+          "config_analysis"
+        ],
+        "status": "CREATED",
+        "task_id": "N3",
+        "task_type": "config_analysis"
+      },
+      {
+        "agent_type": "DependencyAgent",
+        "attempt": 1,
+        "constraints": {
+          "max_tokens": 2048,
+          "max_tool_calls": 12
+        },
+        "deadline": null,
+        "depends_on": [
+          "N0"
+        ],
+        "required_capabilities": [
+          "dependency_analysis"
+        ],
+        "status": "CREATED",
+        "task_id": "N4",
+        "task_type": "dependency_analysis"
+      },
+      {
+        "agent_type": "CoordinatorAgent",
+        "attempt": 1,
+        "constraints": {
+          "max_tokens": 2048,
+          "max_tool_calls": 12
+        },
+        "deadline": null,
+        "depends_on": [
+          "N1",
+          "N2",
+          "N3",
+          "N4"
+        ],
+        "required_capabilities": [
+          "planning",
+          "fusion"
+        ],
+        "status": "CREATED",
+        "task_id": "N5",
+        "task_type": "diagnose"
+      },
+      {
+        "agent_type": "RepairAgent",
+        "attempt": 1,
+        "constraints": {
+          "max_tokens": 2048,
+          "max_tool_calls": 12
+        },
+        "deadline": null,
+        "depends_on": [
+          "N5"
+        ],
+        "required_capabilities": [
+          "repair"
+        ],
+        "status": "CREATED",
+        "task_id": "N6.1",
+        "task_type": "repair"
+      },
+      {
+        "agent_type": "VerifierAgent",
+        "attempt": 1,
+        "constraints": {
+          "max_tokens": 2048,
+          "max_tool_calls": 12
+        },
+        "deadline": null,
+        "depends_on": [
+          "N6.1"
+        ],
+        "required_capabilities": [
+          "verification"
+        ],
+        "status": "CREATED",
+        "task_id": "N7.1",
+        "task_type": "verification"
+      },
+      {
+        "agent_type": "RepairAgent",
+        "attempt": 2,
+        "constraints": {
+          "max_tokens": 2048,
+          "max_tool_calls": 12
+        },
+        "deadline": null,
+        "depends_on": [
+          "N5",
+          "N7.1"
+        ],
+        "required_capabilities": [
+          "repair"
+        ],
+        "status": "CREATED",
+        "task_id": "N6.2",
+        "task_type": "repair"
+      },
+      {
+        "agent_type": "VerifierAgent",
+        "attempt": 2,
+        "constraints": {
+          "max_tokens": 2048,
+          "max_tool_calls": 12
+        },
+        "deadline": null,
+        "depends_on": [
+          "N6.2"
+        ],
+        "required_capabilities": [
+          "verification"
+        ],
+        "status": "CREATED",
+        "task_id": "N7.2",
+        "task_type": "verification"
+      }
+    ]
+  },
+  "final_report": null,
+  "repair_attempt": 0
+}
