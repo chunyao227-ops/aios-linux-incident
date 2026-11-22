@@ -43,7 +43,18 @@ scenario_runtime/
 *.key
 *.pem
 secrets.yaml
+config/*.secret.yaml
 config/local.secret.yaml
+
+# Local submission media: archive outside the source history
+docs/submission/evidence/**/*.png
+docs/submission/evidence/**/*.jpg
+docs/submission/evidence/**/*.jpeg
+docs/submission/evidence/**/*.webp
+docs/submission/evidence/**/*.mp4
+docs/submission/evidence/**/*.mov
+docs/submission/evidence/**/*.mkv
+docs/submission/evidence/**/*.webm
 
 # Editors and OS
 .idea/

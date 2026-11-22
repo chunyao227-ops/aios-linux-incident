@@ -103,6 +103,7 @@
 | W14 历史与取消证据 | `docs/submission/evidence/ui/dashboard_history_*`、`dashboard_cancelled_*` | 已保存历史列表、取消状态和 Trace 时间线 | 执行展示、视频 |
 | W14 材料索引 | `docs/submission/evidence/EVIDENCE_MANIFEST.md` | 已保存路径、复现命令和数据边界 | 文档、工程规范 |
 | 本地材料 Git 记录 | 提交 `c12e95a` | 已保存生成脚本、测试、Trace、图表和截图 | 工程规范、材料审计 |
+| 新电脑部署与复现交接 | `docs/HANDOVER.md` | 已包含环境部署、进度、任务、约束和证据规则 | 文档、复现、工程规范 |
 
 ## 当前缺少
 
