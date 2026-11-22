@@ -1,50 +1,74 @@
-# AIOS Linux 服务故障诊断修复与回归验证系统交接文档
+# AIOS Linux 服务故障协同诊断修复与回归验证系统交接文档
 
-当前状态：W00、W01A、W02、W03、W04、W05、W06、W07、W08、W09、W10、W11、W12、W13、W14 已完成，准备进入 W15。区域赛提交截止为 2026-12-27，全国初赛提交截止为 2027-05-01。团队为学生 2 人，配备指导教师。
-
----
+- 更新日期：2026-11-22
+- 仓库根目录：`aios-linux-incident/`
+- 当前分支：`master`
+- 整理前提交：`559c7d9`
+- 当前状态：W00、W01A、W02—W14 已完成，工作区干净，准备进入 W15
 
 ## 1. 项目目标
 
-系统面向隔离 Linux 环境中的复合服务故障，完成：
+本项目参加全国大学生计算机系统能力大赛操作系统设计赛，OS 功能挑战赛道，中西部与华南区域赛。
+
+关键日期：
+
+- 区域赛提交截止：2026-12-27。
+- 全国初赛提交截止：2027-05-01。
+
+评分权重：
+
+| 评分分项 | 权重 |
+|---|---:|
+| 项目 / 代码执行展示 | 30% |
+| 文档撰写 | 20% |
+| 文档撰写和代码注释符合软件工程规范 | 20% |
+| AI 工具说明 | 10% |
+| 演示视频 | 20% |
+
+系统目标：
 
 ```text
 故障上报
-  -> 四路证据并行采集
-  -> 证据汇合与根因诊断
+  -> 四类证据并行采集
+  -> 证据融合与根因诊断
   -> 受控修复
-  -> 健康、回归与压力验证
+  -> 健康、业务回归与压力验证
   -> 成功归档或失败重试
 ```
 
-核心目标是使用 AIOS 与 AIOS-Agent SDK 实现多智能体协作，满足：
+必须满足：
 
 - 不少于 7 类职责不同的 Agent；
-- 至少 4 个可并行证据任务；
+- 至少 4 个可并行的证据采集任务；
 - 至少 3 对异构 Agent 双向交互；
 - 任务依赖由调度器执行；
 - 并发相对串行平均提速不低于 20%；
-- 修复结果由独立验证器判定。
+- 修复结果由独立验证器判定；
+- 所有修复只允许作用于隔离 Docker 靶机；
+- Agent 不得执行任意 Shell、权限提升或破坏性命令。
 
-当前不实现生产宿主机无限制运维。所有修复只允许作用于隔离 Docker 靶机，并使用白名单工具和回滚点。
-
----
-
-## 2. 冻结技术架构
+## 2. 技术架构
 
 ### 2.1 技术基线
 
 | 项目 | 当前值 |
 |---|---|
-| Python | 3.10.12 |
+| Python | 3.10；本地验证版本 3.10.11 |
 | AIOS Kernel | 提交 `292d98f78c835499df18cdb6de6325bba1895862` |
-| AIOS 源码位置 | `/home/zhang/AIOS` |
-| Cerebrum SDK | `aios-agent-sdk 0.0.3`（已确认替代版本） |
-| 正式模型 | 7B AWQ 4bit |
-| 正式推理 | 远程 GPU vLLM，OpenAI 兼容接口 |
-| 本地调试模型 | Ollama `qwen2:7b-instruct`，Q4_K_M |
-| Agent 与靶机 | CPU 环境，本地 WSL2 或远程 CPU ECS |
-| 容器运行时 | WSL2 Docker Engine 29.1.3 |
+| Cerebrum SDK | `aios-agent-sdk 0.0.3` |
+| 本地调试模型 | Ollama `qwen2:7b-instruct` Q4_K_M |
+| 正式模型 | 远程 GPU vLLM，7B AWQ 4bit，OpenAI 兼容接口 |
+| Agent 与靶机 | Windows/WSL2 本地环境，后续可部署至 CPU ECS |
+| Docker | Engine 29.1.3，WSL2 Ubuntu 22.04 |
+| Python 包入口 | `src/aios_incident/` |
+
+本地服务地址：
+
+```text
+AIOS:   http://127.0.0.1:8000
+Ollama: http://127.0.0.1:11434
+API/UI: http://127.0.0.1:8080
+```
 
 ### 2.2 部署结构
 
@@ -54,336 +78,19 @@ Windows 开发终端
   +-- WSL2 Ubuntu 22.04
         |
         +-- AIOS Kernel
-        |     http://127.0.0.1:8000
-        |
-        +-- 本地 Ollama 调试替身
-        |     http://127.0.0.1:11434
-        |
-        +-- Docker 靶机
+        +-- Ollama 本地调试替身
+        +-- Docker 六个故障靶机
+        +-- FastAPI + 原生 Web 仪表盘
         |
         +-- 后续接入远程 GPU vLLM
               7B AWQ 4bit / OpenAI 兼容接口
 ```
 
-### 2.3 两级调度
+正式性能实验必须记录 CPU 侧环境、远程 GPU 环境、网络链路、模型参数和原始数据。本地 Ollama 结果不能标记为正式 vLLM 结果。
 
-1. AIOS Kernel 调度单次 LLM、Memory、Storage 和 Tool 系统调用。
-2. 项目任务调度器负责复杂任务的 DAG、能力匹配、依赖等待、并发派发和重试。
+### 2.3 代码边界
 
-项目任务调度器不得替代 AIOS 资源接口。
-
-### 2.4 固定 Agent 角色
-
-| Agent | 职责 |
-|---|---|
-| CoordinatorAgent | 任务规划、证据汇合、根因诊断和最终结论 |
-| LogAgent | 日志、错误链和时间线 |
-| MetricsAgent | CPU、内存、磁盘、网络和连接指标 |
-| ConfigAgent | 配置、权限、端口和配置生效状态 |
-| DependencyAgent | 进程、服务、端口和依赖拓扑 |
-| RepairAgent | 生成并执行受控修复计划 |
-| VerifierAgent | 健康、业务回归和压力验证 |
-
-### 2.5 固定主流程
-
-```text
-PLAN
-  -> 四个 COLLECT 节点并行
-  -> DIAGNOSE
-  -> REPAIR
-  -> VERIFY
-  -> 成功 COMPLETED / 失败返回 REPAIR / 两轮后 FAILED
-```
-
-固定双向交互：
-
-1. LogAgent ↔ ConfigAgent；
-2. MetricsAgent ↔ DependencyAgent；
-3. RepairAgent ↔ VerifierAgent。
-
----
-
-## 3. 已完成功能与环境
-
-### 3.1 W00 项目基线
-
-已完成：
-
-- 项目目标与赛题约束冻结；
-- 技术版本和部署架构记录；
-- Git 仓库初始化；
-- 未决问题清单；
-- AI 使用记录模板；
-- 开发规格和 AI 工单纳入仓库。
-
-注意：仓库当前尚无 Git 提交，所有文件仍为未跟踪状态。
-
-### 3.2 WSL2 与 Python
-
-已完成：
-
-- Ubuntu 22.04.5 LTS；
-- WSL2 内核 6.18.58.1；
-- `/home/zhang/venv-aios` 虚拟环境可激活；
-- Python 3.10.12；
-- `pip check` 通过，无破损依赖。
-
-关键依赖：
-
-```text
-torch 2.6.0+cpu
-transformers 5.20.2
-sentence-transformers 6.3.0
-kubernetes 28.1.0
-```
-
-Torch 使用 CPU 版本，仅用于满足 AIOS 模块导入和本地工具依赖，不参与 Ollama 推理。
-
-### 3.3 Cerebrum SDK
-
-已完成：
-
-- `aios-agent-sdk 0.0.3` 安装；
-- `cerebrum.llm.apis` 可导入；
-- `cerebrum.memory.apis` 可导入；
-- 版本检查脚本预期值已改为 0.0.3。
-
-### 3.4 本地模型替身
-
-已完成：
-
-- Ollama 0.40.16；
-- 模型 `qwen2:7b-instruct`；
-- Q4_K_M GGUF；
-- SHA-256 校验通过；
-- 普通文本调用；
-- JSON 输出；
-- OpenAI `/v1/models`；
-- OpenAI `/v1/chat/completions`；
-- `OLLAMA_NUM_PARALLEL=4`；
-- 模型运行于 100% GPU。
-
-实测四请求：
-
-```text
-单请求：约 1.629 秒
-串行四请求：约 5.303 秒
-并发四请求：约 1.706 秒
-提速：约 67.8%
-```
-
-该结果只用于验证本地逻辑与并发可行性，不能替代正式远程 vLLM 实验。
-
-### 3.5 AIOS Kernel
-
-已完成：
-
-- 锁定源码安装到 `/home/zhang/AIOS`；
-- 本地内核配置；
-- FastAPI 内核启动；
-- `/status` 返回 ok；
-- `/core/status` 中 LLM、Storage、Memory、Tool、Scheduler、Factory 全部 active；
-- `/query` 成功调用 Ollama；
-- 回归请求返回 `W01A_OK`。
-
-当前地址：
-
-```text
-http://127.0.0.1:8000
-```
-
-### 3.6 Docker
-
-已完成：
-
-- Docker Engine 29.1.3；
-- systemd 服务 active；
-- storage driver overlayfs；
-- cgroup driver systemd；
-- 当前用户已加入 docker 组；
-- 国内 registry mirror `https://docker.m.daocloud.io`；
-- `hello-world` 容器成功运行。
-
-Docker 位于 WSL 内，不在 Windows PATH 提供 Docker Desktop。
-
----
-
-## 4. 关键文件位置
-
-项目根目录：
-
-```text
-aios-linux-incident/
-```
-
-### 4.1 规格与基线
-
-| 文件 | 作用 |
-|---|---|
-| `docs/project_baseline.md` | 项目目标、技术基线和 CPU 服务器决策 |
-| `docs/specifications/development_spec_v1.0.md` | 冻结开发规格 |
-| `docs/specifications/ai_work_orders_v1.0.md` | W00 至 W17 的开发工单 |
-| `docs/open_questions.md` | 剩余未决问题 |
-| `docs/ai_usage/AI_USAGE.md` | AI 使用记录 |
-
-### 4.2 环境记录
-
-| 文件 | 作用 |
-|---|---|
-| `docs/environment/local_environment.md` | 当前完整环境状态 |
-| `docs/environment/w01a_verification_2026-11-19.md` | W01A 核验证据 |
-| `docs/environment/cerebrum_version_resolution.md` | Cerebrum 版本历史 |
-| `docs/environment/concurrency_probe_results.json` | 本地并发原始结果 |
-
-### 4.3 配置
-
-| 文件 | 作用 |
-|---|---|
-| `config/aios.kernel.local.yaml` | AIOS 本地内核配置 |
-| `config/model.local.yaml` | Ollama 本地模型配置 |
-| `config/model.remote.yaml.example` | 远程 vLLM 正式配置模板 |
-| `config/docker-daemon.json` | Docker 国内 registry mirror |
-| `config/ollama/Modelfile.qwen2-7b-instruct` | Qwen2 ChatML 模型模板 |
-
-### 4.4 环境脚本
-
-| 文件 | 作用 |
-|---|---|
-| `scripts/env/check_windows_gpu.ps1` | Windows、GPU、WSL、Docker 检查 |
-| `scripts/env/setup_aios_env.ps1` | Windows Python 3.10 环境 |
-| `scripts/env/setup_aios_env.sh` | WSL Python 环境 |
-| `scripts/env/install_ollama_wsl.sh` | 镜像安装并校验 Ollama |
-| `scripts/env/start_ollama_wsl.sh` | 启动 Ollama |
-| `scripts/env/stop_ollama_wsl.sh` | 停止 Ollama |
-| `scripts/env/create_ollama_model_wsl.sh` | 导入 GGUF 到 Ollama |
-| `scripts/env/activate_local_model.sh` | 设置本地模型参数 |
-| `scripts/env/check_model_endpoint.py` | OpenAI 兼容接口检查 |
-| `scripts/env/concurrency_probe.py` | 四请求并发测量 |
-| `scripts/env/start_aios_wsl.sh` | 启动 AIOS |
-| `scripts/env/stop_aios_wsl.sh` | 停止 AIOS |
-| `scripts/env/check_aios.py` | AIOS 健康检查 |
-| `scripts/env/check_cerebrum.py` | Cerebrum 版本检查 |
-| `scripts/env/install_docker_wsl.sh` | Docker Engine 安装 |
-| `scripts/env/check_docker_wsl.sh` | Docker daemon 和容器检查 |
-
-### 4.5 当前运行入口
-
-进入 WSL：
-
-```powershell
-wsl -d Ubuntu-22.04
-```
-
-切换到项目目录后：
-
-```bash
-bash scripts/env/start_ollama_wsl.sh
-bash scripts/env/start_aios_wsl.sh
-bash scripts/env/check_docker_wsl.sh
-```
-
-健康检查：
-
-```bash
-curl -sS http://127.0.0.1:8000/status
-curl -sS http://127.0.0.1:8000/core/status
-curl -sS http://127.0.0.1:11434/api/version
-```
-
-本地模型参数：
-
-```text
-MODEL_BASE_URL=http://127.0.0.1:11434/v1
-MODEL_NAME=qwen2:7b-instruct
-MODEL_API_KEY=
-MODEL_BACKEND=ollama-local
-```
-
----
-
-## 5. 当前问题与限制
-
-### 5.1 尚未接入正式远程 GPU
-
-远程 vLLM 的服务地址、模型名称和认证方式尚未提供。当前使用 Ollama 调试替身，正式性能数据不能使用本地 Ollama 结果代替。
-
-### 5.2 业务功能尚未实现
-
-W02 已创建正式 Python 包和配置加载，W03 已实现数据契约和状态机，W04 已实现
-AIOS/LLM 适配，W05 已实现 Incident API、Blackboard 和 Trace，W06 已实现四类
-只读工具和受控网关，W07 已实现单场景最小诊断修复验证闭环，W08 已实现固定 DAG
-调度与四路并行，W09 已实现三对固定双向交互，W10 已实现证据融合、冲突检测与
-证据链，W11 已实现受控修复、回滚和两轮验证反馈，W12 已实现六个 Docker
-故障场景，W13 已完成本地串行/并发基准，W14 已实现前端、历史持久化和可观测性。
-正式远程 vLLM 数据仍需 W01B 复测。
-
-实际代码根目录已经冻结为 `src/aios_incident/`。逻辑层目录
-`agents/`、`orchestrator/`、`adapters/`、`tools/`、`benchmark/` 和 `ui/`
-均是 `src/aios_incident/` 的子包，不得另建平行的顶层代码目录。
-
-### 5.3 CPU ECS 尚未开通
-
-建议在 W07 最小闭环联调前启用：
-
-```text
-ecs.e-c1m4.xlarge
-4 vCPU / 16 GiB
-Ubuntu 22.04
-按量付费
-```
-
-W01A 不依赖 CPU ECS，W02—W14 已完成。W15 可在本地继续测试和加固，最终性能
-结论和干净环境复现仍需远程 vLLM 与目标 CPU 环境。
-
-### 5.4 Docker 当前会话权限
-
-新 WSL 终端应直接拥有 docker 组权限。旧会话如遇 permission denied，可使用：
-
-```bash
-sg docker -c "docker info"
-```
-
-### 5.5 本地 AIOS 与 Ollama 不自动随 WSL 重建
-
-AIOS 和 Ollama 使用项目脚本启动。WSL 重启后执行：
-
-```bash
-bash scripts/env/start_ollama_wsl.sh
-bash scripts/env/start_aios_wsl.sh
-```
-
-Docker 由 systemd 自动启动。
-
-### 5.6 Git 基线状态
-
-W00/W01A 与同步文档已形成基线提交 `fb5a0f0`。W02 完成后另建独立提交，
-后续每个工单均保留可追溯提交。
-
-### 5.7 桌面工具与 Computer-use 尚未验收
-
-AIOS Tool Manager 已初始化，但桌面 MCP、虚拟机控制器和 OSWorld 环境尚未进行实际任务验收。后续故障场景应优先使用 Docker Linux 靶机。
-
-### 5.8 其他外部确认
-
-仍需确认：
-
-- 正式比赛是否允许远程 AIOS 内核和远程模型服务；
-- 比赛提交仓库与视频格式；
-- 队员分工和每周投入时间；
-- AIOS 上游源码修改登记规则；
-- 项目最终开源许可证和第三方许可清单。
-
----
-
-## 6. 下一步任务
-
-新 Codex 会话应先读取本文件、`docs/specifications/development_spec_v1.0.md` 和 `docs/specifications/ai_work_orders_v1.0.md`，检查 Git 与运行环境后从 W15 继续。不得重做 W00/W01A/W02/W03/W04/W05/W06/W07/W08/W09/W10/W11/W12/W13/W14，不得改变冻结流程，不得将本地 Ollama 数据当作远程 vLLM 正式实验结果。
-
-### W02：仓库脚手架与配置
-
-状态：已完成。
-
-实际产出：
+唯一代码根目录为 `src/aios_incident/`。禁止在仓库根目录另建平行的 `agents/`、`orchestrator/`、`adapters/`、`tools/`、`benchmark/` 或 `ui/`。
 
 ```text
 src/aios_incident/
@@ -393,315 +100,251 @@ src/aios_incident/
   tools/
   benchmark/
   ui/
-tests/
-config/app.example.yaml
-config/model.example.yaml
-pyproject.toml
-tasks.ps1
 ```
 
-验收：
-
-- Python 包已安装、可导入；
-- 配置仅修改 YAML 即可切换本地 Ollama 与远程 vLLM；
-- 配置强制使用环境变量引用密钥；
-- pytest 21 项通过；
-- Ruff 静态检查通过；
-- W00/W01A 已先提交基线；
-- 验收证据见 `docs/verification/w02_verification_2026-11-19.md`。
+职责划分：
+
+- AIOS Kernel 负责 LLM、Memory、Storage 和 Tool 系统调用。
+- 项目调度器负责任务 DAG、能力匹配、依赖门控、并发派发和重试。
+- FastAPI 负责故障提交、状态、DAG、事件、结果、取消、历史和基准查询。
+- UI 只读取真实 API、Trace 和基准数据。
+- JSONL Trace 保存追加式事件；`meta.json` 保存可恢复的运行元数据。
+
+### 2.4 Agent 与主流程
+
+| Agent | 职责 |
+|---|---|
+| CoordinatorAgent | 规划、证据汇合、根因诊断和最终结论 |
+| LogAgent | 日志、错误链和时间线 |
+| MetricsAgent | CPU、内存、磁盘、网络和连接指标 |
+| ConfigAgent | 配置、权限、端口和配置生效状态 |
+| DependencyAgent | 进程、服务、端口和依赖拓扑 |
+| RepairAgent | 生成并执行受控修复计划 |
+| VerifierAgent | 健康、业务回归和压力验证 |
+
+固定流程：
+
+```text
+PLAN
+  -> N1—N4 四路并行采集
+  -> DIAGNOSE
+  -> REPAIR
+  -> VERIFY
+  -> SUCCESS / UNRESOLVED
+  -> 最多两轮修复与反馈
+```
+
+固定双向交互：
+
+1. LogAgent ↔ ConfigAgent；
+2. MetricsAgent ↔ DependencyAgent；
+3. RepairAgent ↔ VerifierAgent。
+
+## 3. 已完成的功能
+
+| 工单 | 状态 | 核心成果 |
+|---|---|---|
+| W00 | 完成 | 项目基线、冻结规格、工单、AI 使用记录和 Git 初始化 |
+| W01A | 完成 | WSL2、Python、AIOS、Ollama、Docker 本地环境 |
+| W02 | 完成 | 唯一 Python 包、六个子包、严格 YAML 配置和任务入口 |
+| W03 | 完成 | RunContext、DAG、Evidence、Message、诊断、修复、验证和状态机 |
+| W04 | 完成 | 经 AIOS `/query` 的文本与严格 JSON 调用、错误归一化和 token 记录 |
+| W05 | 完成 | Incident API、Blackboard、JSONL Trace 和取消接口 |
+| W06 | 完成 | 五类工具权限、四类只读工具、受控网关和失败关闭 |
+| W07 | 完成 | 日志证据、模型诊断、模拟修复、独立验证和最终报告闭环 |
+| W08 | 完成 | 固定 DAG、最低负载匹配、四路并发、门控、重试和失败终止 |
+| W09 | 完成 | 消息总线、请求响应、超时、断连失败和三对双向交互 |
+| W10 | 完成 | 四类证据融合、事实去重、冲突阻断、追问和根因证据绑定 |
+| W11 | 完成 | 受控修复、回滚、两轮 REVIEW/FEEDBACK/RESULT 闭环 |
+| W12 | 完成 | F1—F6 六个 Docker 场景、注入、修复、验证、压力、重置和销毁 |
+| W13 | 完成 | 串行/并发基准、统计、原始 JSON 和 Markdown 报告 |
+| W14 | 完成 | 仪表盘、历史持久化、Trace 回放、取消和真实基准面板 |
+
+当前验证结果：
+
+- 默认统一回归：`161 passed, 8 skipped`。
+- 已记录全量本地环境回归：`169 passed`。
+- 本轮材料专项验证：123 项通过，F1—F6 六个 Docker 场景全部通过。
+- Ruff、格式、配置和警告检查通过。
+- 本地六场景基准：平均提速 37.92%，最低单场景提速 15.79%，越权操作 0。
+- 提交证据：`docs/submission/evidence/` 下 87 个文件，包含测试、Trace、图表和截图。
+
+本地基准不是正式性能结论。正式提交前必须在远程 7B AWQ 4bit vLLM 上重新测试。
+
+## 4. 关键文件位置
+
+| 路径 | 作用 |
+|---|---|
+| `README.md` | 安装、配置、API、UI 和基准入口 |
+| `docs/project_baseline.md` | 赛道、日期、技术基线和 CPU 服务器决策 |
+| `docs/specifications/development_spec_v1.0.md` | 冻结开发规格 |
+| `docs/specifications/ai_work_orders_v1.0.md` | W00—W17 工单及验收条件 |
+| `docs/open_questions.md` | 尚待外部确认的问题 |
+| `docs/ai_usage/AI_USAGE.md` | AI 工具、用途、生成范围和验证记录 |
+| `docs/verification/` | W02—W14 分阶段验收记录 |
+| `docs/environment/` | W01A 环境和本地运行时核验 |
+| `docs/experiment_reports/` | W13 汇总表和原始基准 JSON |
+| `docs/submission/ARTIFACT_LEDGER.md` | 评分材料映射、已收集和当前缺少 |
+| `docs/submission/evidence/EVIDENCE_MANIFEST.md` | 证据目录、复现命令和数据边界 |
+| `pyproject.toml` | Python 依赖、测试和 Ruff 配置 |
+| `tasks.ps1` | 安装、测试、检查、API、场景和基准入口 |
+| `config/app.example.yaml` | 应用配置；修改 model 段切换本地/远程模型 |
+| `config/model.remote.yaml.example` | 远程 vLLM 配置模板，不保存真实密钥 |
+| `src/aios_incident/models.py` | 公共数据契约和固定 DAG |
+| `src/aios_incident/state.py` | 任务与工作流状态机 |
+| `src/aios_incident/api.py` | FastAPI、历史和静态 UI |
+| `src/aios_incident/adapters/` | AIOS 与 LLM 适配器 |
+| `src/aios_incident/orchestrator/` | Planner、Scheduler、InteractionBus、诊断、Blackboard 和 Trace |
+| `src/aios_incident/agents/` | 七类 Agent |
+| `src/aios_incident/tools/` | 只读工具、受控修复和验证工具 |
+| `src/aios_incident/benchmark/` | 串行、并发、统计和报告 |
+| `src/aios_incident/ui/` | 无构建步骤的 HTML/CSS/JavaScript 仪表盘 |
+| `tests/` | 单元、集成、E2E 和 Docker 场景测试 |
+| `scenarios/` | F1—F6 场景脚本、清单和受限容器配置 |
+| `scripts/env/` | AIOS、Ollama、Docker 和模型检查脚本 |
+| `scripts/evidence/` | 环境、API、模型、W07、六场景和图表证据生成脚本 |
+| `runs/` | 运行时 Incident 元数据和 JSONL Trace，默认不提交 |
 
-### W03：公共数据契约
+常用命令：
 
-状态：已完成。
+```powershell
+.\tasks.ps1 setup
+.\tasks.ps1 verify
+.\tasks.ps1 api
+.\tasks.ps1 integration
+.\tasks.ps1 scenarios
+.\tasks.ps1 benchmark
+```
 
-实际产出：
+启动 API 后：
 
-- RunContext；
-- TaskNode、TaskDAG；
-- AgentCard；
-- Evidence；
-- Message；
-- Diagnosis；
-- RepairPlan、RepairResult；
-- VerificationResult；
-- TraceEvent；
-- 任务与工作流状态机。
-
-验收：
+```text
+http://127.0.0.1:8080/
+http://127.0.0.1:8080/docs
+```
 
-- Pydantic 强类型对象与 JSON Schema 校验已实现；
-- 固定 DAG 可实例化并通过拓扑排序；
-- 自引用、未知依赖和成环 DAG 均被拒绝；
-- 非法消息和非法状态迁移均被拒绝；
-- 70 项测试通过，Ruff 与格式检查通过；
-- 验收证据见 `docs/verification/w03_verification_2026-11-19.md`。
+## 5. 当前问题与限制
 
-### W04：AIOS 与 LLM 适配器
+### 5.1 正式远程环境尚未接入
 
-状态：已完成。
+尚缺少：
 
-实际产出：
+- 远程 GPU vLLM 地址；
+- 正式模型名称；
+- API Key 环境变量名称；
+- GPU、CUDA、驱动和模型参数；
+- 正式环境与验证结果。
 
-- `src/aios_incident/adapters/aios_client.py`；
-- `src/aios_incident/adapters/llm_adapter.py`；
-- `tests/unit/test_llm_adapter.py`；
-- `tests/integration/test_aios_smoke.py`。
+因此 W01B 尚未完成，正式性能数据仍为空缺。
 
-验收：
+### 5.2 CPU ECS 尚未部署
 
-- 普通文本和严格 JSON 均经 AIOS `/query` 调用；
-- 本地 AIOS 文本与 JSON 真实冒烟通过；
-- HTTP、超时、连接、协议和模型失败均归一化；
-- JSON 不使用代码围栏猜测或自动补字段；
-- token usage 区分上报值与估算值；
-- 90 项全量测试通过；
-- 验收证据见 `docs/verification/w04_verification_2026-11-21.md`。
+本地开发不依赖 CPU ECS。若最终方案采用 CPU ECS，建议：
 
-### W05：故障 API、黑板与 Trace
+```text
+ecs.e-c1m4.xlarge
+4 vCPU / 16 GiB
+Ubuntu 22.04
+按量付费
+```
 
-状态：已完成。
+如不采用，应在 W15/W16 保存正式决策、本地 CPU 参数和等价测试记录。
 
-实际产出：
+### 5.3 正式提交材料尚未齐全
 
-- `src/aios_incident/api.py`；
-- `src/aios_incident/orchestrator/blackboard.py`；
-- `src/aios_incident/orchestrator/trace.py`；
-- `tests/unit/test_blackboard.py`；
-- `tests/unit/test_trace.py`；
-- `tests/integration/test_incident_api.py`。
+仍需补充：
 
-验收：
+- W07—W12 连续操作录屏；
+- 仪表盘成功、失败重试和无修复结果截图；
+- 仪表盘取消、刷新恢复的连续录屏；
+- 正式远程 vLLM 性能数据和性能录屏；
+- 完整故障注入到历史回放的演示视频；
+- 比赛平台的最终文档模板、视频格式和提交清单。
 
-- 故障创建、状态、DAG、事件、结果和取消接口通过；
-- 非法请求和未知 Incident 返回结构化错误；
-- Incident 与 Run ID 唯一；
-- Blackboard 未完成产物不可读且完成后不可覆盖；
-- JSONL Trace 只追加，重复 Trace ID 被拒绝；
-- 114 项全量测试通过且无警告；
-- 验收证据见 `docs/verification/w05_verification_2026-11-21.md`。
+现有证据已覆盖测试结果、Trace、图表和静态截图，但视频评分仍需正式录制。
 
-### W06：受控工具网关
+### 5.4 当前 UI 的产品化限制
 
-状态：已完成。
+- 当前为单机开发部署；
+- 没有用户认证和权限隔离；
+- 页面每 3 秒轮询，不使用 WebSocket；
+- API 创建 Incident 后不会自动启动完整 Docker 工作流；
+- 完整工作流当前由对应测试、场景脚本和证据生成脚本执行。
 
-实际产出：
+### 5.5 本地运行依赖脚本
 
-- `src/aios_incident/tools/base.py`；
-- `src/aios_incident/tools/gateway.py`；
-- `tests/unit/test_tool_gateway.py`；
-- `tests/integration/test_tool_isolation.py`。
+WSL 重启后，AIOS 和 Ollama 不会自动恢复：
 
-验收：
+```bash
+bash scripts/env/start_ollama_wsl.sh
+bash scripts/env/start_aios_wsl.sh
+```
 
-- 五类工具权限表冻结；
-- 四类只读工具返回结构化结果；
-- 未授权 Agent 和越权路径被拒绝；
-- 修复占位始终失败关闭；
-- 每次调用开始和结束均写入 Trace；
-- 工具目录不存在任意 Shell 或破坏性执行原语；
-- 127 项全量测试通过且无警告；
-- 验收证据见 `docs/verification/w06_verification_2026-11-21.md`。
+Docker 由 systemd 启动。旧会话若出现权限问题，可执行：
 
-### W07：最小核心闭环
+```bash
+sg docker -c "docker info"
+```
 
-状态：已完成。
+## 6. 下一步任务
 
-实际产出：
+新 Codex 会话应按以下顺序接手：
 
-- `src/aios_incident/agents/coordinator_agent.py`；
-- `src/aios_incident/agents/log_agent.py`；
-- `src/aios_incident/agents/repair_agent.py`；
-- `src/aios_incident/agents/verifier_agent.py`；
-- `src/aios_incident/orchestrator/minimal_flow.py`；
-- `tests/e2e/test_minimal_flow.py`；
-- `docs/demo/minimal_flow.md`。
+1. 读取本文件、开发规格和 W15 工单；
+2. 执行 `git status` 和 `git log -1`；
+3. 检查 AIOS、Ollama 和 Docker；
+4. 执行 `.\tasks.ps1 verify`；
+5. 从 W15 开始，不重做 W00—W14。
 
-验收：
+### 第一优先：W15 测试、加固与复现
 
-- 成功路径从日志证据走到 `SUCCESS`；
-- 修复失败路径进入 `UNRESOLVED`；
-- 修复后始终执行结构化验证；
-- 工具调用、Agent 阶段和最终报告均写入同一 Trace；
-- 最终报告支持 JSON 序列化与反序列化；
-- 真实本地 AIOS 模型闭环通过；
-- 130 项全量测试通过且无警告；
-- 验收证据见 `docs/verification/w07_verification_2026-11-21.md`。
+当前即可开始，不依赖远程 GPU。
 
-W07 通过前不得开始前端、视频和性能优化。
+应完成：
 
-### W08：DAG 调度与四路并行
+- 运行单元、集成、场景和 E2E 测试；
+- 检查超时、取消、恢复、异常和失败关闭；
+- 在干净 Ubuntu/WSL 环境安装并运行；
+- 清理绝对路径、调试入口、缓存和敏感信息；
+- 校验依赖锁定、许可证和第三方说明；
+- 新增以下文件：
 
-状态：已完成。
+```text
+scripts/install.sh
+scripts/run_demo.sh
+docs/testing/test_report.md
+docs/environment/reproduce.md
+```
 
-实际产出：
+W15 验收标准：
 
-- `src/aios_incident/orchestrator/planner.py`；
-- `src/aios_incident/orchestrator/scheduler.py`；
-- `src/aios_incident/agents/metrics_agent.py`；
-- `src/aios_incident/agents/config_agent.py`；
-- `src/aios_incident/agents/dependency_agent.py`；
-- `tests/integration/test_parallel_dispatch.py`。
+- 全量测试通过；
+- 干净环境可复现；
+- 无敏感信息；
+- 无无效调试入口。
 
-验收：
+### 第二优先：W01B 正式远程环境
 
-- 固定七类 Agent 能力和 ID 已冻结；
-- DAG 唯一性、引用、无环和能力匹配通过；
-- N1—N4 使用同一派发批次在线程池并发执行；
-- 四路全部成功后才允许 N5 READY；
-- 提供 N5 执行器时，DIAGNOSE 开始时间晚于四路完成；
-- 单路失败支持有限重试；
-- 重试耗尽后阻断下游；
-- 135 项全量测试通过且无警告；
-- 验收证据见 `docs/verification/w08_verification_2026-11-21.md`。
+资源和凭证就绪后立即执行：
 
-### W09：消息总线与三对双向交互
+1. 使用 `config/model.remote.yaml.example` 建立未提交的正式配置；
+2. 验证 `/v1/models`、AIOS `/query`、文本和严格 JSON；
+3. 执行全量测试；
+4. 使用相同 W13 口径重新运行串行/并发基准；
+5. 保存环境、网络、模型参数、原始 JSON 和汇总报告；
+6. 将正式数据写入提交材料，不覆盖或混淆本地 Ollama 数据。
 
-状态：已完成。
+### 第三优先：W16 文档、录屏与提交
 
-实际产出：
+W15 完成且功能冻结后：
 
-- `src/aios_incident/orchestrator/interaction_bus.py`；
-- `src/aios_incident/agents/coordinator_agent.py`；
-- `tests/integration/test_interaction_matrix.py`。
+- 完成系统设计、实现和测试文档；
+- 更新 AI 使用说明、许可证和第三方依赖说明；
+- 编写 `docs/demo/demo_script.md`；
+- 录制四路并行、三对交互、失败反馈、受控修复和独立验证；
+- 在干净环境复演；
+- 打包提交仓库、文档、证据和视频。
 
-验收：
+### 后续：W17
 
-- 消息携带 task_id 和 correlation_id；
-- QUERY/QUESTION 有响应或显式超时；
-- LogAgent 与 ConfigAgent 双向证据查询；
-- MetricsAgent 与 DependencyAgent 双向核对；
-- RepairAgent 与 VerifierAgent HANDOFF、FEEDBACK、VERIFIED/RESULT；
-- 成功场景 11 条消息、6 条有向边、3 条双向边；
-- 消息写入 Blackboard 和 JSONL Trace；
-- Agent 离线发送失败可记录；
-- 143 项全量测试通过且无警告；
-- 验收证据见 `docs/verification/w09_verification_2026-11-21.md`。
-
-### W10：证据融合与诊断
-
-状态：已完成。
-
-实际产出：
-
-- `src/aios_incident/orchestrator/diagnosis.py`；
-- `tests/unit/test_diagnosis_fusion.py`；
-- `tests/integration/test_evidence_chain.py`。
-
-验收：
-
-- 四类 Evidence 全部必需；
-- 空证据、缺失类别、重复 evidence_id 和未知消息引用失败关闭；
-- 相同事实去重；
-- 证据按时间、服务和来源建立链；
-- 冲突事实返回 BLOCKED 和结构化追问；
-- 根因只引用真实存在的 Evidence；
-- 排除假设保留理由；
-- 交互消息与证据链关联；
-- 152 项全量测试通过且无警告；
-- 验收证据见 `docs/verification/w10_verification_2026-11-21.md`。
-
-### W11：修复与验证闭环
-
-状态：已完成。
-
-实际产出：
-
-- `src/aios_incident/tools/repair.py`；
-- `src/aios_incident/tools/verify.py`；
-- `src/aios_incident/agents/repair_agent.py`；
-- `src/aios_incident/agents/verifier_agent.py`；
-- `tests/integration/test_repair_verification_loop.py`。
-
-验收：
-
-- RepairPlan 和 RepairResult 记录 attempt_no；
-- 第二轮修复必须引用上一轮 VerificationResult；
-- 每轮修复发送 REVIEW；
-- 验证失败发送 FEEDBACK，成功发送 RESULT；
-- 成功和两轮失败路径通过；
-- 修复失败可执行受控回滚；
-- 修复工具拒绝 Shell、越权路径和未登记操作；
-- 157 项全量测试通过且无警告；
-- 验收证据见 `docs/verification/w11_verification_2026-11-21.md`。
-
-### W12：六个故障场景与容器夹具
-
-状态：已完成。
-
-实际产出：
-
-- `scenarios/common/`；
-- `scenarios/f1/` 至 `scenarios/f6/`；
-- `tests/scenarios/test_all_scenarios.py`；
-- `docs/scenarios/scenario_catalog.md`。
-
-验收：
-
-- 六个场景基线健康；
-- 六个场景注入后均验证失败；
-- 六个场景修复后健康、冒烟、回归和压力均通过；
-- 重置前后环境哈希一致；
-- 六场景均执行三对双向 Agent 交互；
-- 场景答案不挂载、不暴露给 Agent；
-- 容器无网络映射、只读根文件系统和受限 tmpfs；
-- 163 项全量测试通过且无警告；
-- 验收证据见 `docs/verification/w12_verification_2026-11-21.md`。
-
-### W13：串行与并发基准
-
-状态：已完成本地开发基准。
-
-实际产出：
-
-- `src/aios_incident/benchmark/serial.py`；
-- `src/aios_incident/benchmark/parallel.py`；
-- `src/aios_incident/benchmark/metrics.py`；
-- `src/aios_incident/benchmark/report.py`；
-- `scripts/benchmark/run_local_benchmark.py`；
-- `docs/experiment_reports/raw/local_ollama_2026-11-22.json`；
-- `docs/experiment_reports/benchmark_results.md`。
-
-验收：
-
-- 六场景、两模式、每模式一次预热和五次有效测量；
-- 共 72 次真实流程；
-- 平均提速 37.92%；
-- 最低单场景提速 15.79%；
-- 并发正确率不低于串行；
-- 越权操作 0；
-- 原始数据和汇总表均存在；
-- 本地 Ollama 数据明确标记，不作为正式远程结果；
-- 验收证据见 `docs/verification/w13_verification_2026-11-22.md`。
-
-### W14：前端与可观测性
-
-状态：已完成。
-
-实际产出：
-
-- `src/aios_incident/ui/index.html`；
-- `src/aios_incident/ui/styles.css`；
-- `src/aios_incident/ui/app.js`；
-- 扩展的 `src/aios_incident/api.py`；
-- 扩展的 `src/aios_incident/orchestrator/interaction_bus.py`；
-- `tests/e2e/test_dashboard_flow.py`；
-- `docs/submission/evidence/ui/dashboard_2026-11-22.png`。
-
-验收：
-
-- 仪表盘支持任务提交、状态、历史、DAG、Agent 分配、三对交互、修复验证时间线、完整 Trace、基准和取消；
-- 页面只读取真实 API、Trace 和 W13 基准数据，不硬编码演示结果；
-- 运行元数据持久化到 `runs/{incident_id}/{run_id}.meta.json`，API 重启后恢复历史；
-- 一次完整事件回放和取消同步通过 E2E；
-- 默认测试 161 项通过、8 项环境依赖跳过；
-- 真实 AIOS 与六个 Docker 场景全量测试 169 项通过且零警告；
-- Edge Headless 实际渲染截图通过人工布局检查；
-- 已建立 `docs/submission/evidence/EVIDENCE_MANIFEST.md`，并实际生成 W02—W14 的本地测试、Trace、图表和页面证据；
-- 验收证据见 `docs/verification/w14_verification_2026-11-22.md`。
-
-### W15：测试、加固与复现
-
-状态：下一步。
-
-进入条件已满足。W15 将对全部代码执行异常路径、超时、取消、恢复、依赖锁定、
-干净环境安装和复现检查，并补齐安装脚本、演示脚本、测试报告与复现文档。
+W16 完成后进入国赛阶段能力扩展。当前不得为 W17 提前改动已验证的主链路。
