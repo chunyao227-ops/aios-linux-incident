@@ -9,6 +9,7 @@
 
 当前基线：
 
+- GitHub 仓库：`https://github.com/chunyao227-ops/aios-linux-incident`
 - 分支：`main`
 - 整理前提交：`fd89699`
 - 当前阶段：W00、W01A、W02—W14 已完成，准备进入 W15
@@ -177,10 +178,10 @@ wsl --install -d Ubuntu-22.04
 
 ### 3.2 拉取项目
 
-将 `<REPOSITORY_URL>` 替换为团队提供的项目仓库地址：
+从公开仓库拉取：
 
 ```powershell
-git clone <REPOSITORY_URL> aios-linux-incident
+git clone https://github.com/chunyao227-ops/aios-linux-incident.git aios-linux-incident
 Set-Location aios-linux-incident
 git remote -v
 git log -1 --oneline
@@ -189,7 +190,7 @@ git log -1 --oneline
 如果已有本地仓库但没有远端：
 
 ```powershell
-git remote add origin <REPOSITORY_URL>
+git remote add origin https://github.com/chunyao227-ops/aios-linux-incident.git
 git remote -v
 ```
 
@@ -599,7 +600,8 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 ### 6.2 Git 和配置
 
-- 当前本地仓库可能没有项目 `origin`；新电脑必须使用团队正式仓库地址。
+- GitHub 公开仓库已经配置，默认分支为 `main`；新电脑可直接通过 HTTPS 克隆。
+- 当前开发机的 `origin` 使用 SSH，以便推送；其他电脑推送时需要配置自己的 GitHub 凭据。
 - `config/aios.kernel.local.yaml` 含机器相关目录，只是模板；使用前必须按第 3.7 节替换。
 - 远程正式配置、API Key、token 和私有地址禁止提交 Git。
 - `config/model.remote.yaml.example` 只是字段参考，不是应用可直接加载的完整配置。
